@@ -144,3 +144,32 @@ export const pageDescriptions = {
   contact:
     "Contact Sun Elastomers Pvt Ltd for pharmaceutical elastomer product inquiries, custom requirements, export support and B2B partnerships.",
 };
+
+
+
+
+export const clients = [
+  { name: "Acme Corp",     type: "Enterprise",  initials: "AC", logoUrl: "" },
+  { name: "Stellar Inc",   type: "Technology",  initials: "SI", logoUrl: "" },
+  { name: "NovaTech",      type: "SaaS",        initials: "NT", logoUrl: "" },
+  { name: "Horizon Group", type: "Finance",     initials: "HG", logoUrl: "" },
+  { name: "BlueWave",      type: "Healthcare",  initials: "BW", logoUrl: "" },
+  { name: "Pinnacle Co.",  type: "Consulting",  initials: "PC", logoUrl: "" },
+  { name: "Vertex Labs",   type: "R&D",         initials: "VL", logoUrl: "" },
+  { name: "Zenith Media",  type: "Marketing",   initials: "ZM", logoUrl: "" },
+  { name: "CoreDrive",     type: "Logistics",   initials: "CD", logoUrl: "" },
+  { name: "FluxSystems",   type: "Industrial",  initials: "FS", logoUrl: "" },
+  { name: "QuantumAI",     type: "AI / ML",     initials: "QA", logoUrl: "" },
+  { name: "PeakRetail",    type: "E-commerce",  initials: "PR", logoUrl: "" },
+];
+
+
+// data/constants.ts mein add karo:
+export const faqs = [
+  { q: "What services do you offer?", a: "We provide end-to-end solutions including consulting, implementation, and ongoing support tailored to your business needs." },
+  { q: "How long does onboarding take?", a: "Most clients are fully onboarded within 2–4 weeks depending on scope and integrations required." },
+  { q: "Do you offer custom pricing plans?", a: "Yes. We work with businesses of all sizes and can tailor a plan that fits your budget and requirements." },
+  { q: "Is my data secure with you?", a: "Absolutely. We are ISO 27001 certified and follow strict data protection protocols including end-to-end encryption." },
+  { q: "Can I upgrade or downgrade my plan?", a: "You can change your plan at any time. Changes take effect at the start of your next billing cycle." },
+  { q: "Do you provide dedicated support?", a: "Enterprise clients get a dedicated account manager. All plans include email and chat support." },
+];

@@ -1,12 +1,14 @@
 import { AboutPreviewSection } from "@/components/home/AboutPreviewSection";
-import { CertificationsSection } from "@/components/home/CertificationsSection";
+import { ClientsSection } from "@/components/home/CertificationsSection";
 import { CtaSection } from "@/components/home/CtaSection";
 import { FeaturesSection } from "@/components/home/FeaturesSection";
 import { HeroSection } from "@/components/home/HeroSection";
 import { ManufacturingPreviewSection } from "@/components/home/ManufacturingPreviewSection";
 import { ProductRangeSection } from "@/components/home/ProductRangeSection";
 import { StatsSection } from "@/components/home/StatsSection";
-import { TestimonialsSection } from "@/components/home/TestimonialsSection";
+
+import Testimonial from "./Testimonial";
+import { FAQSection } from "./FAQSection";
 
 export function HomePage() {
   return (
@@ -16,9 +18,10 @@ export function HomePage() {
       <AboutPreviewSection />
       <ProductRangeSection />
       <FeaturesSection />
+      <Testimonial/>
       <ManufacturingPreviewSection />
-      <CertificationsSection />
-      <TestimonialsSection />
+      <ClientsSection />
+      <FAQSection />
       <CtaSection />
     </main>
   );

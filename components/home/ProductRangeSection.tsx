@@ -23,7 +23,7 @@ const slideInVariant: Variants = {
 
 export function ProductRangeSection() {
   return (
-    <section className="section bg-cream text-ink py-10">
+    <section className="section bg-cream text-ink ">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
         <SectionHeading title="Our Product Range" light centered />
         

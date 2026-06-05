@@ -62,7 +62,7 @@ export function HeroSection() {
   const currentSlide = slides[currentSlideIndex];
 
   return (
-    <section className="relative flex min-h-screen items-center overflow-hidden bg-slate-950 px-5 pt-24 text-white">
+    <section className="relative flex min-h-screen items-center overflow-hidden  px-5 pt-24 text-white">
       <div className="absolute right-5 top-6 z-30 lg:right-8 lg:top-8">
         <button
           type="button"
@@ -171,8 +171,8 @@ export function HeroSection() {
       </div>
 
       {/* 2. Theme Overlay - Left Dark Gradient */}
-      <div className="absolute inset-0 z-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
-      <div className="absolute inset-0 z-0 bg-slate-900/20 mix-blend-multiply" />
+      <div className="absolute inset-0 z-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent" />
+      {/* <div className="absolute inset-0 z-0 bg-slate-900/20 mix-blend-multiply" /> */}
 
       {/* 3. Content Container - Left Aligned */}
       <div className="relative z-10 mx-auto w-full max-w-8xl text-left">

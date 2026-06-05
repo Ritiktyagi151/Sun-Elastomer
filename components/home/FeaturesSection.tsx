@@ -1,10 +1,43 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { motion, useScroll, type Variants } from "framer-motion";
+import { useRef } from "react";
 import { stagger } from "@/components/common/AnimatedPrimitives";
-import { features } from "@/data/constants";
+import { Pill, Syringe, FlaskConical, TestTube, Microscope, Dna } from "lucide-react";
 
-// Word-by-word animated heading wrapper
+const features = [
+  {
+    icon: Pill,
+    title: "Verified Suppliers",
+    text: "Every supplier is rigorously vetted with multi-step compliance checks and ongoing quality audits.",
+  },
+  {
+    icon: FlaskConical,
+    title: "Regulatory Compliant",
+    text: "All products meet FDA, WHO-GMP, and local regulatory standards so you can procure with full confidence.",
+  },
+  {
+    icon: Syringe,
+    title: "Fast Turnaround",
+    text: "From order to dispatch in 24–48 hours. Time-sensitive pharmaceutical supply chains demand nothing less.",
+  },
+  {
+    icon: TestTube,
+    title: "Secure Transactions",
+    text: "End-to-end encrypted payments and escrow protection keep every transaction safe and transparent.",
+  },
+  {
+    icon: Microscope,
+    title: "Real-time Tracking",
+    text: "Live order tracking with milestone alerts ensures visibility from warehouse to your doorstep.",
+  },
+  {
+    icon: Dna,
+    title: "Dedicated Support",
+    text: "A pharmaceutical specialist is available 24/7 to resolve queries, disputes, and compliance questions.",
+  },
+];
+
 function AnimatedTitle({ text }: { text: string }) {
   const words = text.split(" ");
   return (
@@ -35,11 +68,40 @@ const cardVariants: Variants = {
 };
 
 export function FeaturesSection() {
-  return (
-    <section className="section bg-white overflow-hidden">
-      <div className="mx-auto max-w-7xl px-5 lg:px-8">
+  const sectionRef = useRef<HTMLElement>(null);
 
-        {/* Eyebrow pill */}
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
+
+  return (
+    <section
+      ref={sectionRef}
+      className="relative w-full overflow-hidden py-20"
+    >
+      {/* ── Background image + dark overlay ── */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-fixed"
+        style={{ backgroundImage: "url('https://www.theonpharma.com/wp-content/uploads/2025/02/medicine.jpg')" }}
+      />
+      <div className="absolute inset-0 bg-black/60" />
+
+      {/* ── Scroll progress bar ── */}
+      <motion.div
+        className=""
+        aria-hidden
+      >
+        <motion.div
+          className="h-full bg-crimson origin-left"
+          style={{ scaleX: scrollYProgress, transformOrigin: "left" }}
+        />
+      </motion.div>
+
+      {/* ── All content above overlay ── */}
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-5 lg:px-8">
+
+        {/* ── Eyebrow pill ── */}
         <motion.div
           className="flex justify-center mb-4"
           initial={{ opacity: 0, scale: 0.8 }}
@@ -47,14 +109,14 @@ export function FeaturesSection() {
           transition={{ duration: 0.4, ease: "backOut" }}
           viewport={{ once: true }}
         >
-          <span className="inline-block rounded-full border border-crimson/30 bg-crimson/5 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-crimson">
+          <span className="inline-block rounded-full border border-white/30 bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-white backdrop-blur-sm">
             Why Choose Us
           </span>
         </motion.div>
 
-        {/* Animated section title */}
+        {/* ── Animated section title ── */}
         <motion.h2
-          className="text-center text-3xl font-bold text-ink lg:text-4xl"
+          className="text-center text-3xl font-bold text-white lg:text-4xl"
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}
@@ -62,7 +124,7 @@ export function FeaturesSection() {
           <AnimatedTitle text="Built for pharmaceutical buyers who value confidence." />
         </motion.h2>
 
-        {/* Decorative animated underline */}
+        {/* ── Decorative underline ── */}
         <motion.div
           className="mx-auto mt-4 h-1 w-16 rounded-full bg-crimson"
           initial={{ scaleX: 0, originX: 0.5 }}
@@ -71,7 +133,7 @@ export function FeaturesSection() {
           viewport={{ once: true }}
         />
 
-        {/* Cards grid */}
+        {/* ── Cards grid ── */}
         <motion.div
           className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
           variants={stagger}
@@ -82,25 +144,34 @@ export function FeaturesSection() {
           {features.map(({ icon: Icon, title, text }, index) => (
             <motion.article
               key={title}
-              className="group relative rounded-lg border border-neutral-200 bg-white p-6 shadow-sm overflow-hidden cursor-default"
+              className="group relative rounded-xl border border-white/10 bg-white/10 backdrop-blur-md p-6 overflow-hidden cursor-default"
               variants={cardVariants}
-              whileHover={{ y: -8, boxShadow: "0 20px 40px -12px rgba(0,0,0,0.12)" }}
+              whileHover={{
+                y: -8,
+                boxShadow: "0 20px 40px -12px rgba(0,0,0,0.4)",
+              }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
-              {/* Shimmer overlay on hover */}
+              {/* Shimmer overlay */}
               <motion.div
-                className="pointer-events-none absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100"
+                className="pointer-events-none absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100"
                 style={{
                   background:
-                    "linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.6) 50%, transparent 70%)",
+                    "linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.08) 50%, transparent 70%)",
                   backgroundSize: "200% 100%",
                 }}
                 animate={{ backgroundPosition: ["200% 0", "-200% 0"] }}
                 transition={{ duration: 1.4, repeat: Infinity, ease: "linear" }}
               />
 
-              {/* Animated icon */}
+              {/* Card number badge */}
+              <span className="absolute top-4 right-4 text-[11px] font-bold text-white/20 select-none font-mono">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+
+              {/* Icon with float + hover tilt */}
               <motion.div
+                className="w-12 h-12 rounded-xl bg-crimson/20 border border-crimson/30 flex items-center justify-center"
                 animate={{ y: [0, -4, 0] }}
                 transition={{
                   duration: 2.5,
@@ -108,13 +179,14 @@ export function FeaturesSection() {
                   ease: "easeInOut",
                   delay: index * 0.3,
                 }}
+                whileHover={{ scale: 1.1, rotate: -4 }}
               >
-                <Icon className="text-crimson" size={30} />
+                <Icon className="text-crimson" size={22} />
               </motion.div>
 
-              {/* Title fade-up */}
+              {/* Title */}
               <motion.h3
-                className="mt-5 font-bold text-ink"
+                className="mt-5 font-bold text-white"
                 initial={{ opacity: 0, x: -10 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.15 + index * 0.08, duration: 0.4 }}
@@ -123,9 +195,9 @@ export function FeaturesSection() {
                 {title}
               </motion.h3>
 
-              {/* Text fade-in */}
+              {/* Body text */}
               <motion.p
-                className="mt-2 text-sm text-neutral-600"
+                className="mt-2 text-sm text-white/65"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{ delay: 0.25 + index * 0.08, duration: 0.5 }}
@@ -134,7 +206,7 @@ export function FeaturesSection() {
                 {text}
               </motion.p>
 
-              {/* Bottom accent line on hover */}
+              {/* Bottom accent line */}
               <motion.div
                 className="absolute bottom-0 left-0 h-0.5 bg-crimson"
                 initial={{ width: "0%" }}

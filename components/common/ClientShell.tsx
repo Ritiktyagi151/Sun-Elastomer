@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { CookieConsentBanner } from "@/components/common/CookieConsentBanner";
+import { FloatingContactDock } from "@/components/common/FloatingContactDock";
 
 export function ClientShell({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
@@ -41,6 +42,7 @@ export function ClientShell({ children }: { children: React.ReactNode }) {
       >
         {children}
       </motion.div>
+      <FloatingContactDock />
       <CookieConsentBanner />
     </>
   );
