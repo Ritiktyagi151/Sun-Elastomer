@@ -41,6 +41,14 @@ const slides = [
     desc: "Partner with us for tailor-made sealing solutions designed specifically for your needs.",
     duration: 5000, // Dusre video ke liye bhi 15 seconds
   },
+   {
+    id: 4,
+    type: "image", 
+    src: "/banners/banner.jpeg", 
+    words: ["Custom", "Molding", "Expertise", "Delivered"],
+    desc: "Partner with us for tailor-made sealing solutions designed specifically for your needs.",
+    duration: 5000, // Dusre video ke liye bhi 15 seconds
+  },
 ];
 
 export function HeroSection() {
