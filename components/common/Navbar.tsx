@@ -28,8 +28,17 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isDesktop, setIsDesktop] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    const media = window.matchMedia("(min-width: 1024px)");
+    const onChange = () => setIsDesktop(media.matches);
+    onChange();
+    media.addEventListener("change", onChange);
+    return () => media.removeEventListener("change", onChange);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80);
@@ -40,15 +49,17 @@ export function Navbar() {
 
   useEffect(() => {
     if (searchOpen) {
-      setTimeout(() => searchInputRef.current?.focus(), 100);
-    } else {
-      setSearchQuery("");
+      const timer = window.setTimeout(() => searchInputRef.current?.focus(), 100);
+      return () => window.clearTimeout(timer);
     }
   }, [searchOpen]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setSearchOpen(false);
+      if (e.key === "Escape") {
+        setSearchOpen(false);
+        setSearchQuery("");
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -59,23 +70,24 @@ export function Navbar() {
     if (!searchQuery.trim()) return;
     router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
     setSearchOpen(false);
+    setSearchQuery("");
   };
 
   return (
     <>
       <motion.header
-        className={`fixed inset-x-0 w-[100%] right-0 left-auto top-0 z-50 transition-all duration-300 ${
+        className={`fixed inset-x-0 right-0 left-auto top-0 z-50 w-full transition-all duration-300 ${
           scrolled
             ? "pointer-events-auto  shadow-crimson/5"
-            : "pointer-events-none"
+            : "pointer-events-auto lg:pointer-events-none"
         }`}
         initial={{ y: -110, opacity: 0 }}
-        animate={{ y: scrolled ? 0 : -110, opacity: scrolled ? 1 : 0 }}
+        animate={isDesktop ? { y: scrolled ? 0 : -110, opacity: scrolled ? 1 : 0 } : { y: 0, opacity: 1 }}
         transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
       >
         {/* SVG Shape Background */}
        <svg
-  className="absolute inset-0 w-full h-full -z-10"
+  className="absolute inset-0 -z-10 hidden h-full w-full lg:block"
   viewBox="0 0 1440 72"
   preserveAspectRatio="none"
   xmlns="http://www.w3.org/2000/svg"
@@ -106,13 +118,26 @@ export function Navbar() {
     strokeWidth="3"
   />
 </svg>
+        <div className="absolute inset-0 -z-10 bg-white shadow-sm lg:hidden" />
 
         <nav
-          className="mx-auto grid h-18 max-w-8xl  grid-cols-[1fr_auto_1fr] items-center px-5 lg:px-8"
+          className="mx-auto grid h-16 grid-cols-[auto_1fr_auto] items-center px-4 lg:h-18 lg:max-w-8xl lg:grid-cols-[1fr_auto_1fr] lg:px-8"
           aria-label="Primary navigation"
         >
           {/* LEFT — Logo */}
-          <BrandLogo />
+          <div className="hidden lg:block">
+            <BrandLogo />
+          </div>
+          <Link href="/" className="flex items-center lg:hidden" aria-label="Sun Elastomers home" onClick={() => setOpen(false)}>
+            <Image
+              src="/sunelastomer.png"
+              alt="Sun Elastomers Pvt Ltd logo"
+              width={150}
+              height={74}
+              priority
+              className="h-12 w-auto object-contain"
+            />
+          </Link>
 
           {/* CENTER — Nav Links (desktop only) */}
           <motion.div
@@ -179,7 +204,7 @@ export function Navbar() {
 
         {/* Mobile Dropdown Menu */}
         <motion.div
-          className="overflow-hidden border-t border-crimson/10 bg-white lg:hidden"
+          className="max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-crimson/10 bg-white shadow-2xl shadow-black/10 lg:hidden"
           initial={false}
           animate={{ height: open ? "auto" : 0 }}
           transition={{ duration: 0.28 }}
@@ -262,7 +287,10 @@ export function Navbar() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              onClick={() => setSearchOpen(false)}
+              onClick={() => {
+                setSearchOpen(false);
+                setSearchQuery("");
+              }}
             />
 
             {/* Search Modal */}
