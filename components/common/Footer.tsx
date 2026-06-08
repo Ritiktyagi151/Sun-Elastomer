@@ -33,7 +33,7 @@ export function Footer() {
               alt={`${company?.name || 'Company'} Logo`}
               width={160}
               height={60}
-              className="h-12 w-auto object-contain"
+              className="h-20 w-auto object-contain"
               priority
             />
           </Link>
@@ -93,7 +93,7 @@ export function Footer() {
               rel="noopener noreferrer"
               className="font-semibold text-crimson transition hover:underline"
             >
-              Jaikvik Technology India
+              Jaikvik Technology India Pvt Ltd
             </a>
           </p>
         </div>
