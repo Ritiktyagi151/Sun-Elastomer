@@ -10,7 +10,7 @@ export function CtaSection() {
         className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 lg:flex-row lg:items-center"
         initial={{ opacity: 0, y: 26 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
+        viewport={{ once: false, margin: "-100px" }}
       >
         <div>
           <h2 className="font-display text-4xl font-bold">Ready to Partner With Us?</h2>

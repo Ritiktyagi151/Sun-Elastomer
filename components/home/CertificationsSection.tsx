@@ -1,66 +1,192 @@
-// components/ClientsSection.tsx
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
 import { SectionHeading } from "@/components/common/AnimatedPrimitives";
 import { clients } from "@/data/constants";
+import { useRef, MouseEvent } from "react";
 
-const COLORS = [
-  { bg: "bg-blue-50",   text: "text-blue-800"   },
-  { bg: "bg-teal-50",   text: "text-teal-800"   },
-  { bg: "bg-purple-50", text: "text-purple-800" },
-  { bg: "bg-amber-50",  text: "text-amber-800"  },
-  { bg: "bg-pink-50",   text: "text-pink-800"   },
-  { bg: "bg-green-50",  text: "text-green-800"  },
+const ACCENT_COLORS = [
+  { border: "hover:border-crimson/40", glow: "rgba(220,38,38,0.08)" },
+  { border: "hover:border-blue-400/40", glow: "rgba(96,165,250,0.08)" },
+  { border: "hover:border-emerald-400/40", glow: "rgba(52,211,153,0.08)" },
+  { border: "hover:border-amber-400/40", glow: "rgba(251,191,36,0.08)" },
 ];
 
+const BADGE_COLORS = [
+  "bg-crimson/10 text-crimson",
+  "bg-blue-100 text-blue-700",
+  "bg-emerald-100 text-emerald-700",
+  "bg-amber-100 text-amber-700",
+  "bg-purple-100 text-purple-700",
+  "bg-pink-100 text-pink-700",
+];
+
+// ── 3D tilt card ─────────────────────────────────────────────────────────────
+function TiltCard({
+  children,
+  className = "",
+  glowColor,
+  delay,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  glowColor: string;
+  delay: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  const rawX = useMotionValue(0);
+  const rawY = useMotionValue(0);
+
+  const rotateX = useSpring(useTransform(rawY, [-1, 1], [8, -8]), { stiffness: 200, damping: 20 });
+  const rotateY = useSpring(useTransform(rawX, [-1, 1], [-8, 8]), { stiffness: 200, damping: 20 });
+  const scale   = useSpring(1, { stiffness: 300, damping: 25 });
+
+  const handleMove = (e: MouseEvent<HTMLDivElement>) => {
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect) return;
+    rawX.set(((e.clientX - rect.left) / rect.width  - 0.5) * 2);
+    rawY.set(((e.clientY - rect.top)  / rect.height - 0.5) * 2);
+    scale.set(1.04);
+  };
+
+  const handleLeave = () => {
+    rawX.set(0);
+    rawY.set(0);
+    scale.set(1);
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMove}
+      onMouseLeave={handleLeave}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: false }}
+      transition={{ delay, duration: 0.4, ease: "easeOut" }}
+      style={{
+        rotateX,
+        rotateY,
+        scale,
+        transformStyle: "preserve-3d",
+        perspective: 800,
+      }}
+      className={`relative rounded-2xl border border-white/60 bg-white/70 backdrop-blur-md
+                  shadow-[0_4px_24px_rgba(0,0,0,0.04)] cursor-default
+                  transition-[border-color,box-shadow,transform] duration-300
+                  hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)]
+                  ${className}`}
+    >
+      <div
+        className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        style={{ background: `radial-gradient(circle at 50% 50%, ${glowColor}, transparent 70%)` }}
+      />
+      {children}
+    </motion.div>
+  );
+}
+
+// ── Main section ──────────────────────────────────────────────────────────────
 export function ClientsSection() {
   return (
-    <section className="section overflow-hidden bg-white">
-      <motion.div
-        className="mx-auto max-w-7xl px-5 lg:px-8"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, margin: "-100px" }}
-      >
-        <SectionHeading title="Our Trusted Clients" centered />
+    <section className="section relative overflow-hidden">
 
-        <div className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-          {clients.map((client, index) => {
-            const color = COLORS[index % COLORS.length];
-            return (
-              <motion.div
-                key={client.name}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
-                className="flex flex-col items-center gap-3 rounded-xl border border-gray-100 bg-white p-5 hover:border-gray-200 transition-colors"
-              >
-                {client.logoUrl ? (
-                  <img
-                    src={client.logoUrl}
-                    alt={client.name}
-                    className="h-12 w-12 rounded-lg object-contain"
+      {/* Background */}
+      <div
+        className="absolute inset-0 bg-cover bg-fixed bg-center"
+        style={{ backgroundImage: "url('/bg-theme/product-offering-bg.webp')" }}
+      />
+      <div className="absolute inset-0 bg-white/2" />
+
+      {/* Content */}
+      <div className="relative mx-auto max-w-7xl px-5 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.6fr] gap-12 lg:gap-16 items-center py-4">
+
+          {/* ── LEFT: Text block ── */}
+          <motion.div
+            initial={{ opacity: 0, x: -24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: false, margin: "-80px" }}
+            transition={{ duration: 0.5 }}
+            className="flex flex-col gap-5"
+          >
+            <p className="text-xs font-medium tracking-widest uppercase text-muted">
+              Our Clients
+            </p>
+
+            <SectionHeading title={`Trusted by ${clients.length}+ organisations across healthcare trade`} />
+
+            <p className="text-sm text-muted leading-relaxed">
+              Partnering with distributors, institutions, and B2B supply chains
+              to deliver consistent, reliable healthcare solutions across the country.
+            </p>
+
+            <ul className="flex flex-col gap-3 mt-1">
+              {[
+                "Hospitals & clinics",
+                "Distributors & supply chains",
+                "B2B institutions",
+              ].map((item) => (
+                <li key={item} className="flex items-center gap-2 text-sm text-muted">
+                  <span className="h-1.5 w-1.5 rounded-full bg-crimson flex-shrink-0" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+
+            <p className="text-xs text-muted/60 tracking-wide mt-2">
+              Trusted across distributors, institutions and B2B supply chains
+            </p>
+          </motion.div>
+
+          {/* ── RIGHT: Premium Bento Grid Layout ── */}
+          <div
+            className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4 p-5 rounded-3xl bg-slate-50/40 border border-slate-100/50 backdrop-blur-sm shadow-inner"
+            style={{ perspective: "1200px" }}
+          >
+            {clients.map((client, index) => {
+              const accent     = ACCENT_COLORS[index % ACCENT_COLORS.length];
+              const badgeColor = BADGE_COLORS[index % BADGE_COLORS.length];
+
+              return (
+                <TiltCard
+                  key={client.name}
+                  className={`group flex flex-col items-center justify-center gap-3 p-4 h-[110px] ${accent.border}`}
+                  glowColor={accent.glow}
+                  delay={index * 0.04}
+                >
+                  {/* logo / initials */}
+                  {client.logoUrl ? (
+                    <img
+                      src={client.logoUrl}
+                      alt={client.name}
+                      className="h-9 w-9 rounded-lg object-contain transition-transform duration-300 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div
+                      className={`h-9 w-9 rounded-lg flex items-center justify-center font-semibold text-xs transition-transform duration-300 group-hover:scale-105 ${badgeColor}`}
+                    >
+                      {client.initials}
+                    </div>
+                  )}
+
+                  <p className="text-[10px] font-medium text-ink leading-snug text-center line-clamp-2 px-1">
+                    {client.name}
+                  </p>
+
+                  {/* inner shine */}
+                  <div
+                    className="pointer-events-none absolute inset-x-0 top-0 h-px rounded-t-2xl bg-white/80"
+                    style={{ transform: "translateZ(2px)" }}
                   />
-                ) : (
-                  <div className={`h-12 w-12 rounded-lg flex items-center justify-center text-sm font-medium ${color.bg} ${color.text}`}>
-                    {client.initials}
-                  </div>
-                )}
-                <div className="text-center">
-                  <p className="text-sm font-medium text-gray-900">{client.name}</p>
-                  <p className="text-xs text-gray-500">{client.type}</p>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
+                </TiltCard>
+              );
+            })}
+          </div>
 
-        <p className="mt-8 text-center text-sm text-gray-400">
-          {clients.length}+ clients worldwide
-        </p>
-      </motion.div>
+        </div>
+      </div>
     </section>
   );
 }

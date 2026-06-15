@@ -20,7 +20,7 @@ import {
   Send,
   ShieldCheck,
 } from "lucide-react";
-import { CountUp, SectionHeading, fadeUp, stagger } from "@/components/common/AnimatedPrimitives";
+import { CountUp, ScrollSlide, SectionHeading, fadeUp, stagger } from "@/components/common/AnimatedPrimitives";
 import { contactDetails, productCategories } from "@/data/constants";
 import { company } from "@/data/products";
 
@@ -73,16 +73,26 @@ export function ContactPage() {
   return (
     <main>
       <ContactHero />
-      <ContactOverview />
-      <section className="section bg-white">
-        <div className="mx-auto grid max-w-7xl gap-10 px-5 lg:grid-cols-[1.05fr_0.95fr]">
-          <ContactInquiryForm />
-          <ContactInfo />
-        </div>
-      </section>
-      <MapSection />
-      <InquiryCards />
-      <SupportProcess />
+      <ScrollSlide direction="right">
+        <ContactOverview />
+      </ScrollSlide>
+      <ScrollSlide direction="left">
+        <section className="section bg-white">
+          <div className="mx-auto grid max-w-7xl gap-10 px-5 lg:grid-cols-[1.05fr_0.95fr]">
+            <ContactInquiryForm />
+            <ContactInfo />
+          </div>
+        </section>
+      </ScrollSlide>
+      <ScrollSlide direction="up">
+        <MapSection />
+      </ScrollSlide>
+      <ScrollSlide direction="right">
+        <InquiryCards />
+      </ScrollSlide>
+      <ScrollSlide direction="up">
+        <SupportProcess />
+      </ScrollSlide>
     </main>
   );
 }

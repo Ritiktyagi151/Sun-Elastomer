@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ChevronDown, ClipboardCheck, Eye, Microscope, PackageCheck, Ruler, ShieldCheck } from "lucide-react";
-import { SectionHeading, fadeUp, stagger } from "@/components/common/AnimatedPrimitives";
+import { ScrollSlide, SectionHeading, fadeUp, stagger } from "@/components/common/AnimatedPrimitives";
 
 const tests = [
   {
@@ -48,32 +48,40 @@ export function QualityPage() {
   return (
     <main>
       <QualityHero />
-      <QualityStatement />
-      <section className="section bg-white">
-        <div className="mx-auto grid max-w-7xl gap-10 px-5 lg:grid-cols-[0.95fr_1.05fr]">
-          <motion.div
-            initial={{ opacity: 0, x: -36 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-          >
-            <SectionHeading eyebrow="Testing Focus" title="Quality checks that support consistent supply." />
-            <div className="mt-10 space-y-3">
-              {tests.map((test, index) => (
-                <QualityAccordionItem
-                  key={test.title}
-                  title={test.title}
-                  text={test.text}
-                  isOpen={open === index}
-                  onToggle={() => setOpen(open === index ? -1 : index)}
-                />
-              ))}
-            </div>
-          </motion.div>
-          <QualityImagePanel />
-        </div>
-      </section>
-      <LabEquipment />
-      <QualityFlow />
+      <ScrollSlide direction="up">
+        <QualityStatement />
+      </ScrollSlide>
+      <ScrollSlide direction="right">
+        <section className="section bg-white">
+          <div className="mx-auto grid max-w-7xl gap-10 px-5 lg:grid-cols-[0.95fr_1.05fr]">
+            <motion.div
+              initial={{ opacity: 0, x: -36 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+            >
+              <SectionHeading eyebrow="Testing Focus" title="Quality checks that support consistent supply." />
+              <div className="mt-10 space-y-3">
+                {tests.map((test, index) => (
+                  <QualityAccordionItem
+                    key={test.title}
+                    title={test.title}
+                    text={test.text}
+                    isOpen={open === index}
+                    onToggle={() => setOpen(open === index ? -1 : index)}
+                  />
+                ))}
+              </div>
+            </motion.div>
+            <QualityImagePanel />
+          </div>
+        </section>
+      </ScrollSlide>
+      <ScrollSlide direction="left">
+        <LabEquipment />
+      </ScrollSlide>
+      <ScrollSlide direction="up">
+        <QualityFlow />
+      </ScrollSlide>
     </main>
   );
 }

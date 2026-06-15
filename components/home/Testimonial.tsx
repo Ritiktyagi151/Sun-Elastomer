@@ -10,28 +10,28 @@ const testimonials = [
     name: "Dr. Rajesh Sharma",
     role: "Chief Medical Officer, Apollo Clinic Delhi",
     initials: "DR",
-    color: "bg-sky-500",
+    color: "bg-ink",
   },
   {
     text: "As a distributor, I've worked with many pharma companies. Sun Elastomer stands out for their transparency, product quality, and exceptional after-sales support. My go-to partner for over 8 years.",
     name: "Priya Gupta",
     role: "Regional Distributor, Maharashtra",
     initials: "PG",
-    color: "bg-sky-600",
+    color: "bg-crimson",
   },
   {
     text: "The injectables and tablets from Sun Elastomer meet international standards. Our patients have seen great outcomes. It's rare to find a manufacturer this committed to quality at scale.",
     name: "Anita Mehta",
     role: "Pharmacist, Fortis Healthcare",
     initials: "AM",
-    color: "bg-sky-700",
+    color: "bg-neutral-700",
   },
   {
     text: "We switched to Sun Elastomer two years ago and haven't looked back. Their compliance record is spotless, and the product consistency across batches is something I've rarely seen in the industry.",
     name: "Vikram Kohli",
     role: "Procurement Head, Max Healthcare",
     initials: "VK",
-    color: "bg-sky-800",
+    color: "bg-neutral-900",
   },
 ];
 
@@ -68,29 +68,29 @@ const TestimonialSection: React.FC = () => {
           {/* Overline */}
           <motion.div className="flex items-center mb-5"
             initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }} viewport={{ once: true }}
+            transition={{ duration: 0.5 }} viewport={{ once: false }}
           >
-            <div className="w-6 h-[1px] bg-sky-400 mr-4" />
-            <span className="text-sky-400 text-xs font-semibold tracking-[0.2em] uppercase font-sans">
+            <div className="w-6 h-[1px] bg-crimson mr-4" />
+            <span className="text-crimson text-xs font-semibold tracking-[0.2em] uppercase font-sans">
               Testimonials
             </span>
           </motion.div>
 
           {/* Heading */}
           <motion.h2
-            className="text-3xl md:text-4xl lg:text-5xl font-serif text-gray-900 mb-2 leading-[1.1]"
+            className="text-3xl md:text-4xl lg:text-5xl font-serif text-ink mb-2 leading-[1.1]"
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }} viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }} viewport={{ once: false }}
           >
             What Our Clients Say
           </motion.h2>
 
-          <p className="text-sm text-gray-400 font-sans mb-10">
+          <p className="text-sm text-muted font-sans mb-10">
             Trusted by doctors, distributors & healthcare partners across India
           </p>
 
           {/* Quote mark */}
-          <div className="text-7xl text-sky-100 font-serif leading-none mb-4 select-none">"</div>
+          <div className="text-7xl text-crimson/10 font-serif leading-none mb-4 select-none">&quot;</div>
 
           {/* Slide */}
           <div className="overflow-hidden mb-8">
@@ -103,10 +103,10 @@ const TestimonialSection: React.FC = () => {
                 transition={{ duration: 0.45, ease: "easeOut" }}
               >
                 {/* Stars */}
-                <div className="text-amber-400 text-sm tracking-widest mb-4">★★★★★</div>
+                <div className="text-crimson text-sm tracking-widest mb-4">★★★★★</div>
 
                 {/* Text */}
-                <p className="text-base text-gray-700 font-serif italic leading-[1.9] mb-6">
+                <p className="text-base text-muted font-serif italic leading-[1.9] mb-6">
                   {testimonials[current].text}
                 </p>
 
@@ -116,10 +116,10 @@ const TestimonialSection: React.FC = () => {
                     {testimonials[current].initials}
                   </div>
                   <div>
-                    <p className="text-sm font-bold text-gray-900 font-sans">
+                    <p className="text-sm font-bold text-ink font-sans">
                       {testimonials[current].name}
                     </p>
-                    <p className="text-xs text-gray-400 font-sans mt-0.5">
+                    <p className="text-xs text-muted font-sans mt-0.5">
                       {testimonials[current].role}
                     </p>
                   </div>
@@ -129,7 +129,7 @@ const TestimonialSection: React.FC = () => {
           </div>
 
           {/* Nav Row */}
-          <div className="flex items-center justify-between border-t border-gray-100 pt-6">
+          <div className="flex items-center justify-between border-t border-neutral-100 pt-6">
             {/* Dots */}
             <div className="flex gap-2 items-center">
               {testimonials.map((_, i) => (
@@ -137,7 +137,7 @@ const TestimonialSection: React.FC = () => {
                   key={i}
                   onClick={() => setCurrent(i)}
                   className={`h-1.5 rounded-full transition-all duration-300 ${
-                    i === current ? 'w-6 bg-sky-500' : 'w-1.5 bg-gray-200'
+                    i === current ? 'w-6 bg-crimson' : 'w-1.5 bg-neutral-200'
                   }`}
                 />
               ))}
@@ -145,16 +145,16 @@ const TestimonialSection: React.FC = () => {
 
             {/* Counter + Arrows */}
             <div className="flex items-center gap-4">
-              <span className="text-xs text-gray-400 font-sans">
-                <span className="text-sky-500 font-bold">{current + 1}</span> / {testimonials.length}
+              <span className="text-xs text-muted font-sans">
+                <span className="text-crimson font-bold">{current + 1}</span> / {testimonials.length}
               </span>
               <div className="flex gap-2">
                 <button onClick={prev}
-                  className="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-sky-500 hover:text-white hover:border-sky-500 transition-all duration-200">
+                  className="w-9 h-9 rounded-full border border-neutral-200 flex items-center justify-center text-muted hover:bg-crimson hover:text-white hover:border-crimson transition-all duration-200">
                   ←
                 </button>
                 <button onClick={next}
-                  className="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-sky-500 hover:text-white hover:border-sky-500 transition-all duration-200">
+                  className="w-9 h-9 rounded-full border border-neutral-200 flex items-center justify-center text-muted hover:bg-crimson hover:text-white hover:border-crimson transition-all duration-200">
                   →
                 </button>
               </div>

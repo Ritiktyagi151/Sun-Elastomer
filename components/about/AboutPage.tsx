@@ -14,7 +14,7 @@ import {
   ShieldCheck,
   Target,
 } from "lucide-react";
-import { CountUp, SectionHeading, fadeUp, stagger } from "@/components/common/AnimatedPrimitives";
+import { CountUp, ScrollSlide, SectionHeading, fadeUp, stagger } from "@/components/common/AnimatedPrimitives";
 import { values } from "@/data/constants";
 import { company, companyFacts, leaders, offerCategories, products } from "@/data/products";
 
@@ -53,13 +53,27 @@ export function AboutPage() {
   return (
     <main>
       <AboutHero />
-      <CompanyStory />
-      <StrengthSection />
-      <ProductFocus />
-      <VisionMission />
-      <LeadershipSection />
-      <WorkingCulture />
-      <CoreValues />
+      <ScrollSlide direction="right">
+        <CompanyStory />
+      </ScrollSlide>
+      <ScrollSlide direction="up">
+        <StrengthSection />
+      </ScrollSlide>
+      <ScrollSlide direction="left">
+        <ProductFocus />
+      </ScrollSlide>
+      <ScrollSlide direction="up">
+        <VisionMission />
+      </ScrollSlide>
+      <ScrollSlide direction="right">
+        <LeadershipSection />
+      </ScrollSlide>
+      <ScrollSlide direction="left">
+        <WorkingCulture />
+      </ScrollSlide>
+      <ScrollSlide direction="up">
+        <CoreValues />
+      </ScrollSlide>
     </main>
   );
 }
@@ -107,7 +121,7 @@ function AboutHero() {
           {storyStats.map((item) => (
             <article key={item.label} className="rounded-lg border border-white/18 bg-white/12 p-4 backdrop-blur">
               <p className="text-3xl font-black text-golden">
-ct                <CountUp value={item.value} suffix={item.suffix} />
+                <CountUp value={item.value} suffix={item.suffix} />
               </p>
               <p className="mt-2 text-sm font-bold uppercase text-white/76">{item.label}</p>
             </article>

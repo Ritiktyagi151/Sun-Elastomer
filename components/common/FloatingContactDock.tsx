@@ -1,8 +1,9 @@
 "use client";
 
-import { Mail, MessageCircle, Phone } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 import { motion } from "framer-motion";
 import { company } from "@/data/products";
+import { SocialBrandIcon } from "./SocialBrandIcon";
 
 const normalizePhone = (phone: string) => phone.replace(/[^\d+]/g, "");
 const hasRealPhone = (phone: string) => !/[xX]/.test(phone) && normalizePhone(phone).replace(/\D/g, "").length >= 10;
@@ -16,21 +17,21 @@ export function FloatingContactDock() {
     {
       label: "WhatsApp",
       href: realPhone ? `https://wa.me/${whatsappPhone}` : "/contact",
-      Icon: MessageCircle,
+      icon: <SocialBrandIcon brand="whatsapp" size={21} aria-hidden="true" />,
       className: "contact-dock__link--whatsapp",
       external: realPhone,
     },
     {
       label: "Call",
       href: realPhone ? `tel:${dialPhone}` : "/contact",
-      Icon: Phone,
+      icon: <Phone size={20} strokeWidth={2.4} />,
       className: "contact-dock__link--phone",
       external: false,
     },
     {
       label: "Email",
       href: `mailto:${company.contactEmail}`,
-      Icon: Mail,
+      icon: <Mail size={20} strokeWidth={2.4} />,
       className: "contact-dock__link--mail",
       external: false,
     },
@@ -45,7 +46,7 @@ export function FloatingContactDock() {
       transition={{ delay: 4.15, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
     >
       <span className="contact-dock__rail" aria-hidden="true" />
-      {actions.map(({ label, href, Icon, className, external }) => (
+      {actions.map(({ label, href, icon, className, external }) => (
         <a
           key={label}
           href={href}
@@ -55,7 +56,7 @@ export function FloatingContactDock() {
           target={external ? "_blank" : undefined}
           rel={external ? "noopener noreferrer" : undefined}
         >
-          <Icon size={20} strokeWidth={2.4} />
+          {icon}
           <span>{label}</span>
         </a>
       ))}

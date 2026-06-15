@@ -149,8 +149,8 @@ export const pageDescriptions = {
 
 
 export const clients = [
-  { name: "Acme Corp",     type: "Enterprise",  initials: "AC", logoUrl: "" },
-  { name: "Stellar Inc",   type: "Technology",  initials: "SI", logoUrl: "" },
+  { name: "Acme Corp",     type: "Enterprise",  initials: "AC", logoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR35k3jJTbY_gq43gSwyzjasB3-t5VqDzGhJg&s" },
+  { name: "Stellar Inc",   type: "Technology",  initials: "SI", logoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxnSvkfoPSZsLy67bbUNF68fMOlepQT-J4Jw&s" },
   { name: "NovaTech",      type: "SaaS",        initials: "NT", logoUrl: "" },
   { name: "Horizon Group", type: "Finance",     initials: "HG", logoUrl: "" },
   { name: "BlueWave",      type: "Healthcare",  initials: "BW", logoUrl: "" },

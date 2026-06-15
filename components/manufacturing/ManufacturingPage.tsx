@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, ClipboardCheck, Factory, FlaskConical, PackageCheck, ShieldCheck } from "lucide-react";
-import { CountUp, SectionHeading, fadeUp, stagger } from "@/components/common/AnimatedPrimitives";
+import { CountUp, ScrollSlide, SectionHeading, fadeUp, stagger } from "@/components/common/AnimatedPrimitives";
 
 const processSteps = [
   {
@@ -75,10 +75,18 @@ export function ManufacturingPage() {
   return (
     <main>
       <ManufacturingHero />
-      <ManufacturingIntro />
-      <ProcessFlow />
-      <FacilityGrid />
-      <ImageStory />
+      <ScrollSlide direction="right">
+        <ManufacturingIntro />
+      </ScrollSlide>
+      <ScrollSlide direction="up">
+        <ProcessFlow />
+      </ScrollSlide>
+      <ScrollSlide direction="left">
+        <FacilityGrid />
+      </ScrollSlide>
+      <ScrollSlide direction="up">
+        <ImageStory />
+      </ScrollSlide>
     </main>
   );
 }

@@ -4,6 +4,7 @@ import "../styles/globals.css";
 import { ClientShell } from "@/components/common/ClientShell";
 import { Footer } from "@/components/common/Footer";
 import { Navbar } from "@/components/common/Navbar";
+import { ScrollSlide } from "@/components/common/AnimatedPrimitives";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -39,7 +40,9 @@ export default function RootLayout({
         <ClientShell>
           <Navbar />
           {children}
-          <Footer />
+          <ScrollSlide direction="up">
+            <Footer />
+          </ScrollSlide>
         </ClientShell>
       </body>
     </html>

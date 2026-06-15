@@ -55,7 +55,7 @@ const defaultConfig: Required<Globe3DConfig> = {
   textureUrl: DEFAULT_EARTH_TEXTURE,
   bumpMapUrl: DEFAULT_BUMP_TEXTURE,
   showAtmosphere: true,
-  atmosphereColor: "#4da6ff",
+  atmosphereColor: "#f50057",
   atmosphereIntensity: 0.55,
   atmosphereBlur: 2,
   bumpScale: 1,
@@ -67,7 +67,7 @@ const defaultConfig: Required<Globe3DConfig> = {
   initialRotation: { x: 0, y: 0 },
   markerSize: 0.06,
   showWireframe: false,
-  wireframeColor: "#4a9eff",
+  wireframeColor: "#6b6b6b",
   ambientIntensity: 0.72,
   pointLightIntensity: 1.5,
   backgroundColor: null,
@@ -146,7 +146,7 @@ function Marker({ marker, radius, defaultSize, onClick, onHover }: MarkerProps) 
       </mesh>
       <mesh position={surfacePosition} quaternion={lineQuaternion}>
         <coneGeometry args={[0.015, 0.04, 8]} />
-        <meshBasicMaterial color={hovered ? "#ff6a00" : "#f50057"} />
+        <meshBasicMaterial color={hovered ? "#1a1a1a" : "#f50057"} />
       </mesh>
       <group ref={imageGroupRef} position={topPosition}>
         <Html
@@ -301,7 +301,7 @@ function Scene({
     <>
       <ambientLight intensity={config.ambientIntensity} />
       <directionalLight position={[config.radius * 5, config.radius * 2, config.radius * 5]} intensity={config.pointLightIntensity} color="#ffffff" />
-      <directionalLight position={[-config.radius * 3, config.radius, -config.radius * 2]} intensity={config.pointLightIntensity * 0.3} color="#88ccff" />
+      <directionalLight position={[-config.radius * 3, config.radius, -config.radius * 2]} intensity={config.pointLightIntensity * 0.3} color="#d4d4d4" />
       <RotatingGlobe config={config} markers={markers} onMarkerClick={onMarkerClick} onMarkerHover={onMarkerHover} />
       {config.showAtmosphere ? <Atmosphere radius={config.radius} color={config.atmosphereColor} intensity={config.atmosphereIntensity} blur={config.atmosphereBlur} /> : null}
       <OrbitControls

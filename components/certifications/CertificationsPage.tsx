@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Award, BadgeCheck, ClipboardCheck, Download, FileCheck2, FileText, Mail, ShieldCheck } from "lucide-react";
-import { SectionHeading, fadeUp, stagger } from "@/components/common/AnimatedPrimitives";
+import { ScrollSlide, SectionHeading, fadeUp, stagger } from "@/components/common/AnimatedPrimitives";
 import { certifications } from "@/data/constants";
 
 const compliancePoints = [
@@ -24,14 +24,22 @@ export function CertificationsPage() {
   return (
     <main>
       <CertificationsHero />
-      <CertificationsIntro />
-      <section className="section bg-white">
-        <div className="mx-auto max-w-7xl px-5">
-          <CertificationsGrid />
-        </div>
-      </section>
-      <RegulatoryCompliance />
-      <DocumentationSupport />
+      <ScrollSlide direction="right">
+        <CertificationsIntro />
+      </ScrollSlide>
+      <ScrollSlide direction="up">
+        <section className="section bg-white">
+          <div className="mx-auto max-w-7xl px-5">
+            <CertificationsGrid />
+          </div>
+        </section>
+      </ScrollSlide>
+      <ScrollSlide direction="left">
+        <RegulatoryCompliance />
+      </ScrollSlide>
+      <ScrollSlide direction="up">
+        <DocumentationSupport />
+      </ScrollSlide>
     </main>
   );
 }

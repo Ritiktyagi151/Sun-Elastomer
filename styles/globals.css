@@ -8,10 +8,10 @@
 
 @theme {
   --color-crimson: #f50057;
-  --color-flame: #ff6a00;
-  --color-golden: #ffc400;
+  --color-flame: #1a1a1a;
+  --color-golden: #d4d4d4;
   --color-cream: #f5f5f5;
-  --color-peach: #f5f5f5;
+  --color-peach: #f7f7f7;
   --color-dark: #1a1a1a;
   --color-ink: #1a1a1a;
   --color-muted: #6b6b6b;
@@ -26,6 +26,7 @@
 html {
   scroll-behavior: smooth;
   background: #ffffff;
+  overflow-x: clip;
 }
 
 body {
@@ -33,6 +34,7 @@ body {
   background: #ffffff;
   color: #1a1a1a;
   font-family: var(--font-dm-sans), system-ui, sans-serif;
+  overflow-x: clip;
 }
 
 a {
@@ -47,11 +49,23 @@ textarea {
 }
 
 .bg-flame-gradient {
-  background-image: linear-gradient(135deg, #ffc400 0%, #ff9800 25%, #ff6a00 50%, #ff1744 75%, #f50057 100%);
+  background-image: linear-gradient(135deg, #1a1a1a 0%, #333333 48%, #f50057 100%);
 }
 
 .section {
   padding: 6rem 0;
+}
+
+.scroll-slide-shell {
+  overflow-x: clip;
+}
+
+@supports not (overflow-x: clip) {
+  html,
+  body,
+  .scroll-slide-shell {
+    overflow-x: hidden;
+  }
 }
 
 .btn-primary,
@@ -66,9 +80,9 @@ textarea {
 }
 
 .btn-primary {
-  background-image: linear-gradient(135deg, #ffc400 0%, #ff9800 25%, #ff6a00 50%, #ff1744 75%, #f50057 100%);
+  background-image: linear-gradient(135deg, #1a1a1a 0%, #333333 52%, #f50057 100%);
   color: #ffffff;
-  box-shadow: 0 18px 40px rgba(255, 106, 0, 0.26);
+  box-shadow: 0 18px 40px rgba(245, 0, 87, 0.16);
 }
 
 .btn-outline {
@@ -89,7 +103,7 @@ textarea {
   align-items: center;
   width: fit-content;
   border-radius: 999px;
-  background: rgba(255, 196, 0, 0.16);
+  background: rgba(245, 0, 87, 0.08);
   color: #f50057;
   font-size: 0.75rem;
   font-weight: 900;
@@ -104,13 +118,13 @@ textarea {
   background: #ffffff;
   padding: 1.6rem;
   color: #1a1a1a;
-  box-shadow: 0 16px 50px rgba(255, 106, 0, 0.09);
+  box-shadow: 0 16px 50px rgba(26, 26, 26, 0.07);
   transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
 }
 
 .card-dark:hover {
   border-color: rgba(245, 0, 87, 0.72);
-  box-shadow: 0 22px 70px rgba(255, 106, 0, 0.18);
+  box-shadow: 0 22px 70px rgba(245, 0, 87, 0.12);
 }
 
 .footer-title {
@@ -136,7 +150,7 @@ textarea {
   inset: -0.65rem 0.82rem -0.65rem auto;
   width: 0.28rem;
   border-radius: 999px;
-  background-image: linear-gradient(180deg, #ffc400, #ff6a00 48%, #f50057);
+  background-image: linear-gradient(180deg, #1a1a1a, #6b6b6b 48%, #f50057);
   box-shadow: 0 16px 38px rgba(245, 0, 87, 0.24);
 }
 
@@ -205,18 +219,18 @@ textarea {
 }
 
 .contact-dock__link--whatsapp {
-  --dock-a: #14a05f;
-  --dock-b: #58e08c;
+  --dock-a: #1a1a1a;
+  --dock-b: #f50057;
 }
 
 .contact-dock__link--phone {
-  --dock-a: #ff6a00;
-  --dock-b: #ffc400;
+  --dock-a: #1a1a1a;
+  --dock-b: #6b6b6b;
 }
 
 .contact-dock__link--mail {
   --dock-a: #f50057;
-  --dock-b: #ff6a00;
+  --dock-b: #1a1a1a;
 }
 
 .input {
@@ -232,8 +246,8 @@ textarea {
 }
 
 .input:focus {
-  border-color: #ff6a00;
-  box-shadow: 0 0 0 4px rgba(255, 106, 0, 0.12);
+  border-color: #f50057;
+  box-shadow: 0 0 0 4px rgba(245, 0, 87, 0.1);
 }
 
 .fire-particles span {
@@ -244,7 +258,7 @@ textarea {
   width: var(--size);
   height: var(--size);
   border-radius: 999px;
-  background: radial-gradient(circle, #ffc400, #ff6a00 48%, #f50057 68%, transparent 72%);
+  background: radial-gradient(circle, #ffffff, #d4d4d4 42%, #f50057 68%, transparent 72%);
   opacity: 0.55;
   animation: float-fire calc(9s + (var(--i) % 8) * 1s) linear infinite;
   animation-delay: calc(var(--i) * -0.7s);
@@ -276,7 +290,7 @@ textarea {
 }
 
 .gradient-heading {
-  background-image: linear-gradient(135deg, #ffc400 0%, #ff9800 25%, #ff6a00 50%, #ff1744 75%, #f50057 100%);
+  background-image: linear-gradient(135deg, #1a1a1a 0%, #333333 52%, #f50057 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -299,7 +313,7 @@ textarea {
   display: block;
   height: 10rem;
   width: 10rem;
-  filter: drop-shadow(0 18px 28px rgba(211, 164, 16, 0.22));
+  filter: drop-shadow(0 18px 28px rgba(245, 0, 87, 0.16));
 }
 
 .loader-particle {
@@ -364,10 +378,10 @@ textarea {
 @keyframes loader-umbral {
   0%,
   100% {
-    stop-color: #d3a5102e;
+    stop-color: rgba(245, 0, 87, 0.16);
   }
   50% {
-    stop-color: rgba(211, 165, 16, 0.52);
+    stop-color: rgba(245, 0, 87, 0.36);
   }
 }
 

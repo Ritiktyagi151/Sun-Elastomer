@@ -32,7 +32,7 @@ export function ProductRangeSection() {
           variants={stagger} 
           initial="hidden" 
           whileInView="show" 
-          viewport={{ once: true, margin: "-50px" }} // Triggers slightly before scrolling fully in
+          viewport={{ once: false, margin: "-50px" }}
         >
           {productCategories.map(({ image, icon: Icon, title, description }, index) => (
             <motion.article 

@@ -9,7 +9,7 @@ export function PageBanner({ title, text }: { title: string; text: string }) {
       <div className="theme-bg" aria-hidden="true">
         <Image src="/bg-theme/bg1.png" alt="" fill priority sizes="100vw" />
       </div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,rgba(245,0,87,0.12),transparent_30%),radial-gradient(circle_at_70%_20%,rgba(255,196,0,0.16),transparent_28%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,rgba(245,0,87,0.10),transparent_30%),radial-gradient(circle_at_70%_20%,rgba(26,26,26,0.08),transparent_28%)]" />
       <motion.div
         className="relative mx-auto max-w-7xl"
         initial={{ opacity: 0, y: 26 }}

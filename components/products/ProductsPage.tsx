@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, ClipboardCheck, Filter, PackageCheck, Search, ShieldCheck } from "lucide-react";
-import { SectionHeading, fadeUp, stagger } from "@/components/common/AnimatedPrimitives";
+import { ScrollSlide, SectionHeading, fadeUp, stagger } from "@/components/common/AnimatedPrimitives";
 import { productCategories, products } from "@/data/constants";
 
 const tabs = ["All", ...productCategories.map((category) => category.title)];
@@ -20,14 +20,18 @@ export function ProductsPage({ initialTab }: { initialTab?: string }) {
   return (
     <main>
       <ProductsHero />
-      <CategoryOverview />
-      <section className="section bg-white">
-        <div className="mx-auto max-w-7xl px-5">
-          <ProductTabs activeTab={tab} onChange={setTab} />
-          <ProductGrid products={visible} />
-          <CustomRequirementCallout />
-        </div>
-      </section>
+      <ScrollSlide direction="up">
+        <CategoryOverview />
+      </ScrollSlide>
+      <ScrollSlide direction="left">
+        <section className="section bg-white">
+          <div className="mx-auto max-w-7xl px-5">
+            <ProductTabs activeTab={tab} onChange={setTab} />
+            <ProductGrid products={visible} />
+            <CustomRequirementCallout />
+          </div>
+        </section>
+      </ScrollSlide>
     </main>
   );
 }

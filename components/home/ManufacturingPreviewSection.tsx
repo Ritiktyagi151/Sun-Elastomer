@@ -9,14 +9,14 @@ import { manufacturingHighlights } from "@/components/home/homeData";
 // ── Staggered highlight item ──
 function HighlightItem({ text, index }: { text: string; index: number }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-60px" });
+  const isInView = useInView(ref, { once: false, margin: "-60px" });
 
   return (
     <motion.div
       ref={ref}
       className="flex items-start gap-4 py-4 border-b border-ink/[0.07] last:border-none group"
       initial={{ opacity: 0, x: -24 }}
-      animate={isInView ? { opacity: 1, x: 0 } : {}}
+      animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -24 }}
       transition={{ duration: 0.5, delay: index * 0.08, ease: "easeOut" }}
     >
       <span className="font-serif text-[11px] text-crimson/50 font-bold mt-1 w-5 text-right flex-shrink-0">
@@ -41,7 +41,7 @@ export function ManufacturingPreviewSection() {
   // Image parallax
   const imageY = useTransform(scrollYProgress, [0, 1], [30, -30]);
 
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+  const isInView = useInView(sectionRef, { once: false, margin: "-100px" });
 
   return (
     <section ref={sectionRef} className="section relative overflow-hidden bg-cream text-ink">
@@ -68,7 +68,7 @@ export function ManufacturingPreviewSection() {
           <motion.div
             className="flex items-center gap-4 mb-5"
             initial={{ opacity: 0, x: -30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
             transition={{ duration: 0.6 }}
           >
             <span className="w-8 h-[2px] bg-crimson" />
@@ -81,7 +81,7 @@ export function ManufacturingPreviewSection() {
           <motion.h2
             className="font-serif text-3xl md:text-4xl lg:text-5xl text-ink leading-[1.15] mb-10"
             initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ duration: 0.7, delay: 0.15 }}
           >
             Controlled Processes for Critical Elastomer Performance.
@@ -99,7 +99,7 @@ export function ManufacturingPreviewSection() {
         <motion.div
           className="relative"
           initial={{ opacity: 0, x: 50 }}
-          animate={isInView ? { opacity: 1, x: 0 } : {}}
+          animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
           transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
         >
           {/* Corner accents */}
@@ -129,7 +129,7 @@ export function ManufacturingPreviewSection() {
           <motion.div
             className="absolute bottom-6 -left-5 bg-crimson text-white px-5 py-3 z-10"
             initial={{ opacity: 0, x: -16 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -16 }}
             transition={{ duration: 0.6, delay: 0.8 }}
           >
             <span className="block font-serif text-2xl font-bold leading-none">15+</span>
