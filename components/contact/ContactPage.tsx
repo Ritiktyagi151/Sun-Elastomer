@@ -99,19 +99,19 @@ export function ContactPage() {
 
 function ContactHero() {
   return (
-    <section className="relative h-[450px] overflow-hidden bg-ink px-5 pb-10 pt-24 text-white">
+    <section className="relative h-[550px] overflow-hidden bg-ink px-5 pb-10 pt-24 text-white">
       <Image
-        src="/banners/banner.jpeg"
+        src="/banners/contact-us1.png"
         alt="Pharmaceutical products on a clean medical desk"
         fill
         priority
         sizes="100vw"
         className="object-cover object-center"
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/84 via-black/56 to-black/12" />
-      <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-white to-transparent" />
+      {/* <div className="absolute inset-0 bg-black/62" />
+      <div className="absolute inset-x-0 bottom-0 h-28 bg-white/80" /> */}
 
-      <motion.div
+      {/* <motion.div
         className="relative mx-auto grid h-full max-w-7xl items-center gap-8 lg:grid-cols-[1fr_0.75fr]"
         initial={{ opacity: 0, y: 28 }}
         animate={{ opacity: 1, y: 0 }}
@@ -150,7 +150,7 @@ function ContactHero() {
             <p className="mt-2 text-sm font-bold uppercase text-white/76">Focused categories</p>
           </article>
         </div>
-      </motion.div>
+      </motion.div> */}
     </section>
   );
 }
@@ -202,7 +202,7 @@ function ContactOverview() {
             sizes="(min-width: 1024px) 52vw, 100vw"
             className="aspect-[5/4] w-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/68 via-black/8 to-transparent" />
+          <div className="absolute inset-0 bg-black/52" />
           <div className="absolute bottom-0 left-0 p-6 text-white">
             <p className="flex items-center gap-2 text-sm font-black uppercase text-golden">
               <MessageCircle size={18} /> Product and supply discussions
@@ -412,7 +412,7 @@ function SupportProcess() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ delay: index * 0.08 }}
             >
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-flame-gradient font-black text-white">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-crimson font-black text-white">
                 {index + 1}
               </span>
               <p className="leading-7 text-white/78">{item}</p>

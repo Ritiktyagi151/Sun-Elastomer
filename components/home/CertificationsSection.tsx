@@ -6,10 +6,10 @@ import { clients } from "@/data/constants";
 import { useRef, MouseEvent } from "react";
 
 const ACCENT_COLORS = [
-  { border: "hover:border-crimson/40", glow: "rgba(220,38,38,0.08)" },
-  { border: "hover:border-blue-400/40", glow: "rgba(96,165,250,0.08)" },
-  { border: "hover:border-emerald-400/40", glow: "rgba(52,211,153,0.08)" },
-  { border: "hover:border-amber-400/40", glow: "rgba(251,191,36,0.08)" },
+  { border: "hover:border-crimson/40" },
+  { border: "hover:border-blue-400/40" },
+  { border: "hover:border-emerald-400/40" },
+  { border: "hover:border-amber-400/40" },
 ];
 
 const BADGE_COLORS = [
@@ -18,19 +18,17 @@ const BADGE_COLORS = [
   "bg-emerald-100 text-emerald-700",
   "bg-amber-100 text-amber-700",
   "bg-purple-100 text-purple-700",
-  "bg-pink-100 text-pink-700",
+  "bg-sky-100 text-sky-700",
 ];
 
 // ── 3D tilt card ─────────────────────────────────────────────────────────────
 function TiltCard({
   children,
   className = "",
-  glowColor,
   delay,
 }: {
   children: React.ReactNode;
   className?: string;
-  glowColor: string;
   delay: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -78,10 +76,6 @@ function TiltCard({
                   hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)]
                   ${className}`}
     >
-      <div
-        className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        style={{ background: `radial-gradient(circle at 50% 50%, ${glowColor}, transparent 70%)` }}
-      />
       {children}
     </motion.div>
   );
@@ -153,7 +147,6 @@ export function ClientsSection() {
                 <TiltCard
                   key={client.name}
                   className={`group flex flex-col items-center justify-center gap-3 p-4 h-[110px] ${accent.border}`}
-                  glowColor={accent.glow}
                   delay={index * 0.04}
                 >
                   {/* logo / initials */}

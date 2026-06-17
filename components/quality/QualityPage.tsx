@@ -88,18 +88,18 @@ export function QualityPage() {
 
 function QualityHero() {
   return (
-    <section className="relative h-[450px] overflow-hidden bg-ink px-5 pb-10 pt-24 text-white">
+    <section className="relative h-[550px] overflow-hidden bg-ink px-5 pb-10 pt-24 text-white">
       <Image
-        src="/banners/b2.jpeg"
+        src="/banners/quality-banner.png"
         alt="Quality professional checking a sample in laboratory"
         fill
         priority
         sizes="100vw"
         className="object-cover object-center"
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/84 via-black/54 to-black/10" />
-      <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-white to-transparent" />
-      <motion.div
+      {/* <div className="absolute inset-0 bg-black/62" />
+      <div className="absolute inset-x-0 bottom-0 h-28 bg-white/80" /> */}
+      {/* <motion.div
         className="relative mx-auto flex h-full max-w-7xl flex-col justify-center"
         initial={{ opacity: 0, y: 28 }}
         animate={{ opacity: 1, y: 0 }}
@@ -113,7 +113,7 @@ function QualityHero() {
           We focus on clear specifications, inspection discipline, documentation support and accountable dispatch
           coordination.
         </p>
-      </motion.div>
+      </motion.div> */}
     </section>
   );
 }
@@ -189,7 +189,7 @@ function QualityImagePanel() {
         sizes="(min-width: 1024px) 48vw, 100vw"
         className="aspect-[5/4] w-full object-cover"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+      <div className="absolute inset-0 bg-black/56" />
       <div className="absolute bottom-0 left-0 p-6 text-white">
         <Eye className="text-golden" size={30} />
         <h3 className="mt-4 max-w-lg font-display text-3xl font-black">Inspection-led confidence for every inquiry.</h3>
@@ -238,7 +238,7 @@ function QualityFlow() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ delay: index * 0.07 }}
             >
-              <span className="mx-auto grid h-10 w-10 place-items-center rounded-full bg-flame-gradient font-black">
+              <span className="mx-auto grid h-10 w-10 place-items-center rounded-full bg-crimson font-black">
                 {index + 1}
               </span>
               <h3 className="mt-4 font-black">{item}</h3>

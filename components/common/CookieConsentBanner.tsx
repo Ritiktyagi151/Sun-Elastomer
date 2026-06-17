@@ -61,7 +61,7 @@ export function CookieConsentBanner() {
         >
           <div className="mx-auto max-w-6xl overflow-hidden rounded-2xl border border-neutral-200 bg-white/96 shadow-[0_24px_80px_rgba(26,26,26,0.14)] backdrop-blur-xl">
             <div className="relative grid gap-5 p-5 sm:p-6 lg:grid-cols-[1fr_auto] lg:items-end">
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_8%_0%,rgba(245,0,87,0.08),transparent_32%),linear-gradient(135deg,rgba(245,245,245,0.9),rgba(255,255,255,0)_42%)]" />
+              <div className="pointer-events-none absolute inset-0 bg-crimson/5" />
               <button
                 type="button"
                 onClick={() => saveConsent("dismissed")}
@@ -72,7 +72,7 @@ export function CookieConsentBanner() {
               </button>
 
               <div className="relative flex gap-4 pr-9">
-                <div className="hidden h-14 w-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-ink via-neutral-700 to-crimson text-white shadow-lg shadow-crimson/15 sm:grid">
+                <div className="hidden h-14 w-14 shrink-0 place-items-center rounded-2xl bg-crimson text-white shadow-lg shadow-crimson/15 sm:grid">
                   <ShieldCheck size={27} />
                 </div>
                 <div>
@@ -81,7 +81,7 @@ export function CookieConsentBanner() {
                       <FlaskConical size={13} />
                       Laboratory Grade Privacy
                     </span>
-                    <span className="inline-flex h-2 w-2 rounded-full bg-crimson shadow-[0_0_0_5px_rgba(245,0,87,0.12)]" />
+                    <span className="inline-flex h-2 w-2 rounded-full bg-crimson shadow-[0_0_0_5px_rgba(56,189,248,0.12)]" />
                   </div>
                   <h2 className="mt-3 text-xl font-black text-ink sm:text-2xl">Your Privacy Matters</h2>
                   <p className="mt-2 max-w-3xl text-sm leading-6 text-muted sm:text-[0.95rem]">
@@ -158,7 +158,7 @@ export function CookieConsentBanner() {
                     <button
                       type="button"
                       onClick={() => saveConsent("custom")}
-                      className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-ink to-crimson px-5 py-3 text-sm font-black text-white shadow-lg shadow-crimson/15 transition hover:-translate-y-0.5"
+                      className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-crimson px-5 py-3 text-sm font-black text-white shadow-lg shadow-crimson/15 transition hover:-translate-y-0.5"
                     >
                       <Cookie size={17} />
                       Save Preferences

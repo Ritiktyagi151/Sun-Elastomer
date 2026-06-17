@@ -79,7 +79,7 @@ function StatCard({
 
   return (
     <div
-      className="flex items-center h-32 justify-between rounded-xl border shadow-xs shadow-pink-200 border-neutral-100 p-5
+      className="flex items-center h-32 justify-between rounded-xl border shadow-xs shadow-sky-200 border-neutral-100 p-5
                  transition-all duration-500 hover:-translate-y-1 hover:border-crimson/20 hover:shadow-sm"
       style={{
         opacity: animate ? 1 : 0,
@@ -140,27 +140,27 @@ export default function SunElastomersDashboard() {
     who: {
       title: "Who we are",
       text: "Sun Elastomers Private Limited operates from Industrial Area Sahibabad, Ghaziabad, Uttar Pradesh. GST registered as a regular private limited company, serving healthcare trade requirements through a focused pharmaceutical product portfolio built for disciplined B2B buyers.",
-      bgImage: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=1200",
+      bgImage: "/homepage-img/whoweare.png",
     },
     quality: {
       title: "Quality-led supply",
       text: "Every product program is supported by disciplined documentation, batch awareness and a practical quality mindset — ensuring product confidence for every buyer and every order across injectables, tablets, capsules and more.",
-      bgImage: "https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&q=80&w=1200",
+      bgImage: "/homepage-img/quality-led-supply.png",
     },
     portfolio: {
       title: "Focused product portfolio",
       text: "The range covers injectables, tablets, capsules, suspensions, sachets and ointment formats across injectable antibiotics, oral antibiotics, neuropathic care, antidiabetic, dermatology and gastroenterology segments.",
-      bgImage: "https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&q=80&w=1200",
+      bgImage: "/homepage-img/focused-product-portfolio.png",
     },
     support: {
       title: "Reliable commercial support",
       text: "Our team supports product inquiries, pack discussions, dispatch coordination and long-term supply planning — building durable relationships with distributors, institutions and business partners across domestic and export markets.",
-      bgImage: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1200",
+      bgImage: "/homepage-img/reliable-commercial-support.png",
     },
     vision: {
       title: "Vision & mission",
       text: "To become a trusted pharmaceutical supply partner known for dependable products, transparent communication and quality-focused growth — supporting healthcare businesses with organized product information and responsive B2B service.",
-      bgImage: "https://images.unsplash.com/photo-1464375117522-1311d6a5b81f?auto=format&fit=crop&q=80&w=1200",
+      bgImage: "/homepage-img/vision-mission.png",
     },
   };
 
@@ -270,7 +270,7 @@ export default function SunElastomersDashboard() {
             transition: "background-image 0.5s ease",
           }}
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
+          <div className="absolute inset-0 bg-black/45" />
 
           <div
             key={bannerKey}

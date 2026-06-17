@@ -39,7 +39,7 @@ const slides = [
     src: "/banners/b3.jpeg", 
     words: ["Custom", "Molding", "Expertise", "Delivered"],
     desc: "Partner with us for tailor-made sealing solutions designed specifically for your needs.",
-    duration: 5000, // Dusre video ke liye bhi 15 seconds
+    duration: 5000, 
   },
    {
     id: 4,
@@ -47,7 +47,7 @@ const slides = [
     src: "/banners/banner.jpeg", 
     words: ["Custom", "Molding", "Expertise", "Delivered"],
     desc: "Partner with us for tailor-made sealing solutions designed specifically for your needs.",
-    duration: 5000, // Dusre video ke liye bhi 15 seconds
+    duration: 5000, 
   },
 ];
 
@@ -55,7 +55,7 @@ export function HeroSection() {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Dynamic Auto-play logic: Har slide ke "duration" ke hisaab se time lega
+  // Dynamic Auto-play logic
   useEffect(() => {
     const currentDuration = slides[currentSlideIndex].duration;
     
@@ -63,26 +63,14 @@ export function HeroSection() {
       setCurrentSlideIndex((prev) => (prev + 1) % slides.length);
     }, currentDuration);
     
-    // Cleanup function taaki memory leak na ho
     return () => clearTimeout(timer);
-  }, [currentSlideIndex]); // Jab slide change hogi, naya timer start hoga
+  }, [currentSlideIndex]);
 
   const currentSlide = slides[currentSlideIndex];
 
   return (
-    <section className="relative flex min-h-screen items-center overflow-hidden  px-5 pt-24 text-white">
-      <div className="absolute right-5 top-6 z-30 lg:right-8 lg:top-8">
-        <button
-          type="button"
-          onClick={() => setMenuOpen((value) => !value)}
-          className="grid h-12 w-12 place-items-center rounded-full border border-white/25 bg-white/12 text-white shadow-xl shadow-black/20 backdrop-blur-md transition hover:bg-white/20 lg:h-14 lg:w-14"
-          aria-label="Toggle hero navigation menu"
-          aria-expanded={menuOpen}
-        >
-          {menuOpen ? <X size={22} /> : <Menu size={22} />}
-        </button>
-      </div>
-
+    <section className="relative flex min-h-screen items-center overflow-hidden px-5 pt-24 text-white bg-black">
+     
       <AnimatePresence>
         {menuOpen ? (
           <motion.div
@@ -135,7 +123,7 @@ export function HeroSection() {
               <Link
                 href="/contact"
                 onClick={() => setMenuOpen(false)}
-                className="mt-2 flex min-h-11 items-center justify-center rounded-xl bg-flame-gradient px-4 py-3 text-sm font-black text-white shadow-lg shadow-crimson/20"
+                className="mt-2 flex min-h-11 items-center justify-center rounded-xl px-4 py-3 text-sm font-black text-white shadow-lg shadow-crimson/20"
               >
                 Get In Touch
               </Link>
@@ -144,7 +132,7 @@ export function HeroSection() {
         ) : null}
       </AnimatePresence>
       
-      {/* 1. Background Media Slider */}
+      {/* Background Media Slider (Neutral Black & Full Opacity to remove unwanted tints) */}
       <div className="absolute inset-0 z-0 bg-black" aria-hidden="true">
         <AnimatePresence mode="popLayout">
           <motion.div
@@ -162,7 +150,7 @@ export function HeroSection() {
                 loop
                 muted
                 playsInline
-                className="h-full w-full object-cover object-center opacity-80"
+                className="h-full w-full object-cover object-center opacity-100" 
               />
             ) : (
               <Image 
@@ -171,18 +159,17 @@ export function HeroSection() {
                 fill 
                 priority 
                 sizes="100vw" 
-                className="object-cover object-center opacity-80"
+                className="object-cover object-center opacity-100"
               />
             )}
           </motion.div>
         </AnimatePresence>
       </div>
 
-      {/* 2. Theme Overlay - Left Dark Gradient */}
-      <div className="absolute inset-0 z-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent" />
-      {/* <div className="absolute inset-0 z-0 bg-slate-900/20 mix-blend-multiply" /> */}
+      {/* Clean Dark Overlay for Text Readability (No Colors/Tints) */}
+      <div className="absolute inset-0 z-0 bg-black/40" />
 
-      {/* 3. Content Container - Left Aligned */}
+      {/* Content Container - Left Aligned */}
       <div className="relative z-10 mx-auto w-full max-w-8xl text-left">
         
         {/* Animated Text Slider */}
@@ -202,7 +189,7 @@ export function HeroSection() {
               {currentSlide.words.map((word, index) => (
                 <motion.span
                   key={`${currentSlide.id}-${word}-${index}`}
-                  className="inline-block bg-gradient-to-r from-white to-gray-300 bg-clip-text pr-4 text-transparent drop-shadow-md"
+                  className="inline-block pr-4 text-white drop-shadow-md"
                   variants={{ 
                     hidden: { opacity: 0, x: -20 }, 
                     show: { opacity: 1, x: 0 } 
@@ -226,7 +213,7 @@ export function HeroSection() {
           </motion.div>
         </AnimatePresence>
 
-        {/* 4. Static Elements (Buttons & Indicators) */}
+        {/* Static Elements (Buttons & Indicators) */}
         <motion.div
           className="mt-10 flex flex-col justify-start gap-4 sm:flex-row"
           initial={{ opacity: 0, y: 18 }}

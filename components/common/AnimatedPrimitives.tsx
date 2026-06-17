@@ -20,7 +20,7 @@ export function PlaceholderImage({ label, className = "" }: { label: string; cla
     <div
       role="img"
       aria-label={label}
-      className={`grid aspect-[4/3] place-items-center overflow-hidden rounded-lg border border-black/10 bg-[linear-gradient(135deg,#e8e8e8,#bfbfbf)] text-center text-sm font-bold uppercase tracking-[0.2em] text-neutral-600 ${className}`}
+      className={`grid aspect-[4/3] place-items-center overflow-hidden rounded-lg border border-black/10 bg-neutral-200 text-center text-sm font-bold uppercase tracking-[0.2em] text-neutral-600 ${className}`}
     >
       {label}
     </div>
@@ -95,7 +95,7 @@ export function SectionHeading({
         {title}
       </h2>
       <motion.span
-        className={`mt-5 block h-1 w-24 rounded-full bg-flame-gradient ${centered ? "mx-auto" : ""}`}
+        className={`mt-5 block h-1 w-24 rounded-full bg-crimson ${centered ? "mx-auto" : ""}`}
         initial={{ scaleX: 0 }}
         whileInView={{ scaleX: 1 }}
         viewport={{ once: false, margin: "-100px" }}

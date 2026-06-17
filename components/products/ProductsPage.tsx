@@ -47,8 +47,8 @@ function ProductsHero() {
         sizes="100vw"
         className="object-cover object-center"
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/84 via-black/58 to-black/12" />
-      <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-white to-transparent" />
+      <div className="absolute inset-0 bg-black/62" />
+      <div className="absolute inset-x-0 bottom-0 h-28 bg-white/80" />
       <motion.div
         className="relative mx-auto flex h-full max-w-7xl flex-col justify-center"
         initial={{ opacity: 0, y: 28 }}

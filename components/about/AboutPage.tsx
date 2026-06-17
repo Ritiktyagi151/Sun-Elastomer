@@ -80,19 +80,19 @@ export function AboutPage() {
 
 function AboutHero() {
   return (
-    <section className="relative h-[450px] overflow-hidden bg-ink px-5 pb-10 pt-24 text-white">
+    <section className="relative h-[550px] overflow-hidden bg-ink px-5 pb-10 pt-24 text-white">
       <Image
-        src="/banners/b3.jpeg"
+        src="/banners/about-banner.png"
         alt="Quality laboratory professional reviewing pharmaceutical samples"
         fill
         priority
         sizes="100vw"
         className="object-cover h-full object-center"
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/82 via-black/58 to-black/12" />
-      <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-white to-transparent" />
+      {/* <div className="absolute inset-0 bg-black/62" />
+      <div className="absolute inset-x-0 bottom-0 h-36 bg-white/80" /> */}
 
-      <motion.div
+      {/* <motion.div
         className="relative mx-auto grid h-full max-w-7xl items-center gap-8 lg:grid-cols-[1fr_0.85fr]"
         initial={{ opacity: 0, y: 28 }}
         animate={{ opacity: 1, y: 0 }}
@@ -127,7 +127,7 @@ function AboutHero() {
             </article>
           ))}
         </div>
-      </motion.div>
+      </motion.div> */}
     </section>
   );
 }
@@ -314,7 +314,7 @@ function LeadershipSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
             >
-              <div className="grid h-16 w-16 place-items-center rounded-full bg-flame-gradient text-xl font-black text-white">
+              <div className="grid h-16 w-16 place-items-center rounded-full bg-crimson text-xl font-black text-white">
                 {name
                   .split(" ")
                   .slice(0, 2)
@@ -365,7 +365,7 @@ function WorkingCulture() {
             sizes="(min-width: 1024px) 50vw, 100vw"
             className="aspect-[16/10] w-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/62 to-transparent" />
+          <div className="absolute inset-0 bg-black/50" />
           <div className="absolute bottom-0 left-0 p-6 text-white">
             <p className="flex items-center gap-2 text-sm font-black uppercase text-golden">
               <ClipboardCheck size={18} /> Quality and documentation

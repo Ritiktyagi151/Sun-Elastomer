@@ -93,18 +93,18 @@ export function ManufacturingPage() {
 
 function ManufacturingHero() {
   return (
-    <section className="relative h-[450px] overflow-hidden bg-ink px-5 pb-10 pt-24 text-white">
+    <section className="relative h-[550px] overflow-hidden bg-ink px-5 pb-10 pt-24 text-white">
       <Image
-        src="/homepage-img/manufacturing.png"
+        src="/banners/manufacturingbanner.png"
         alt="Pharmaceutical manufacturing line"
         fill
         priority
         sizes="100vw"
         className="object-cover object-center"
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/84 via-black/58 to-black/16" />
-      <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-white to-transparent" />
-      <motion.div
+      {/* <div className="absolute inset-0 bg-black/62" />
+      <div className="absolute inset-x-0 bottom-0 h-28 bg-white/80" /> */}
+      {/* <motion.div
         className="relative mx-auto flex h-full max-w-7xl flex-col justify-center"
         initial={{ opacity: 0, y: 28 }}
         animate={{ opacity: 1, y: 0 }}
@@ -118,7 +118,7 @@ function ManufacturingHero() {
           From product planning to quality review and dispatch, our manufacturing approach is structured for consistent
           B2B supply.
         </p>
-      </motion.div>
+      </motion.div> */}
     </section>
   );
 }
@@ -151,7 +151,7 @@ function ManufacturingIntro() {
         >
           {capacityStats.map(([n, s, label]) => (
             <motion.article key={label} variants={fadeUp} className="rounded-lg border border-crimson/10 p-5 text-center shadow-sm">
-              <p className="bg-flame-gradient bg-clip-text text-3xl font-black text-transparent md:text-4xl">
+              <p className="text-3xl font-black text-crimson md:text-4xl">
                 <CountUp value={Number(n)} suffix={s} />
               </p>
               <p className="mt-2 text-sm font-bold text-muted">{label}</p>
@@ -185,7 +185,7 @@ function ProcessFlow() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ delay: index * 0.06 }}
             >
-              <span className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-flame-gradient font-black text-white">
+              <span className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-crimson font-black text-white">
                 {index + 1}
               </span>
               <h3 className="mt-4 font-black">{step.title}</h3>
@@ -236,7 +236,7 @@ function ImageStory() {
             viewport={{ once: true, margin: "-100px" }}
           >
             <Image src={image.src} alt={image.alt} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/72 to-black/10" />
+            <div className="absolute inset-0 bg-black/56" />
             <div className="absolute bottom-0 left-0 p-6">
               <ShieldCheck className="text-golden" size={30} />
               <h3 className="mt-4 font-display text-3xl font-black">{image.title}</h3>

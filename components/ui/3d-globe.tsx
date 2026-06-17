@@ -55,7 +55,7 @@ const defaultConfig: Required<Globe3DConfig> = {
   textureUrl: DEFAULT_EARTH_TEXTURE,
   bumpMapUrl: DEFAULT_BUMP_TEXTURE,
   showAtmosphere: true,
-  atmosphereColor: "#f50057",
+  atmosphereColor: "#38bdf8",
   atmosphereIntensity: 0.55,
   atmosphereBlur: 2,
   bumpScale: 1,
@@ -146,7 +146,7 @@ function Marker({ marker, radius, defaultSize, onClick, onHover }: MarkerProps) 
       </mesh>
       <mesh position={surfacePosition} quaternion={lineQuaternion}>
         <coneGeometry args={[0.015, 0.04, 8]} />
-        <meshBasicMaterial color={hovered ? "#1a1a1a" : "#f50057"} />
+        <meshBasicMaterial color={hovered ? "#1a1a1a" : "#38bdf8"} />
       </mesh>
       <group ref={imageGroupRef} position={topPosition}>
         <Html

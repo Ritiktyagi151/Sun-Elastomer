@@ -152,18 +152,6 @@ export function FeaturesSection() {
               }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
-              {/* Shimmer overlay */}
-              <motion.div
-                className="pointer-events-none absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100"
-                style={{
-                  background:
-                    "linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.08) 50%, transparent 70%)",
-                  backgroundSize: "200% 100%",
-                }}
-                animate={{ backgroundPosition: ["200% 0", "-200% 0"] }}
-                transition={{ duration: 1.4, repeat: Infinity, ease: "linear" }}
-              />
-
               {/* Card number badge */}
               <span className="absolute top-4 right-4 text-[11px] font-bold text-white/20 select-none font-mono">
                 {String(index + 1).padStart(2, "0")}

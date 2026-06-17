@@ -3,21 +3,28 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Menu, X, Search } from "lucide-react";
+import { ChevronDown, Menu, X, Search, Sparkles, Phone, Mail } from "lucide-react";
 import { type FormEvent, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { navLinks, productCategories, productCategorySlug } from "@/data/constants";
 
-export function BrandLogo() {
+
+export function BrandLogo({ scrolled = false }: { scrolled?: boolean }) {
   return (
-    <Link href="/" className="group flex items-center gap-3" aria-label="Sun Elastomers home">
+    <Link
+      href="/"
+      className={`group relative z-10 inline-flex items-center justify-center transition-all duration-300 ${
+        scrolled ? "top-0 h-16 w-64" : "-top-5 h-24 w-80"
+      }`}
+      aria-label="Sun Elastomers home"
+    >
       <Image
         src="/sunelastomer.png"
         alt="Sun Elastomers Pvt Ltd logo"
         width={220}
         height={108}
         priority
-        className="h-auto inset-0 absolute top-2 ml-8 w-40 object-contain sm:w-40 lg:w-48"
+        className="h-full w-full object-contain drop-shadow-[0_8px_18px_rgba(26,26,26,0.16)]"
       />
     </Link>
   );
@@ -75,88 +82,101 @@ export function Navbar() {
 
   return (
     <>
+      {/* Top Bar - Contact Info */}
+      <motion.div
+        className={`fixed inset-x-0 top-0 z-50 hidden lg:block transition-all duration-300 ${
+          scrolled ? "-translate-y-full opacity-0" : "translate-y-0 opacity-100"
+        }`}
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.3 }}
+      >
+        <div className=" px-6 py-2">
+          <div className="mx-auto flex max-w-8xl items-center justify-end gap-6 text-xs text-white/90">
+            <a href="tel:+911234567890" className="flex items-center gap-2 hover:text-white transition">
+              <Phone size={14} className="text-golden" />
+              <span>+91 12345 67890</span>
+            </a>
+            <a href="mailto:info@sunelastomers.com" className="flex items-center gap-2 hover:text-white transition">
+              <Mail size={14} className="text-golden" />
+              <span>info@sunelastomers.com</span>
+            </a>
+            <span className="flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-green-400 animate-pulse" />
+              <span>Mon - Sat 9:00 AM - 6:00 PM</span>
+            </span>
+          </div>
+        </div>
+      </motion.div>
+
       <motion.header
         className={`fixed inset-x-0 right-0 left-auto top-0 z-50 w-full transition-all duration-300 ${
-          scrolled
-            ? "pointer-events-auto  shadow-crimson/5"
-            : "pointer-events-auto lg:pointer-events-none"
+          scrolled ? "top-0 shadow-2xl shadow-crimson/10" : "top-0 lg:top-8"
         }`}
         initial={{ y: -110, opacity: 0 }}
-        animate={isDesktop ? { y: scrolled ? 0 : -110, opacity: scrolled ? 1 : 0 } : { y: 0, opacity: 1 }}
+        animate={isDesktop ? { y: scrolled ? 0 : 0, opacity: 1 } : { y: 0, opacity: 1 }}
         transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
       >
-        {/* SVG Shape Background */}
-       <svg
-  className="absolute inset-0 -z-10 hidden h-full w-full lg:block"
-  viewBox="0 0 1440 72"
-  preserveAspectRatio="none"
-  xmlns="http://www.w3.org/2000/svg"
->
-  {/* Filled shape - starts after logo area with curve */}
-  <path
-    d="M200,0 Q230,0 250,36 Q260,72 280,72 L1430,72 Q1440,72 1440,62 L1440,0 Z"
-    className={`transition-all duration-300 ${
-      scrolled ? "fill-white" : "fill-transparent"
-    }`}
-  />
-  {/* Border outline of the shape */}
-  <path
-    d="M200,0 Q230,0 250,36 Q260,72 280,72 L1430,72 Q1440,72 1440,62"
-    fill="none"
-    className={`transition-all duration-300 ${
-      scrolled ? "stroke-gray-400" : "stroke-transparent"
-    }`}
-    strokeWidth="2"
-  />
-  {/* Top thin line from left edge to shape start */}
-  <path
-    d="M0,0 L200,0"
-    fill="none"
-    className={`transition-all duration-300 ${
-      scrolled ? "stroke-gray-400" : "stroke-transparent"
-    }`}
-    strokeWidth="3"
-  />
-</svg>
-        <div className="absolute inset-0 -z-10 bg-white shadow-sm lg:hidden" />
+        {/* Glass Background */}
+        <div
+          className={`absolute inset-0 transition-all duration-300 ${
+            scrolled
+              ? "bg-white/95 backdrop-blur-xl shadow-lg"
+              : " backdrop-blur-md  lg:backdrop-blur-[2px]"
+          }`}
+        />
+
+        {/* Subtle Border */}
+        {/* <div
+          className={`absolute bottom-0 left-0 right-0 h-px transition-all duration-300 ${
+            scrolled ? "bg-crimson/10" : "bg-crimson/5 lg:bg-white/20"
+          }`}
+        /> */}
 
         <nav
-          className="mx-auto grid h-16 grid-cols-[auto_1fr_auto] items-center px-4 lg:h-18 lg:max-w-8xl lg:grid-cols-[1fr_auto_1fr] lg:px-8"
+          className="relative mx-auto grid h-16 grid-cols-[auto_1fr_auto] items-center px-4 lg:h-18 lg:max-w-8xl lg:grid-cols-[1fr_auto_1fr] lg:px-8"
           aria-label="Primary navigation"
         >
           {/* LEFT — Logo */}
-          <div className="hidden lg:block">
-            <BrandLogo />
+          <div className="hidden  lg:block">
+            <BrandLogo scrolled={scrolled} />
           </div>
-          <Link href="/" className="flex items-center lg:hidden" aria-label="Sun Elastomers home" onClick={() => setOpen(false)}>
+          <Link
+            href="/"
+            className="inline-flex h-14 w-48 items-center justify-center lg:hidden"
+            aria-label="Sun Elastomers home"
+            onClick={() => setOpen(false)}
+          >
             <Image
               src="/sunelastomer.png"
               alt="Sun Elastomers Pvt Ltd logo"
               width={150}
               height={74}
               priority
-              className="h-12 w-auto object-contain"
+              className="h-full w-full object-contain drop-shadow-[0_6px_14px_rgba(26,26,26,0.14)]"
             />
           </Link>
 
           {/* CENTER — Nav Links (desktop only) */}
           <motion.div
-            className="hidden items-center gap-7 lg:flex"
+            className="hidden items-center gap-8 lg:flex"
             initial="hidden"
             animate="show"
-            variants={{ show: { transition: { staggerChildren: 0.1 } } }}
+            variants={{ show: { transition: { staggerChildren: 0.08 } } }}
           >
             {navLinks.map((link) =>
               link.href === "/products" ? (
-                <ProductDropdown key={link.href} />
+                <ProductDropdown key={link.href} scrolled={scrolled} />
               ) : (
                 <motion.div
                   key={link.href}
-                  variants={{ hidden: { opacity: 0, y: -8 }, show: { opacity: 1, y: 0 } }}
+                  variants={{ hidden: { opacity: 0, y: -6 }, show: { opacity: 1, y: 0 } }}
                 >
                   <Link
                     href={link.href}
-                    className="text-sm font-semibold text-ink transition hover:text-crimson"
+                    className={`relative text-sm font-semibold transition-all duration-300 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-crimson after:transition-all after:duration-300 hover:after:w-full ${
+                      scrolled ? "text-ink/80 hover:text-crimson" : "text-white hover:text-white"
+                    }`}
                   >
                     {link.label}
                   </Link>
@@ -166,15 +186,19 @@ export function Navbar() {
           </motion.div>
 
           {/* RIGHT — Search + Get In Touch + Mobile hamburger */}
-          <div className="flex items-center justify-end gap-2">
+          <div className="flex items-center justify-end gap-3">
             {/* Search Icon Button */}
             <motion.button
-              className="hidden lg:grid h-10 w-10 place-items-center rounded-full border border-crimson/15 text-ink transition hover:border-crimson hover:text-crimson"
+              className={`hidden lg:grid h-10 w-10 place-items-center rounded-full border transition-all duration-300 hover:shadow-md ${
+                scrolled
+                  ? "border-crimson/10 text-ink/60 hover:border-crimson/30 hover:text-crimson"
+                  : "border-white/20 text-white/70 hover:border-white/40 hover:text-white"
+              }`}
               onClick={() => setSearchOpen((v) => !v)}
               aria-label="Open search"
               initial="hidden"
               animate="show"
-              variants={{ hidden: { opacity: 0, y: -8 }, show: { opacity: 1, y: 0 } }}
+              variants={{ hidden: { opacity: 0, y: -6 }, show: { opacity: 1, y: 0 } }}
             >
               <Search size={17} />
             </motion.button>
@@ -184,16 +208,28 @@ export function Navbar() {
               className="hidden lg:block"
               initial="hidden"
               animate="show"
-              variants={{ hidden: { opacity: 0, y: -8 }, show: { opacity: 1, y: 0 } }}
+              variants={{ hidden: { opacity: 0, y: -6 }, show: { opacity: 1, y: 0 } }}
             >
-              <Link className="btn-primary px-5 py-3 text-sm" href="/contact">
+              <Link
+                className={`relative inline-flex items-center gap-2 overflow-hidden rounded-full px-5 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:scale-105 active:scale-95 shadow-md ${
+                  scrolled
+                    ? "bg-crimson shadow-crimson/20 hover:shadow-crimson/40"
+                    : "bg-ink shadow-black/20 hover:shadow-black/30"
+                }`}
+                href="/contact"
+              >
+                <Sparkles size={15} className="text-white/80" />
                 Get In Touch
               </Link>
             </motion.div>
 
             {/* Mobile hamburger */}
             <button
-              className="grid h-11 w-11 place-items-center rounded-full border border-crimson/15 text-crimson lg:hidden"
+              className={`grid h-11 w-11 place-items-center rounded-full border transition-all duration-300 lg:hidden ${
+                scrolled
+                  ? "border-crimson/10 text-crimson hover:bg-crimson/5"
+                  : "border-white/20 text-white hover:bg-white/10"
+              }`}
               onClick={() => setOpen((v) => !v)}
               aria-label="Toggle navigation menu"
             >
@@ -204,15 +240,15 @@ export function Navbar() {
 
         {/* Mobile Dropdown Menu */}
         <motion.div
-          className="max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-crimson/10 bg-white shadow-2xl shadow-black/10 lg:hidden"
+          className="max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-crimson/5 bg-white/95 backdrop-blur-sm shadow-2xl shadow-black/10 lg:hidden"
           initial={false}
           animate={{ height: open ? "auto" : 0 }}
-          transition={{ duration: 0.28 }}
+          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
         >
           <div className="space-y-1 px-5 py-4">
             {/* Mobile Search Bar */}
-            <form onSubmit={handleSearch} className="mb-3">
-              <div className="flex items-center gap-2 rounded-xl border border-crimson/15 bg-peach px-4 py-2.5">
+            <form onSubmit={handleSearch} className="mb-4">
+              <div className="flex items-center gap-2 rounded-full border border-crimson/10 bg-peach/30 px-4 py-2.5 transition focus-within:border-crimson/30 focus-within:shadow-md">
                 <Search size={16} className="shrink-0 text-muted" />
                 <input
                   type="text"
@@ -226,10 +262,10 @@ export function Navbar() {
 
             {navLinks.map((link) =>
               link.href === "/products" ? (
-                <div key={link.href}>
+                <div key={link.href} className="space-y-1">
                   <button
                     type="button"
-                    className="flex w-full items-center justify-between rounded-md px-3 py-3 text-sm font-medium text-ink hover:bg-peach hover:text-crimson"
+                    className="flex w-full items-center justify-between rounded-lg px-3 py-3 text-sm font-medium text-ink/80 transition hover:bg-crimson/5 hover:text-crimson"
                   >
                     {link.label}
                     <ChevronDown size={16} />
@@ -242,7 +278,7 @@ export function Navbar() {
                           key={category.title}
                           href={`/products/${productCategorySlug(category.category)}`}
                           onClick={() => setOpen(false)}
-                          className="flex items-center gap-3 rounded-md px-3 py-2 text-sm text-muted hover:bg-peach hover:text-crimson"
+                          className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted transition hover:bg-crimson/5 hover:text-crimson"
                         >
                           <Icon size={16} className="shrink-0 text-golden" />
                           {category.title}
@@ -256,21 +292,34 @@ export function Navbar() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  className="block rounded-md px-3 py-3 text-sm font-medium text-ink hover:bg-peach hover:text-crimson"
+                  className="block rounded-lg px-3 py-3 text-sm font-medium text-ink/80 transition hover:bg-crimson/5 hover:text-crimson"
                 >
                   {link.label}
                 </Link>
               )
             )}
 
-            <div className="pt-2">
+            <div className="pt-3 space-y-3">
               <Link
                 href="/contact"
                 onClick={() => setOpen(false)}
-                className="btn-primary block w-full px-5 py-3 text-center text-sm"
+                className="relative inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-crimson px-5 py-3 text-sm font-semibold text-white shadow-md shadow-crimson/20 transition-all duration-300 hover:shadow-crimson/40"
               >
+                <Sparkles size={15} className="text-white/80" />
                 Get In Touch
               </Link>
+              
+              <div className="flex items-center justify-center gap-4 text-xs text-muted">
+                <a href="tel:+911234567890" className="flex items-center gap-2 hover:text-crimson transition">
+                  <Phone size={14} className="text-crimson" />
+                  <span>Call Us</span>
+                </a>
+                <span className="h-4 w-px bg-crimson/10" />
+                <a href="mailto:info@sunelastomers.com" className="flex items-center gap-2 hover:text-crimson transition">
+                  <Mail size={14} className="text-crimson" />
+                  <span>Email</span>
+                </a>
+              </div>
             </div>
           </div>
         </motion.div>
@@ -280,9 +329,8 @@ export function Navbar() {
       <AnimatePresence>
         {searchOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
-              className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm"
+              className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -293,17 +341,16 @@ export function Navbar() {
               }}
             />
 
-            {/* Search Modal */}
             <motion.div
-              className="fixed inset-x-0 top-0 z-50 mx-auto max-w-2xl px-5 pt-24"
-              initial={{ opacity: 0, y: -20 }}
+              className="fixed inset-x-0 top-0 z-50 mx-auto max-w-3xl px-5 pt-28"
+              initial={{ opacity: 0, y: -30 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
+              exit={{ opacity: 0, y: -30 }}
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
             >
               <form
                 onSubmit={handleSearch}
-                className="flex items-center gap-3 rounded-2xl border border-crimson/15 bg-white px-5 py-4 shadow-2xl shadow-crimson/10"
+                className="flex items-center gap-3 rounded-2xl border border-white/20 bg-white/95 p-2 pl-4 shadow-2xl shadow-crimson/20 backdrop-blur-xl"
               >
                 <Search size={20} className="shrink-0 text-crimson" />
                 <input
@@ -312,7 +359,7 @@ export function Navbar() {
                   placeholder="Search products, categories..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-transparent text-base text-ink placeholder:text-muted focus:outline-none"
+                  className="w-full bg-transparent py-3 text-base text-ink placeholder:text-muted focus:outline-none"
                 />
                 {searchQuery && (
                   <button
@@ -325,13 +372,13 @@ export function Navbar() {
                 )}
                 <button
                   type="submit"
-                  className="btn-primary shrink-0 px-4 py-2 text-sm"
+                  className="rounded-full bg-crimson px-6 py-2.5 text-sm font-semibold text-white shadow-md shadow-crimson/20 transition hover:shadow-crimson/40 hover:scale-105 active:scale-95"
                 >
                   Search
                 </button>
               </form>
-              <p className="mt-2 text-center text-xs text-muted">
-                Press <kbd className="rounded border border-crimson/15 bg-white px-1.5 py-0.5 font-mono text-xs">Esc</kbd> to close
+              <p className="mt-3 text-center text-xs text-white/70">
+                Press <kbd className="rounded border border-white/20 bg-white/10 px-1.5 py-0.5 font-mono text-xs text-white">Esc</kbd> to close
               </p>
             </motion.div>
           </>
@@ -341,15 +388,17 @@ export function Navbar() {
   );
 }
 
-function ProductDropdown() {
+function ProductDropdown({ scrolled }: { scrolled: boolean }) {
   return (
     <motion.div
       className="group relative"
-      variants={{ hidden: { opacity: 0, y: -8 }, show: { opacity: 1, y: 0 } }}
+      variants={{ hidden: { opacity: 0, y: -6 }, show: { opacity: 1, y: 0 } }}
     >
       <button
         type="button"
-        className="flex items-center gap-1.5 text-sm font-medium text-ink transition hover:text-crimson group-focus-within:text-crimson group-hover:text-crimson"
+        className={`flex items-center gap-1.5 text-sm font-medium transition-all duration-300 ${
+          scrolled ? "text-ink/80 hover:text-crimson" : "text-white/90 hover:text-white"
+        }`}
       >
         Products
         <ChevronDown
@@ -357,32 +406,32 @@ function ProductDropdown() {
           className="transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180"
         />
       </button>
-      <div className="invisible absolute left-1/2 top-full z-50 mt-5 w-[23rem] -translate-x-1/2 rounded-2xl border border-crimson/10 bg-white/95 p-3 opacity-0 shadow-2xl shadow-crimson/10 backdrop-blur-xl transition-all duration-200 group-hover:visible group-hover:mt-3 group-hover:opacity-100 group-focus-within:visible group-focus-within:mt-3 group-focus-within:opacity-100">
+      <div className="invisible absolute left-1/2 top-full z-50 mt-5 w-[26rem] -translate-x-1/2 rounded-2xl border border-crimson/5 bg-white/95 p-4 opacity-0 shadow-2xl shadow-crimson/20 backdrop-blur-xl transition-all duration-200 group-hover:visible group-hover:mt-3 group-hover:opacity-100 group-focus-within:visible group-focus-within:mt-3 group-focus-within:opacity-100">
         <div className="absolute -top-3 left-0 h-3 w-full" />
         <Link
           href="/products"
-          className="mb-2 flex items-center justify-between rounded-xl bg-peach px-4 py-3 text-sm font-bold text-ink transition hover:text-crimson"
+          className="group mb-3 flex items-center justify-between rounded-xl bg-crimson/5 px-4 py-3 text-sm font-bold text-ink transition hover:bg-crimson/10 hover:text-crimson"
         >
           All Products
-          <span className="h-2 w-2 rounded-full bg-flame" />
+          <span className="h-2 w-2 rounded-full bg-crimson transition group-hover:scale-125" />
         </Link>
-        <div className="grid gap-1">
+        <div className="grid grid-cols-1 gap-1">
           {productCategories.map((category) => {
             const Icon = category.icon;
             return (
               <Link
                 key={category.title}
                 href={`/products/${productCategorySlug(category.category)}`}
-                className="group/item flex items-start gap-3 rounded-xl px-4 py-3 transition hover:bg-peach"
+                className="group/item flex items-start gap-3 rounded-xl px-4 py-3 transition hover:bg-crimson/5"
               >
-                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-golden/15 text-crimson transition group-hover/item:bg-flame group-hover/item:text-white">
+                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-crimson/10 text-crimson transition group-hover/item:bg-crimson group-hover/item:text-white">
                   <Icon size={17} />
                 </span>
                 <span>
                   <span className="block text-sm font-bold text-ink transition group-hover/item:text-crimson">
                     {category.title}
                   </span>
-                  <span className="mt-1 block text-xs leading-5 text-muted">
+                  <span className="mt-0.5 block text-xs leading-5 text-muted/80">
                     {category.description}
                   </span>
                 </span>

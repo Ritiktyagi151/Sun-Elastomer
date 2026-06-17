@@ -46,18 +46,18 @@ export function CertificationsPage() {
 
 function CertificationsHero() {
   return (
-    <section className="relative h-[450px] overflow-hidden bg-ink px-5 pb-10 pt-24 text-white">
+    <section className="relative h-[550px] overflow-hidden bg-ink px-5 pb-10 pt-24 text-white">
       <Image
-        src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1600&q=80"
+        src="/banners/certification-banner.png"
         alt="Compliance documents and business paperwork"
         fill
         priority
         sizes="100vw"
         className="object-cover object-center"
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/84 via-black/58 to-black/14" />
-      <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-white to-transparent" />
-      <motion.div
+      {/* {/* <div className="absolute inset-0 bg-black/62" /> */}
+      {/* <div className="absolute inset-x-0 bottom-0 h-28 bg-white/80" /> */}
+      {/* <motion.div
         className="relative mx-auto flex h-full max-w-7xl flex-col justify-center"
         initial={{ opacity: 0, y: 28 }}
         animate={{ opacity: 1, y: 0 }}
@@ -71,7 +71,7 @@ function CertificationsHero() {
           Access company credentials, certificate request support and product documentation guidance for procurement and
           business review.
         </p>
-      </motion.div>
+      </motion.div> */}
     </section>
   );
 }
@@ -106,7 +106,7 @@ function CertificationsIntro() {
             sizes="(min-width: 1024px) 52vw, 100vw"
             className="aspect-[16/9] w-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/64 to-transparent" />
+          <div className="absolute inset-0 bg-black/52" />
           <h2 className="absolute bottom-0 left-0 max-w-xl p-6 font-display text-3xl font-black text-white">
             Quality documentation supports trust before every transaction.
           </h2>

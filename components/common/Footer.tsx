@@ -18,15 +18,15 @@ export function Footer() {
     <footer
       className="relative text-white"
       style={{
-        backgroundImage: "url('/banners/footer-bg.png')",
+        backgroundImage: "url('/banners/footer-bg1.png')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        backgroundAttachment: "fixed",
+        // backgroundAttachment: "fixed",
       }}
     >
       <div className="absolute inset-0 bg-black/65 z-0" />
-      <div className="relative z-10 h-px w-full bg-flame-gradient" />
+      <div className="relative z-10 h-px w-full bg-crimson" />
 
       <motion.div
         className="relative z-10 mx-auto grid max-w-7xl gap-10 px-5 py-16 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:px-8"
