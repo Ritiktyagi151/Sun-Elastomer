@@ -85,7 +85,7 @@ export function FeaturesSection() {
         className="absolute inset-0 bg-cover bg-center bg-fixed"
         style={{ backgroundImage: "url('https://www.theonpharma.com/wp-content/uploads/2025/02/medicine.jpg')" }}
       />
-      <div className="absolute inset-0 bg-black/60" />
+      <div className="absolute inset-0 bg-black/68" />
 
       {/* ── Scroll progress bar ── */}
       <motion.div
@@ -144,7 +144,7 @@ export function FeaturesSection() {
           {features.map(({ icon: Icon, title, text }, index) => (
             <motion.article
               key={title}
-              className="group relative rounded-xl border border-white/10 bg-white/10 backdrop-blur-md p-6 overflow-hidden cursor-default"
+              className="group relative overflow-hidden rounded-xl border border-white/20 bg-black/48 p-6 shadow-xl shadow-black/20 backdrop-blur-md cursor-default"
               variants={cardVariants}
               whileHover={{
                 y: -8,
@@ -174,7 +174,7 @@ export function FeaturesSection() {
 
               {/* Title */}
               <motion.h3
-                className="mt-5 font-bold text-white"
+                className="mt-5 text-lg font-bold text-white"
                 initial={{ opacity: 0, x: -10 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.15 + index * 0.08, duration: 0.4 }}
@@ -185,7 +185,7 @@ export function FeaturesSection() {
 
               {/* Body text */}
               <motion.p
-                className="mt-2 text-sm text-white/65"
+                className="mt-3 text-sm leading-6 text-white/88"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{ delay: 0.25 + index * 0.08, duration: 0.5 }}

@@ -13,40 +13,40 @@ const slides = [
     id: 0,
     type: "video", 
     src: "/video/home.mp4", 
-    words: ["Innovative", "Rubber", "Solutions", "For Pharma"],
-    desc: "Sun Elastomers Pvt Ltd - Trusted manufacturer of high-quality rubber and elastomer components for the pharmaceutical industry since 1995.",
+    words: ["Trusted", "Pharmaceutical", "Products", "Supply"],
+    desc: "Sun Elastomers Pvt Ltd supports healthcare buyers with reliable tablets, capsules, injectables, suspensions and ointment products across focused therapeutic categories.",
     duration: 15000, // Video ke liye 15 seconds
   },
   {
     id: 1,
     type: "image", 
     src: "/banners/b2.jpeg", 
-    words: ["Advanced", "Elastomer", "Technology", "Worldwide"],
-    desc: "Delivering exceptional durability and precision for critical healthcare applications globally.",
+    words: ["Quality", "Focused", "Healthcare", "Portfolio"],
+    desc: "Explore antibiotics, CNS, antidiabetic, dermatology and gastroenterology products with clear composition, strength and pack information.",
     duration: 5000, // Image ke liye 5 seconds
   },
   {
     id: 2,
     type: "image",
     src: "/banners/banner1.png",
-    words: ["Quality", "Compliance", "Excellence", "Guaranteed"],
-    desc: "Meeting the highest global standards with ISO certified manufacturing processes.",
+    words: ["Clear", "Documentation", "For", "Procurement"],
+    desc: "Our team helps distributors, institutions and B2B buyers review product details, commercial requirements and supporting documentation.",
     duration: 5000, // Image ke liye 5 seconds
   },
   {
     id: 3,
     type: "image", 
     src: "/banners/b3.jpeg", 
-    words: ["Custom", "Molding", "Expertise", "Delivered"],
-    desc: "Partner with us for tailor-made sealing solutions designed specifically for your needs.",
+    words: ["Reliable", "Supply", "Responsive", "Support"],
+    desc: "Share your product interest, quantity, destination and timeline so our team can coordinate the right next steps quickly.",
     duration: 5000, 
   },
    {
     id: 4,
     type: "image", 
     src: "/banners/banner.jpeg", 
-    words: ["Custom", "Molding", "Expertise", "Delivered"],
-    desc: "Partner with us for tailor-made sealing solutions designed specifically for your needs.",
+    words: ["Organized", "Categories", "Easy", "Inquiry"],
+    desc: "Browse category-wise product pages and send product-specific inquiries directly from the catalog.",
     duration: 5000, 
   },
 ];
@@ -82,7 +82,7 @@ export function HeroSection() {
           >
             <div className="space-y-1 p-3">
               {navLinks.map((link) =>
-                link.href === "/products" ? (
+                link.href === "/categories" ? (
                   <div key={link.href}>
                     <button
                       type="button"
@@ -98,7 +98,7 @@ export function HeroSection() {
                         return (
                           <Link
                             key={category.title}
-                            href={`/products/${productCategorySlug(category.category)}`}
+                            href={`/categories/${productCategorySlug(category.category)}`}
                             onClick={() => setMenuOpen(false)}
                             className="flex items-center gap-3 rounded-xl px-3 py-2 text-sm text-muted transition hover:bg-peach hover:text-crimson"
                           >
@@ -220,8 +220,8 @@ export function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.82 }}
         >
-          <Link href="/products" className="rounded-full bg-white px-8 py-4 font-semibold text-black transition-transform hover:scale-105">
-            Explore Products
+          <Link href="/categories" className="rounded-full bg-white px-8 py-4 font-semibold text-black transition-transform hover:scale-105">
+            Explore Categories
           </Link>
           <Link href="/about" className="rounded-full border border-white/30 bg-black/20 px-8 py-4 font-semibold text-white backdrop-blur-md transition-all hover:bg-white/10">
             Learn About Us

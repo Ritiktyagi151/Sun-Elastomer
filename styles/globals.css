@@ -7,7 +7,7 @@
 @source not "../node_modules";
 
 @theme {
-  --color-crimson: #0284c7;
+  --color-crimson: #b91c1c;
   --color-flame: #1a1a1a;
   --color-golden: #d4d4d4;
   --color-cream: #f5f5f5;
@@ -49,7 +49,7 @@ textarea {
 }
 
 .bg-flame-gradient {
-  background: #0284c7;
+  background: #b91c1c;
 }
 
 .section {
@@ -80,14 +80,14 @@ textarea {
 }
 
 .btn-primary {
-  background: #0284c7;
+  background: #b91c1c;
   color: #ffffff;
-  box-shadow: 0 18px 40px rgba(2, 132, 199, 0.16);
+  box-shadow: 0 18px 40px rgba(185, 28, 28, 0.16);
 }
 
 .btn-outline {
-  border: 1px solid rgba(2, 132, 199, 0.45);
-  color: #0284c7;
+  border: 1px solid rgba(185, 28, 28, 0.45);
+  color: #b91c1c;
   background: rgba(255, 255, 255, 0.76);
 }
 
@@ -103,8 +103,8 @@ textarea {
   align-items: center;
   width: fit-content;
   border-radius: 999px;
-  background: rgba(2, 132, 199, 0.08);
-  color: #0284c7;
+  background: rgba(185, 28, 28, 0.08);
+  color: #b91c1c;
   font-size: 0.75rem;
   font-weight: 900;
   letter-spacing: 0;
@@ -113,7 +113,7 @@ textarea {
 }
 
 .card-dark {
-  border: 1px solid rgba(2, 132, 199, 0.12);
+  border: 1px solid rgba(185, 28, 28, 0.12);
   border-radius: 0.5rem;
   background: #ffffff;
   padding: 1.6rem;
@@ -123,8 +123,8 @@ textarea {
 }
 
 .card-dark:hover {
-  border-color: rgba(2, 132, 199, 0.72);
-  box-shadow: 0 22px 70px rgba(2, 132, 199, 0.12);
+  border-color: rgba(185, 28, 28, 0.72);
+  box-shadow: 0 22px 70px rgba(185, 28, 28, 0.12);
 }
 
 .footer-title {
@@ -150,8 +150,8 @@ textarea {
   inset: -0.65rem 0.82rem -0.65rem auto;
   width: 0.28rem;
   border-radius: 999px;
-  background: #0284c7;
-  box-shadow: 0 16px 38px rgba(2, 132, 199, 0.24);
+  background: #b91c1c;
+  box-shadow: 0 16px 38px rgba(185, 28, 28, 0.18);
 }
 
 .contact-dock__link {
@@ -188,10 +188,10 @@ textarea {
 
 .contact-dock__link:hover,
 .contact-dock__link:focus-visible {
-  color: #ffffff;
+  color: var(--dock-a);
   outline: none;
   transform: translateX(-0.2rem) scale(1.06);
-  box-shadow: 0 22px 46px rgba(2, 132, 199, 0.22);
+  box-shadow: 0 22px 46px var(--dock-shadow);
 }
 
 .contact-dock__link:hover::before,
@@ -210,25 +210,28 @@ textarea {
   inset: 0.18rem;
   z-index: -1;
   border-radius: inherit;
-  background: var(--dock-a);
+  background: var(--dock-bg);
   content: "";
   opacity: 0;
   transition: opacity 180ms ease;
 }
 
 .contact-dock__link--whatsapp {
-  --dock-a: #1a1a1a;
-  --dock-b: #38bdf8;
+  --dock-a: #25d366;
+  --dock-bg: rgba(37, 211, 102, 0.12);
+  --dock-shadow: rgba(37, 211, 102, 0.22);
 }
 
 .contact-dock__link--phone {
-  --dock-a: #1a1a1a;
-  --dock-b: #6b6b6b;
+  --dock-a: #16a34a;
+  --dock-bg: rgba(22, 163, 74, 0.12);
+  --dock-shadow: rgba(22, 163, 74, 0.2);
 }
 
 .contact-dock__link--mail {
-  --dock-a: #0284c7;
-  --dock-b: #1a1a1a;
+  --dock-a: #ea4335;
+  --dock-bg: rgba(234, 67, 53, 0.12);
+  --dock-shadow: rgba(234, 67, 53, 0.22);
 }
 
 .input {
@@ -244,8 +247,8 @@ textarea {
 }
 
 .input:focus {
-  border-color: #0284c7;
-  box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.1);
+  border-color: #b91c1c;
+  box-shadow: 0 0 0 4px rgba(185, 28, 28, 0.1);
 }
 
 .fire-particles span {
@@ -256,7 +259,7 @@ textarea {
   width: var(--size);
   height: var(--size);
   border-radius: 999px;
-  background: #38bdf8;
+  background: #b91c1c;
   opacity: 0.55;
   animation: float-fire calc(9s + (var(--i) % 8) * 1s) linear infinite;
   animation-delay: calc(var(--i) * -0.7s);
@@ -278,7 +281,7 @@ textarea {
   min-width: 12rem;
   place-items: center;
   border-radius: 0.5rem;
-  border: 1px solid rgba(2, 132, 199, 0.18);
+  border: 1px solid rgba(185, 28, 28, 0.16);
   background: #ffffff;
   padding: 1.2rem 1.5rem;
   font-weight: 900;
@@ -287,7 +290,7 @@ textarea {
 }
 
 .gradient-heading {
-  color: #0284c7;
+  color: #b91c1c;
 }
 
 .theme-bg {
@@ -307,7 +310,7 @@ textarea {
   display: block;
   height: 10rem;
   width: 10rem;
-  filter: drop-shadow(0 18px 28px rgba(2, 132, 199, 0.16));
+  filter: drop-shadow(0 18px 28px rgba(185, 28, 28, 0.16));
 }
 
 .loader-particle {
@@ -372,10 +375,10 @@ textarea {
 @keyframes loader-umbral {
   0%,
   100% {
-    stop-color: rgba(2, 132, 199, 0.16);
+    stop-color: rgba(185, 28, 28, 0.16);
   }
   50% {
-    stop-color: rgba(2, 132, 199, 0.36);
+    stop-color: rgba(185, 28, 28, 0.36);
   }
 }
 

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { ChevronDown, ClipboardCheck, Eye, Microscope, PackageCheck, Ruler, ShieldCheck } from "lucide-react";
 import { ScrollSlide, SectionHeading, fadeUp, stagger } from "@/components/common/AnimatedPrimitives";
+import { MobilePageBanner } from "@/components/common/MobilePageBanner";
 
 const tests = [
   {
@@ -47,7 +48,14 @@ export function QualityPage() {
 
   return (
     <main>
+      <MobilePageBanner
+        src="/banners/quality-banner.png"
+        alt="Quality professional checking a sample in laboratory"
+        eyebrow="Quality Assurance"
+        title="Quality systems for dependable supply."
+      />
       <QualityHero />
+      <QualityStats />
       <ScrollSlide direction="up">
         <QualityStatement />
       </ScrollSlide>
@@ -88,7 +96,7 @@ export function QualityPage() {
 
 function QualityHero() {
   return (
-    <section className="relative h-[550px] overflow-hidden bg-ink px-5 pb-10 pt-24 text-white">
+    <section className="relative hidden h-[550px] overflow-hidden bg-ink px-5 pb-10 pt-24 text-white md:block">
       <Image
         src="/banners/quality-banner.png"
         alt="Quality professional checking a sample in laboratory"
@@ -118,12 +126,34 @@ function QualityHero() {
   );
 }
 
+function QualityStats() {
+  const stats = [
+    ["6", "Inspection focuses"],
+    ["5", "Quality path stages"],
+    ["B2B", "Review workflow"],
+    ["QC", "Documentation support"],
+  ];
+
+  return (
+    <section className="bg-white px-5 py-8">
+      <div className="mx-auto grid max-w-7xl gap-4 rounded-lg border border-neutral-200 bg-cream p-4 shadow-sm sm:grid-cols-2 lg:grid-cols-4">
+        {stats.map(([value, label]) => (
+          <article key={label} className="rounded-lg bg-white p-5 text-center shadow-sm">
+            <p className="font-display text-4xl font-black text-crimson">{value}</p>
+            <p className="mt-2 text-xs font-black uppercase text-muted">{label}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function QualityStatement() {
   return (
     <section className="section bg-white">
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 lg:grid-cols-[1fr_0.9fr]">
         <motion.blockquote
-          className="border-l-4 border-crimson pl-6 font-display text-3xl leading-snug text-ink md:text-4xl"
+          className="rounded-lg border border-crimson/10 bg-white p-8 font-display text-3xl leading-snug text-ink shadow-xl shadow-black/5 md:text-4xl"
           initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
@@ -132,7 +162,7 @@ function QualityStatement() {
           accountability.
         </motion.blockquote>
         <motion.div
-          className="rounded-lg border border-crimson/10 bg-cream p-6"
+          className="rounded-lg border border-crimson/10 bg-cream p-8 shadow-inner"
           initial={{ opacity: 0, x: 32 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-100px" }}
@@ -161,8 +191,8 @@ function QualityAccordionItem({
   onToggle: () => void;
 }) {
   return (
-    <article className="rounded-lg border border-neutral-200 bg-white">
-      <button onClick={onToggle} className="flex w-full items-center justify-between p-5 text-left font-bold">
+    <article className="overflow-hidden rounded-lg border border-neutral-200 bg-white shadow-sm transition hover:border-crimson/20 hover:shadow-md">
+      <button onClick={onToggle} className="flex w-full items-center justify-between p-5 text-left font-bold text-ink">
         {title}
         <ChevronDown className={`text-crimson transition ${isOpen ? "rotate-180" : ""}`} size={20} />
       </button>
@@ -176,23 +206,23 @@ function QualityAccordionItem({
 function QualityImagePanel() {
   return (
     <motion.div
-      className="relative overflow-hidden rounded-lg"
+      className="relative overflow-hidden rounded-lg shadow-2xl shadow-black/15"
       initial={{ opacity: 0, x: 36 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true, margin: "-100px" }}
     >
       <Image
-        src="https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=1200&q=80"
+        src="/quality/quality.png"
         alt="Laboratory quality control review"
         width={900}
         height={900}
         sizes="(min-width: 1024px) 48vw, 100vw"
-        className="aspect-[5/4] w-full object-cover"
+        className="w-full h-full object-cover"
       />
-      <div className="absolute inset-0 bg-black/56" />
+      {/* <div className="absolute inset-0 bg-black/56" /> */}
       <div className="absolute bottom-0 left-0 p-6 text-white">
         <Eye className="text-golden" size={30} />
-        <h3 className="mt-4 max-w-lg font-display text-3xl font-black">Inspection-led confidence for every inquiry.</h3>
+        {/* <h3 className="mt-4 max-w-lg font-display text-3xl font-black">Inspection-led confidence for every inquiry.</h3> */}
       </div>
     </motion.div>
   );
@@ -211,7 +241,7 @@ function LabEquipment() {
           viewport={{ once: true, margin: "-100px" }}
         >
           {labItems.map(({ icon: Icon, title, text }) => (
-            <motion.article variants={fadeUp} className="card-dark" key={title}>
+            <motion.article variants={fadeUp} className="card-dark bg-white shadow-lg shadow-black/5" key={title}>
               <Icon className="text-crimson" size={30} />
               <h3 className="mt-4 font-black">{title}</h3>
               <p className="mt-2 text-sm leading-6 text-muted">{text}</p>
@@ -232,7 +262,7 @@ function QualityFlow() {
           {qualityFlow.map((item, index) => (
             <motion.article
               key={item}
-              className="rounded-lg border border-white/12 bg-white/8 p-5 text-center"
+              className="rounded-lg border border-white/12 bg-white/10 p-5 text-center shadow-lg shadow-black/20 backdrop-blur"
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}

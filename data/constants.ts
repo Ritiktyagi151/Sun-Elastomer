@@ -26,7 +26,7 @@ export const siteUrl = "https://www.sunelastomers.com";
 export const navLinks = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
-  { href: "/products", label: "Products" },
+  { href: "/categories", label: "Categories" },
   { href: "/manufacturing", label: "Manufacturing" },
   { href: "/quality", label: "Quality" },
   { href: "/certifications", label: "Certifications" },

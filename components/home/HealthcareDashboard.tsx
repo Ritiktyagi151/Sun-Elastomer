@@ -79,7 +79,7 @@ function StatCard({
 
   return (
     <div
-      className="flex items-center h-32 justify-between rounded-xl border shadow-xs shadow-sky-200 border-neutral-100 p-5
+      className="flex items-center h-32 justify-between rounded-xl border shadow-xs shadow-neutral-200 border-neutral-100 p-5
                  transition-all duration-500 hover:-translate-y-1 hover:border-crimson/20 hover:shadow-sm"
       style={{
         opacity: animate ? 1 : 0,
@@ -260,7 +260,7 @@ export default function SunElastomersDashboard() {
       </div>
 
       {/* ── Banner + Nav ── */}
-      <div className="relative max-w-6xl mx-auto flex flex-col lg:flex-row items-stretch gap-6 lg:gap-0">
+      <div className="relative max-w-7xl mx-auto flex flex-col lg:flex-row items-stretch gap-6 lg:gap-0">
 
         {/* Banner */}
         <div

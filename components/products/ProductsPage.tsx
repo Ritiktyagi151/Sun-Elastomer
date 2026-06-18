@@ -1,216 +1,113 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, ClipboardCheck, Filter, PackageCheck, Search, ShieldCheck } from "lucide-react";
-import { ScrollSlide, SectionHeading, fadeUp, stagger } from "@/components/common/AnimatedPrimitives";
-import { productCategories, products } from "@/data/constants";
+import { motion, type Variants } from "framer-motion";
+import { SectionHeading, stagger } from "@/components/common/AnimatedPrimitives";
+import { MobilePageBanner } from "@/components/common/MobilePageBanner";
+import { productCategories, productCategorySlug } from "@/data/constants";
+import { products } from "@/data/products";
 
-const tabs = ["All", ...productCategories.map((category) => category.title)];
+const slideInVariant: Variants = {
+  hidden: { opacity: 0, y: 80 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring",
+      stiffness: 100,
+      damping: 15,
+      duration: 0.6,
+    },
+  },
+};
 
-const categoryImageByTitle = Object.fromEntries(productCategories.map((category) => [category.title, category.image]));
+const categoryLandingBanner =
+  "/banners/banner.jpeg";
 
-export function ProductsPage({ initialTab }: { initialTab?: string }) {
-  const activeInitialTab = initialTab && tabs.includes(initialTab) ? initialTab : "All";
-  const [tab, setTab] = useState(activeInitialTab);
-  const visible = tab === "All" ? products : products.filter((product) => product.category === tab);
-
+export function ProductsPage() {
   return (
     <main>
+      <MobilePageBanner
+        src={categoryLandingBanner}
+        alt="Assorted pharmaceutical medicines"
+        eyebrow="Product Categories"
+        title="Browse products by category."
+      />
       <ProductsHero />
-      <ScrollSlide direction="up">
-        <CategoryOverview />
-      </ScrollSlide>
-      <ScrollSlide direction="left">
-        <section className="section bg-white">
-          <div className="mx-auto max-w-7xl px-5">
-            <ProductTabs activeTab={tab} onChange={setTab} />
-            <ProductGrid products={visible} />
-            <CustomRequirementCallout />
-          </div>
-        </section>
-      </ScrollSlide>
+      <CategoryLanding />
     </main>
   );
 }
 
 function ProductsHero() {
   return (
-    <section className="relative h-[450px] overflow-hidden bg-ink px-5 pb-10 pt-24 text-white">
+    <section className="relative hidden h-[500px] overflow-hidden bg-ink px-5 pb-10 pt-24 text-white md:block">
       <Image
-        src="/banners/banner.jpeg"
+        src={categoryLandingBanner}
         alt="Assorted pharmaceutical medicines"
         fill
         priority
         sizes="100vw"
         className="object-cover object-center"
       />
-      <div className="absolute inset-0 bg-black/62" />
-      <div className="absolute inset-x-0 bottom-0 h-28 bg-white/80" />
-      <motion.div
-        className="relative mx-auto flex h-full max-w-7xl flex-col justify-center"
-        initial={{ opacity: 0, y: 28 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <p className="eyebrow bg-white/14 text-golden ring-1 ring-white/20">Product Range</p>
-        <h1 className="mt-4 max-w-4xl font-display text-4xl font-black leading-tight md:text-6xl">
-          Pharmaceutical products across focused therapeutic categories.
-        </h1>
-        <p className="mt-4 max-w-3xl text-base leading-7 text-white/84 md:text-lg">
-          Explore injectables, oral antibiotics, CNS, antidiabetic, dermatology and gastroenterology products with clear
-          composition and pack information.
-        </p>
-      </motion.div>
     </section>
   );
 }
 
-function CategoryOverview() {
+function CategoryLanding() {
   return (
-    <section className="section bg-cream">
-      <div className="mx-auto max-w-7xl px-5">
-        <SectionHeading eyebrow="Categories" title="Browse by product segment." centered />
+    <section className="section bg-cream text-ink">
+      <div className="mx-auto max-w-7xl px-5 lg:px-8">
+        <SectionHeading eyebrow="Categories" title="Choose a product category." centered />
         <motion.div
-          className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+          className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3"
           variants={stagger}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: false, margin: "-50px" }}
         >
-          {productCategories.map(({ icon: Icon, title, image, description }) => (
-            <motion.article
-              key={title}
-              variants={fadeUp}
-              className="overflow-hidden rounded-lg border border-neutral-200 bg-white shadow-sm"
-              whileHover={{ y: -6 }}
-            >
-              <div className="relative h-48">
-                <Image src={image} alt={title} fill sizes="(min-width: 1024px) 33vw, 100vw" className="object-cover" />
-              </div>
-              <div className="p-5">
-                <Icon className="text-crimson" size={28} />
-                <h3 className="mt-3 text-xl font-black text-ink">{title}</h3>
-                <p className="mt-2 text-sm leading-6 text-muted">{description}</p>
-              </div>
-            </motion.article>
-          ))}
+          {productCategories.map(({ icon: Icon, title, image, description, category }) => {
+            const count = products.filter((product) => product.category === category).length;
+
+            return (
+              <motion.article
+                key={title}
+                variants={slideInVariant}
+                className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-[url('/bg-theme/bg2.png')] bg-cover bg-center shadow-xl transition-all duration-300 hover:shadow-2xl hover:shadow-golden/20"
+                whileHover={{ y: -6 }}
+              >
+                <Link href={`/categories/${productCategorySlug(category)}`} className="flex h-full flex-col">
+                  <div className="relative h-56 w-full overflow-hidden">
+                    <div className="absolute inset-0 z-10 transition-colors duration-500" />
+                    <Image
+                      src={image}
+                      alt={`${title} category`}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-fill transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute bottom-4 right-4 z-20 rounded-full border border-white/10 bg-black/60 p-3 shadow-lg backdrop-blur-md transition-transform group-hover:scale-110">
+                      <Icon className="text-golden" size={24} />
+                    </div>
+                    <span className="absolute bottom-4 left-4 z-20 rounded-full bg-black/60 px-3 py-1 text-xs font-black text-golden backdrop-blur-md">
+                      {count} Products
+                    </span>
+                  </div>
+                  <div className="flex flex-1 flex-col p-6 sm:p-8">
+                    <h2 className="text-xl font-bold tracking-wide text-white">{title}</h2>
+                    <p className="mt-3 flex-1 text-sm leading-relaxed text-zinc-300">{description}</p>
+                    <span className="mt-8 flex items-center text-sm font-bold text-golden transition-colors group-hover:text-white">
+                      <span className="mr-2 text-xs uppercase tracking-wider">Explore Range</span>
+                      <span className="transition-transform duration-300 group-hover:translate-x-1.5">&rarr;</span>
+                    </span>
+                  </div>
+                </Link>
+              </motion.article>
+            );
+          })}
         </motion.div>
       </div>
     </section>
-  );
-}
-
-function ProductTabs({ activeTab, onChange }: { activeTab: string; onChange: (tab: string) => void }) {
-  return (
-    <div>
-      <div className="mx-auto max-w-3xl text-center">
-        <p className="eyebrow mx-auto">
-          <Filter size={14} /> Filter Products
-        </p>
-        <h2 className="mt-4 font-display text-4xl font-black text-ink">Find the right product quickly.</h2>
-      </div>
-      <div className="mt-8 flex flex-wrap justify-center gap-3">
-        {tabs.map((item) => (
-          <button
-            key={item}
-            onClick={() => onChange(item)}
-            className={`rounded-full px-5 py-2 text-sm font-bold transition ${
-              activeTab === item ? "bg-crimson text-white shadow-lg shadow-crimson/20" : "bg-neutral-100 text-ink hover:bg-neutral-200"
-            }`}
-          >
-            {item}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function ProductGrid({ products: visibleProducts }: { products: typeof products }) {
-  return (
-    <motion.div layout className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      <AnimatePresence mode="popLayout">
-        {visibleProducts.map((product) => {
-          const image = categoryImageByTitle[product.category] || "/homepage-img/medicine.jpg";
-
-          return (
-            <motion.article
-              layout
-              key={product.name}
-              className="overflow-hidden rounded-lg border border-neutral-200 bg-white shadow-sm"
-              initial={{ opacity: 0, scale: 0.94 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.94 }}
-              whileHover={{ y: -6 }}
-            >
-              <Link href={`/products/${product.slug}`} className="block">
-                <div className="relative h-48 overflow-hidden">
-                  <Image
-                    src={image}
-                    alt={`${product.category} product image`}
-                    fill
-                    sizes="(min-width: 1024px) 33vw, 100vw"
-                    className="object-cover transition duration-500 hover:scale-105"
-                  />
-                  <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-black text-crimson">
-                    {product.category}
-                  </span>
-                </div>
-                <div className="p-5">
-                  <h3 className="text-xl font-black text-ink transition hover:text-crimson">{product.name}</h3>
-                  <p className="mt-2 text-sm leading-6 text-neutral-600">{product.spec}</p>
-                  <p className="mt-2 text-sm font-bold text-muted">{product.form}</p>
-                  <span className="btn-primary mt-6 px-5 py-3 text-sm">
-                    View Details <ArrowRight size={16} />
-                  </span>
-                </div>
-              </Link>
-            </motion.article>
-          );
-        })}
-      </AnimatePresence>
-    </motion.div>
-  );
-}
-
-function CustomRequirementCallout() {
-  const items = [
-    { icon: Search, title: "Product Availability", text: "Ask about product range, category and dosage form." },
-    { icon: ClipboardCheck, title: "Documentation", text: "Request composition and commercial information." },
-    { icon: ShieldCheck, title: "Supply Discussion", text: "Share quantity, destination and timeline requirements." },
-  ];
-
-  return (
-    <motion.div
-      className="mt-14 rounded-lg border border-crimson/10 bg-peach p-8 text-ink"
-      initial={{ opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-    >
-      <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr]">
-        <div>
-          <PackageCheck className="text-crimson" size={34} />
-          <h2 className="mt-4 font-display text-4xl font-black">Need product documentation?</h2>
-          <p className="mt-3 leading-7 text-muted">
-            Contact us for product availability, commercial requirements, pack details and supporting documentation.
-          </p>
-          <Link href="/contact" className="btn-primary mt-6 px-6 py-3">
-            Contact Team <ArrowRight size={18} />
-          </Link>
-        </div>
-        <div className="grid gap-4 md:grid-cols-3">
-          {items.map(({ icon: Icon, title, text }) => (
-            <article key={title} className="rounded-lg bg-white p-5 shadow-sm">
-              <Icon className="text-crimson" size={26} />
-              <h3 className="mt-3 font-black">{title}</h3>
-              <p className="mt-2 text-sm leading-6 text-muted">{text}</p>
-            </article>
-          ))}
-        </div>
-      </div>
-    </motion.div>
   );
 }

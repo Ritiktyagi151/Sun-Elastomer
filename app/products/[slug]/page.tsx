@@ -1,7 +1,6 @@
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { ProductDetailPage } from "@/components/products/ProductDetailPage";
-import { ProductsPage } from "@/components/products/ProductsPage";
-import { getProductCategoryBySlug, productCategories, productCategorySlug } from "@/data/constants";
+import { getProductCategoryBySlug, productCategorySlug } from "@/data/constants";
 import { getProductBySlug, products } from "@/data/products";
 import { createPageMetadata } from "@/lib/seo";
 
@@ -10,10 +9,7 @@ type Props = {
 };
 
 export function generateStaticParams() {
-  return [
-    ...products.map((product) => ({ slug: product.slug })),
-    ...productCategories.map((category) => ({ slug: productCategorySlug(category.category) })),
-  ];
+  return products.map((product) => ({ slug: product.slug }));
 }
 
 export async function generateMetadata({ params }: Props) {
@@ -25,7 +21,7 @@ export async function generateMetadata({ params }: Props) {
     if (category) {
       return createPageMetadata({
         title: `${category.title} Products`,
-        path: `/products/${productCategorySlug(category.category)}`,
+        path: `/categories/${productCategorySlug(category.category)}`,
         description: category.description,
         keywords: [category.title, category.category, "Sun Elastomers products", "pharmaceutical products"],
       });
@@ -52,7 +48,7 @@ export default async function Page({ params }: Props) {
   const product = getProductBySlug(slug);
   const category = getProductCategoryBySlug(slug);
 
-  if (category) return <ProductsPage key={category.category} initialTab={category.category} />;
+  if (category) permanentRedirect(`/categories/${productCategorySlug(category.category)}`);
 
   if (!product) notFound();
 

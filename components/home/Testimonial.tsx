@@ -58,7 +58,7 @@ const TestimonialSection: React.FC = () => {
           className="object-cover"
           priority
         />
-        <div className="absolute inset-y-0 right-0 hidden w-1/4 bg-white/70 md:block z-10 pointer-events-none" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 hidden w-2/5 bg-gradient-to-r from-transparent via-white/15 to-white md:block" />
       </div>
 
       {/* Right - Testimonials */}

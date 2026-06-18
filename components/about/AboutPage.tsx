@@ -15,6 +15,7 @@ import {
   Target,
 } from "lucide-react";
 import { CountUp, ScrollSlide, SectionHeading, fadeUp, stagger } from "@/components/common/AnimatedPrimitives";
+import { MobilePageBanner } from "@/components/common/MobilePageBanner";
 import { values } from "@/data/constants";
 import { company, companyFacts, leaders, offerCategories, products } from "@/data/products";
 
@@ -52,7 +53,14 @@ const workingPrinciples = [
 export function AboutPage() {
   return (
     <main>
+      <MobilePageBanner
+        src="/banners/about-banner.png"
+        alt="Quality laboratory professional reviewing pharmaceutical samples"
+        eyebrow="About Sun Elastomers"
+        title="About Sun Elastomers"
+      />
       <AboutHero />
+      <AboutStats />
       <ScrollSlide direction="right">
         <CompanyStory />
       </ScrollSlide>
@@ -80,7 +88,7 @@ export function AboutPage() {
 
 function AboutHero() {
   return (
-    <section className="relative h-[550px] overflow-hidden bg-ink px-5 pb-10 pt-24 text-white">
+    <section className="relative hidden h-[550px] overflow-hidden bg-ink px-5 pb-10 pt-24 text-white md:block">
       <Image
         src="/banners/about-banner.png"
         alt="Quality laboratory professional reviewing pharmaceutical samples"
@@ -132,6 +140,23 @@ function AboutHero() {
   );
 }
 
+function AboutStats() {
+  return (
+    <section className="bg-white px-5 py-8">
+      <div className="mx-auto grid max-w-7xl gap-4 rounded-lg border border-neutral-200 bg-cream p-4 shadow-sm sm:grid-cols-3">
+        {storyStats.map((item) => (
+          <article key={item.label} className="rounded-lg bg-white p-5 text-center shadow-sm">
+            <p className="font-display text-4xl font-black text-crimson">
+              <CountUp value={item.value} suffix={item.suffix} />
+            </p>
+            <p className="mt-2 text-xs font-black uppercase text-muted">{item.label}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function CompanyStory() {
   return (
     <section className="section bg-white">
@@ -143,7 +168,7 @@ function CompanyStory() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
         >
-          <div className="overflow-hidden rounded-lg shadow-2xl shadow-crimson/10">
+          <div className="overflow-hidden rounded-lg shadow-2xl shadow-black/15">
             <Image
               src="/homepage-img/manufacturing.png"
               alt="Pharmaceutical manufacturing line with packed medicines"
@@ -153,7 +178,7 @@ function CompanyStory() {
               className="aspect-[5/4] w-full object-cover"
             />
           </div>
-          <div className="absolute -bottom-6 left-5 right-5 rounded-lg border border-crimson/10 bg-white p-5 shadow-xl md:left-auto md:w-72">
+          <div className="absolute -bottom-6 left-5 right-5 rounded-lg border border-crimson/10 bg-white p-5 shadow-2xl shadow-black/10 md:left-auto md:w-72">
             <p className="text-sm font-black uppercase text-crimson">Registered Office</p>
             <p className="mt-2 text-sm leading-6 text-muted">{company.address}</p>
           </div>
@@ -184,7 +209,7 @@ function CompanyStory() {
 
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             {companyFacts.map(({ icon: Icon, label, value }) => (
-              <article key={label} className="rounded-lg border border-neutral-200 bg-white p-5 shadow-sm">
+            <article key={label} className="rounded-lg border border-neutral-200 bg-white p-5 shadow-lg shadow-black/5">
                 <Icon className="text-crimson" size={28} />
                 <h3 className="mt-4 font-bold text-ink">{label}</h3>
                 <p className="mt-1 text-sm text-muted">{value}</p>
@@ -210,7 +235,7 @@ function StrengthSection() {
           viewport={{ once: true, margin: "-100px" }}
         >
           {strengths.map(({ icon: Icon, title, text }) => (
-            <motion.article key={title} variants={fadeUp} className="card-dark">
+            <motion.article key={title} variants={fadeUp} className="card-dark bg-white shadow-lg shadow-black/5">
               <Icon className="text-crimson" size={34} />
               <h3 className="mt-5 text-xl font-black">{title}</h3>
               <p className="mt-3 text-sm leading-6 text-muted">{text}</p>
@@ -252,7 +277,7 @@ function ProductFocus() {
           viewport={{ once: true, margin: "-100px" }}
         >
           {offerCategories.map(({ icon: Icon, title, text }) => (
-            <motion.article key={title} variants={fadeUp} className="rounded-lg border border-neutral-200 p-5">
+            <motion.article key={title} variants={fadeUp} className="rounded-lg border border-neutral-200 bg-white p-5 shadow-lg shadow-black/5">
               <Icon className="text-flame" size={28} />
               <h3 className="mt-4 font-black text-ink">{title}</h3>
               <p className="mt-2 text-sm leading-6 text-muted">{text}</p>
@@ -269,11 +294,13 @@ function VisionMission() {
     {
       icon: Target,
       title: "Vision",
+      image: "/about-us/vision.png",
       text: "To become a trusted pharmaceutical supply partner known for dependable products, transparent communication and quality-focused growth.",
     },
     {
       icon: BadgeCheck,
       title: "Mission",
+      image: "/about-us/mission.png",
       text: "To support healthcare businesses with organized product information, careful coordination, reliable packaging and responsive B2B service.",
     },
   ];
@@ -281,17 +308,29 @@ function VisionMission() {
   return (
     <section className="section bg-ink text-white">
       <div className="mx-auto grid max-w-7xl gap-6 px-5 md:grid-cols-2">
-        {cards.map(({ icon: Icon, title, text }) => (
+        {cards.map(({ icon: Icon, title, image, text }) => (
           <motion.article
             key={title}
-            className="rounded-lg border border-white/12 bg-white/8 p-8"
+            className="overflow-hidden rounded-2xl border border-white/10 bg-[url('/bg-theme/bg2.png')] bg-cover bg-center shadow-xl shadow-black/20"
             whileInView={{ opacity: 1, y: 0 }}
             initial={{ opacity: 0, y: 28 }}
             viewport={{ once: true, margin: "-100px" }}
           >
-            <Icon className="text-golden" size={38} />
-            <h2 className="mt-5 font-display text-4xl font-black">{title}</h2>
-            <p className="mt-4 leading-8 text-white/72">{text}</p>
+            <div className="relative h-72 overflow-hidden">
+              <Image
+                src={image}
+                alt={`${title} illustration`}
+                fill
+                sizes="(min-width: 768px) 50vw, 100vw"
+                className="object-fill transition duration-500 hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-black/2" />
+            </div>
+            <div className="p-8">
+              <Icon className="text-golden" size={38} />
+              <h2 className="mt-5 font-display text-4xl font-black">{title}</h2>
+              <p className="mt-4 leading-8 text-white/72">{text}</p>
+            </div>
           </motion.article>
         ))}
       </div>
@@ -308,7 +347,7 @@ function LeadershipSection() {
           {leaders.map(({ name, role, state }) => (
             <motion.article
               key={name}
-              className="rounded-lg border border-neutral-200 bg-white p-6 shadow-sm"
+              className="rounded-lg border border-neutral-200 bg-white p-6 shadow-lg shadow-black/5"
               whileHover={{ y: -6 }}
               initial={{ opacity: 0, y: 22 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -344,7 +383,7 @@ function WorkingCulture() {
             {workingPrinciples.map((item) => (
               <motion.div
                 key={item}
-                className="flex gap-3 rounded-lg bg-white p-5 shadow-sm"
+                className="flex gap-3 rounded-lg border border-neutral-200 bg-white p-5 shadow-sm"
                 initial={{ opacity: 0, x: -24 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
@@ -356,24 +395,24 @@ function WorkingCulture() {
           </div>
         </div>
 
-        <div className="relative overflow-hidden rounded-lg">
+        <div className="relative top-24 overflow-hidden rounded-lg shadow-2xl shadow-black/15">
           <Image
-            src="/banners/b2.jpeg"
+            src="/about-us/how-we-work.png"
             alt="Quality control professional inspecting a pharmaceutical sample"
             width={900}
             height={510}
             sizes="(min-width: 1024px) 50vw, 100vw"
-            className="aspect-[16/10] w-full object-cover"
+            className=" h-full w-full object-cover"
           />
-          <div className="absolute inset-0 bg-black/50" />
-          <div className="absolute bottom-0 left-0 p-6 text-white">
+          {/* <div className="absolute inset-0 bg-black/10" /> */}
+          {/* <div className="absolute bottom-0 left-0 p-6 text-white">
             <p className="flex items-center gap-2 text-sm font-black uppercase text-golden">
               <ClipboardCheck size={18} /> Quality and documentation
             </p>
             <h3 className="mt-3 max-w-xl font-display text-3xl font-black">
               Practical systems for product confidence and buyer trust.
             </h3>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>
@@ -393,7 +432,7 @@ function CoreValues() {
           viewport={{ once: true, margin: "-100px" }}
         >
           {values.map(({ icon: Icon, title, text }) => (
-            <motion.article key={title} variants={fadeUp} className="rounded-lg border border-neutral-200 p-6">
+            <motion.article key={title} variants={fadeUp} className="rounded-lg border border-neutral-200 bg-white p-6 shadow-lg shadow-black/5">
               <Icon className="text-crimson" size={30} />
               <h3 className="mt-4 font-bold">{title}</h3>
               <p className="mt-2 text-sm text-neutral-600">{text}</p>

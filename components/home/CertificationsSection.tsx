@@ -7,18 +7,9 @@ import { useRef, MouseEvent } from "react";
 
 const ACCENT_COLORS = [
   { border: "hover:border-crimson/40" },
-  { border: "hover:border-blue-400/40" },
+  { border: "hover:border-neutral-400/40" },
   { border: "hover:border-emerald-400/40" },
   { border: "hover:border-amber-400/40" },
-];
-
-const BADGE_COLORS = [
-  "bg-crimson/10 text-crimson",
-  "bg-blue-100 text-blue-700",
-  "bg-emerald-100 text-emerald-700",
-  "bg-amber-100 text-amber-700",
-  "bg-purple-100 text-purple-700",
-  "bg-sky-100 text-sky-700",
 ];
 
 // ── 3D tilt card ─────────────────────────────────────────────────────────────
@@ -141,32 +132,22 @@ export function ClientsSection() {
           >
             {clients.map((client, index) => {
               const accent     = ACCENT_COLORS[index % ACCENT_COLORS.length];
-              const badgeColor = BADGE_COLORS[index % BADGE_COLORS.length];
 
               return (
                 <TiltCard
                   key={client.name}
-                  className={`group flex flex-col items-center justify-center gap-3 p-4 h-[110px] ${accent.border}`}
+                  className={`group flex h-[120px] items-center justify-center overflow-hidden p-3 ${accent.border}`}
                   delay={index * 0.04}
                 >
-                  {/* logo / initials */}
                   {client.logoUrl ? (
                     <img
                       src={client.logoUrl}
                       alt={client.name}
-                      className="h-9 w-9 rounded-lg object-contain transition-transform duration-300 group-hover:scale-105"
+                      className="h-full w-full rounded-xl object-contain transition-transform duration-300 group-hover:scale-105"
                     />
                   ) : (
-                    <div
-                      className={`h-9 w-9 rounded-lg flex items-center justify-center font-semibold text-xs transition-transform duration-300 group-hover:scale-105 ${badgeColor}`}
-                    >
-                      {client.initials}
-                    </div>
+                    <PharmaLogo index={index} />
                   )}
-
-                  <p className="text-[10px] font-medium text-ink leading-snug text-center line-clamp-2 px-1">
-                    {client.name}
-                  </p>
 
                   {/* inner shine */}
                   <div
@@ -181,5 +162,57 @@ export function ClientsSection() {
         </div>
       </div>
     </section>
+  );
+}
+
+function PharmaLogo({ index }: { index: number }) {
+  const palettes = [
+    { bg: "bg-rose-50", ring: "border-rose-100", primary: "bg-crimson", soft: "bg-crimson/14" },
+    { bg: "bg-emerald-50", ring: "border-emerald-100", primary: "bg-emerald-600", soft: "bg-emerald-600/14" },
+    { bg: "bg-amber-50", ring: "border-amber-100", primary: "bg-amber-600", soft: "bg-amber-600/14" },
+    { bg: "bg-neutral-50", ring: "border-neutral-200", primary: "bg-neutral-800", soft: "bg-neutral-800/10" },
+    { bg: "bg-purple-50", ring: "border-purple-100", primary: "bg-purple-600", soft: "bg-purple-600/14" },
+    { bg: "bg-teal-50", ring: "border-teal-100", primary: "bg-teal-600", soft: "bg-teal-600/14" },
+  ];
+  const palette = palettes[index % palettes.length];
+  const variant = index % 4;
+
+  return (
+    <div
+      className={`relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border ${palette.bg} ${palette.ring} transition-transform duration-300 group-hover:scale-105`}
+      aria-hidden="true"
+    >
+      <span className={`absolute -right-8 -top-8 h-24 w-24 rounded-full ${palette.soft}`} />
+      <span className={`absolute -bottom-10 -left-8 h-28 w-28 rounded-full ${palette.soft}`} />
+
+      {variant === 0 ? (
+        <span className="relative grid h-16 w-16 place-items-center rounded-2xl bg-white shadow-sm">
+          <span className={`absolute h-11 w-4 rounded-full ${palette.primary}`} />
+          <span className={`absolute h-4 w-11 rounded-full ${palette.primary}`} />
+        </span>
+      ) : null}
+
+      {variant === 1 ? (
+        <span className="relative flex h-16 w-16 rotate-[-24deg] overflow-hidden rounded-full bg-white shadow-sm">
+          <span className={`h-full w-1/2 ${palette.primary}`} />
+          <span className="h-full w-1/2 bg-white" />
+          <span className="absolute inset-0 rounded-full border border-black/5" />
+        </span>
+      ) : null}
+
+      {variant === 2 ? (
+        <span className="relative grid h-16 w-16 place-items-center rounded-full bg-white shadow-sm">
+          <span className={`h-10 w-10 rounded-full border-[10px] ${palette.ring} border-t-transparent`} />
+          <span className={`absolute h-4 w-4 rounded-full ${palette.primary}`} />
+        </span>
+      ) : null}
+
+      {variant === 3 ? (
+        <span className="relative grid h-16 w-16 place-items-center rounded-2xl bg-white shadow-sm">
+          <span className={`h-12 w-7 rounded-full ${palette.primary}`} />
+          <span className="absolute h-7 w-12 rounded-full bg-white/78" />
+        </span>
+      ) : null}
+    </div>
   );
 }

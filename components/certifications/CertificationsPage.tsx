@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Award, BadgeCheck, ClipboardCheck, Download, FileCheck2, FileText, Mail, ShieldCheck } from "lucide-react";
 import { ScrollSlide, SectionHeading, fadeUp, stagger } from "@/components/common/AnimatedPrimitives";
+import { MobilePageBanner } from "@/components/common/MobilePageBanner";
 import { certifications } from "@/data/constants";
 
 const compliancePoints = [
@@ -23,7 +24,14 @@ const documentTypes = [
 export function CertificationsPage() {
   return (
     <main>
+      <MobilePageBanner
+        src="/banners/certification-banner.png"
+        alt="Compliance documents and business paperwork"
+        eyebrow="Certifications"
+        title="Compliance information for confident decisions."
+      />
       <CertificationsHero />
+      <CredentialStats />
       <ScrollSlide direction="right">
         <CertificationsIntro />
       </ScrollSlide>
@@ -46,7 +54,7 @@ export function CertificationsPage() {
 
 function CertificationsHero() {
   return (
-    <section className="relative h-[550px] overflow-hidden bg-ink px-5 pb-10 pt-24 text-white">
+    <section className="relative hidden h-[550px] overflow-hidden bg-ink px-5 pb-10 pt-24 text-white md:block">
       <Image
         src="/banners/certification-banner.png"
         alt="Compliance documents and business paperwork"
@@ -55,23 +63,28 @@ function CertificationsHero() {
         sizes="100vw"
         className="object-cover object-center"
       />
-      {/* {/* <div className="absolute inset-0 bg-black/62" /> */}
-      {/* <div className="absolute inset-x-0 bottom-0 h-28 bg-white/80" /> */}
-      {/* <motion.div
-        className="relative mx-auto flex h-full max-w-7xl flex-col justify-center"
-        initial={{ opacity: 0, y: 28 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <p className="eyebrow bg-white/14 text-golden ring-1 ring-white/20">Certifications</p>
-        <h1 className="mt-4 max-w-4xl font-display text-4xl font-black leading-tight md:text-6xl">
-          Compliance information for confident business decisions.
-        </h1>
-        <p className="mt-4 max-w-3xl text-base leading-7 text-white/84 md:text-lg">
-          Access company credentials, certificate request support and product documentation guidance for procurement and
-          business review.
-        </p>
-      </motion.div> */}
+    </section>
+  );
+}
+
+function CredentialStats() {
+  const stats = [
+    ["6", "Credential categories"],
+    ["GST", "Business identity support"],
+    ["B2B", "Documentation workflow"],
+    ["UP", "Registered location"],
+  ];
+
+  return (
+    <section className="bg-white px-5 py-8">
+      <div className="mx-auto grid max-w-7xl gap-4 rounded-lg border border-neutral-200 bg-cream p-4 shadow-sm sm:grid-cols-2 lg:grid-cols-4">
+        {stats.map(([value, label]) => (
+          <article key={label} className="rounded-lg bg-white p-5 text-center shadow-sm">
+            <p className="font-display text-4xl font-black text-crimson">{value}</p>
+            <p className="mt-2 text-xs font-black uppercase text-muted">{label}</p>
+          </article>
+        ))}
+      </div>
     </section>
   );
 }
@@ -99,17 +112,17 @@ function CertificationsIntro() {
           viewport={{ once: true, margin: "-100px" }}
         >
           <Image
-            src="/banners/b3.jpeg"
+            src="/cerification/certification.png"
             alt="Laboratory documentation and quality review"
             width={980}
             height={520}
             sizes="(min-width: 1024px) 52vw, 100vw"
             className="aspect-[16/9] w-full object-cover"
           />
-          <div className="absolute inset-0 bg-black/52" />
+          {/* <div className="absolute inset-0 bg-black/52" />
           <h2 className="absolute bottom-0 left-0 max-w-xl p-6 font-display text-3xl font-black text-white">
             Quality documentation supports trust before every transaction.
-          </h2>
+          </h2> */}
         </motion.div>
       </div>
     </section>
@@ -131,13 +144,14 @@ function CertificationsGrid() {
           <motion.article
             key={cert.name}
             variants={fadeUp}
-            className="relative overflow-hidden rounded-lg border border-crimson/10 bg-white p-6 shadow-sm"
+            className="relative overflow-hidden rounded-lg border border-crimson/10 bg-white p-6 shadow-lg shadow-black/5"
             whileHover={{ y: -6 }}
           >
+            <div className="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-crimson/8" />
             <span className="absolute right-0 top-0 rounded-bl-lg bg-crimson px-3 py-1 text-xs font-bold text-white">
               Review
             </span>
-            <div className="grid h-20 w-20 place-items-center rounded-lg bg-cream">
+            <div className="grid h-20 w-20 place-items-center rounded-lg border border-crimson/10 bg-cream shadow-inner">
               <Award className="text-crimson" size={34} />
             </div>
             <h2 className="mt-5 text-xl font-black text-ink">{cert.name}</h2>
@@ -158,7 +172,7 @@ function RegulatoryCompliance() {
     <section className="section bg-cream">
       <div className="mx-auto grid max-w-7xl gap-10 px-5 lg:grid-cols-[1fr_0.9fr]">
         <motion.div
-          className="rounded-lg border border-crimson/10 bg-white p-8 text-ink shadow-sm"
+          className="rounded-lg border border-crimson/10 bg-white p-8 text-ink shadow-xl shadow-black/5"
           initial={{ opacity: 0, x: -32 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-100px" }}
@@ -185,7 +199,7 @@ function RegulatoryCompliance() {
           viewport={{ once: true, margin: "-100px" }}
         >
           {compliancePoints.map((point) => (
-            <article key={point} className="flex gap-3 rounded-lg bg-white p-5 shadow-sm">
+            <article key={point} className="flex gap-3 rounded-lg border border-neutral-200 bg-white p-5 shadow-sm">
               <ShieldCheck className="mt-1 shrink-0 text-crimson" size={22} />
               <p className="text-sm leading-6 text-muted">{point}</p>
             </article>
@@ -209,7 +223,7 @@ function DocumentationSupport() {
           viewport={{ once: true, margin: "-100px" }}
         >
           {documentTypes.map(({ icon: Icon, title, text }) => (
-            <motion.article key={title} variants={fadeUp} className="rounded-lg border border-white/12 bg-white/8 p-6">
+            <motion.article key={title} variants={fadeUp} className="rounded-lg border border-white/12 bg-white/10 p-6 shadow-lg shadow-black/20 backdrop-blur">
               <Icon className="text-golden" size={32} />
               <h3 className="mt-4 text-xl font-black">{title}</h3>
               <p className="mt-3 text-sm leading-6 text-white/72">{text}</p>

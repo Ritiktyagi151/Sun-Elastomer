@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, ClipboardCheck, Factory, FlaskConical, PackageCheck, ShieldCheck } from "lucide-react";
 import { CountUp, ScrollSlide, SectionHeading, fadeUp, stagger } from "@/components/common/AnimatedPrimitives";
+import { MobilePageBanner } from "@/components/common/MobilePageBanner";
 
 const processSteps = [
   {
@@ -60,12 +61,12 @@ const capacityStats = [
 
 const externalImages = [
   {
-    src: "https://images.unsplash.com/photo-1581093458791-9d42cc030d59?auto=format&fit=crop&w=1200&q=80",
+    src: "/manufacturing/quality-control.png",
     alt: "Modern industrial production equipment",
     title: "Production discipline",
   },
   {
-    src: "https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=1200&q=80",
+    src: "/manufacturing/quality-review.png",
     alt: "Laboratory team working with pharmaceutical samples",
     title: "Quality review",
   },
@@ -74,7 +75,14 @@ const externalImages = [
 export function ManufacturingPage() {
   return (
     <main>
+      <MobilePageBanner
+        src="/banners/manufacturingbanner.png"
+        alt="Pharmaceutical manufacturing line"
+        eyebrow="Manufacturing"
+        title="Controlled coordination for dependable supply."
+      />
       <ManufacturingHero />
+      <ManufacturingStats />
       <ScrollSlide direction="right">
         <ManufacturingIntro />
       </ScrollSlide>
@@ -93,7 +101,7 @@ export function ManufacturingPage() {
 
 function ManufacturingHero() {
   return (
-    <section className="relative h-[550px] overflow-hidden bg-ink px-5 pb-10 pt-24 text-white">
+    <section className="relative hidden h-[550px] overflow-hidden bg-ink px-5 pb-10 pt-24 text-white md:block">
       <Image
         src="/banners/manufacturingbanner.png"
         alt="Pharmaceutical manufacturing line"
@@ -123,11 +131,40 @@ function ManufacturingHero() {
   );
 }
 
+function ManufacturingStats() {
+  const stats = [
+    ["15", "+", "Listed products"],
+    ["6", "", "Product categories"],
+    ["2018", "", "GST registration"],
+    ["B2B", "", "Supply workflow"],
+  ];
+
+  return (
+    <section className="bg-white px-5 py-8">
+      <div className="mx-auto grid max-w-7xl gap-4 rounded-lg border border-neutral-200 bg-cream p-4 shadow-sm sm:grid-cols-2 lg:grid-cols-4">
+        {stats.map(([n, s, label]) => (
+          <article key={label} className="rounded-lg bg-white p-5 text-center shadow-sm">
+            {Number.isNaN(Number(n)) ? (
+              <p className="font-display text-4xl font-black text-crimson">{n}</p>
+            ) : (
+              <p className="font-display text-4xl font-black text-crimson">
+                <CountUp value={Number(n)} suffix={s} />
+              </p>
+            )}
+            <p className="mt-2 text-xs font-black uppercase text-muted">{label}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function ManufacturingIntro() {
   return (
     <section className="section bg-white">
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 lg:grid-cols-[0.9fr_1.1fr]">
         <motion.div
+          className="rounded-lg border border-crimson/10 bg-white p-8 shadow-xl shadow-black/5"
           initial={{ opacity: 0, x: -36 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-100px" }}
@@ -143,14 +180,14 @@ function ManufacturingIntro() {
           </Link>
         </motion.div>
         <motion.div
-          className="grid grid-cols-3 gap-4"
+          className="grid grid-cols-3 gap-4 rounded-lg border border-neutral-200 bg-cream p-4 shadow-inner"
           variants={stagger}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-100px" }}
         >
           {capacityStats.map(([n, s, label]) => (
-            <motion.article key={label} variants={fadeUp} className="rounded-lg border border-crimson/10 p-5 text-center shadow-sm">
+            <motion.article key={label} variants={fadeUp} className="rounded-lg border border-crimson/10 bg-white p-5 text-center shadow-sm">
               <p className="text-3xl font-black text-crimson md:text-4xl">
                 <CountUp value={Number(n)} suffix={s} />
               </p>
@@ -179,7 +216,7 @@ function ProcessFlow() {
           {processSteps.map((step, index) => (
             <motion.article
               key={step.title}
-              className="relative rounded-lg border border-neutral-200 bg-white p-5 text-center shadow-sm"
+              className="relative rounded-lg border border-neutral-200 bg-white p-5 text-center shadow-lg shadow-black/5"
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
@@ -211,7 +248,7 @@ function FacilityGrid() {
           viewport={{ once: true, margin: "-100px" }}
         >
           {facilityItems.map(({ icon: Icon, title, text }) => (
-            <motion.article key={title} variants={fadeUp} className="card-dark">
+            <motion.article key={title} variants={fadeUp} className="card-dark bg-white shadow-lg shadow-black/5">
               <Icon className="text-crimson" size={32} />
               <h3 className="mt-4 font-black">{title}</h3>
               <p className="mt-2 text-sm leading-6 text-muted">{text}</p>
@@ -230,13 +267,13 @@ function ImageStory() {
         {externalImages.map((image) => (
           <motion.article
             key={image.title}
-            className="relative min-h-[360px] overflow-hidden rounded-lg"
+            className="relative min-h-[360px] overflow-hidden rounded-lg shadow-2xl shadow-black/20"
             initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
           >
-            <Image src={image.src} alt={image.alt} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
-            <div className="absolute inset-0 bg-black/56" />
+            <Image src={image.src} alt={image.alt} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-fill" />
+            <div className="absolute inset-0 bg-black/20" />
             <div className="absolute bottom-0 left-0 p-6">
               <ShieldCheck className="text-golden" size={30} />
               <h3 className="mt-4 font-display text-3xl font-black">{image.title}</h3>

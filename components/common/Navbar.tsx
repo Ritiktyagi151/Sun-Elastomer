@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Menu, X, Search, Sparkles, Phone, Mail } from "lucide-react";
+import { ChevronDown, Menu, X, Search, Sparkles, Phone, Mail, Send, Loader2 } from "lucide-react";
 import { type FormEvent, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { navLinks, productCategories, productCategorySlug } from "@/data/constants";
@@ -34,9 +34,12 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [contactOpen, setContactOpen] = useState(false);
+  const [contactSubmitting, setContactSubmitting] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isDesktop, setIsDesktop] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const contactNameRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -62,10 +65,23 @@ export function Navbar() {
   }, [searchOpen]);
 
   useEffect(() => {
+    if (!contactOpen) return;
+    const timer = window.setTimeout(() => contactNameRef.current?.focus(), 120);
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      window.clearTimeout(timer);
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [contactOpen]);
+
+  useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setSearchOpen(false);
         setSearchQuery("");
+        setContactOpen(false);
       }
     };
     window.addEventListener("keydown", onKey);
@@ -78,6 +94,22 @@ export function Navbar() {
     router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
     setSearchOpen(false);
     setSearchQuery("");
+  };
+
+  const openContactForm = () => {
+    setContactOpen(true);
+    setSearchOpen(false);
+    setSearchQuery("");
+    setOpen(false);
+  };
+
+  const handleContactSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setContactSubmitting(true);
+    window.setTimeout(() => {
+      setContactSubmitting(false);
+      setContactOpen(false);
+    }, 1000);
   };
 
   return (
@@ -165,7 +197,7 @@ export function Navbar() {
             variants={{ show: { transition: { staggerChildren: 0.08 } } }}
           >
             {navLinks.map((link) =>
-              link.href === "/products" ? (
+              link.href === "/categories" ? (
                 <ProductDropdown key={link.href} scrolled={scrolled} />
               ) : (
                 <motion.div
@@ -210,17 +242,18 @@ export function Navbar() {
               animate="show"
               variants={{ hidden: { opacity: 0, y: -6 }, show: { opacity: 1, y: 0 } }}
             >
-              <Link
+              <button
+                type="button"
                 className={`relative inline-flex items-center gap-2 overflow-hidden rounded-full px-5 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:scale-105 active:scale-95 shadow-md ${
                   scrolled
                     ? "bg-crimson shadow-crimson/20 hover:shadow-crimson/40"
                     : "bg-ink shadow-black/20 hover:shadow-black/30"
                 }`}
-                href="/contact"
+                onClick={openContactForm}
               >
                 <Sparkles size={15} className="text-white/80" />
                 Get In Touch
-              </Link>
+              </button>
             </motion.div>
 
             {/* Mobile hamburger */}
@@ -276,7 +309,7 @@ export function Navbar() {
                       return (
                         <Link
                           key={category.title}
-                          href={`/products/${productCategorySlug(category.category)}`}
+                          href={`/categories/${productCategorySlug(category.category)}`}
                           onClick={() => setOpen(false)}
                           className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted transition hover:bg-crimson/5 hover:text-crimson"
                         >
@@ -300,14 +333,14 @@ export function Navbar() {
             )}
 
             <div className="pt-3 space-y-3">
-              <Link
-                href="/contact"
-                onClick={() => setOpen(false)}
+              <button
+                type="button"
+                onClick={openContactForm}
                 className="relative inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-crimson px-5 py-3 text-sm font-semibold text-white shadow-md shadow-crimson/20 transition-all duration-300 hover:shadow-crimson/40"
               >
                 <Sparkles size={15} className="text-white/80" />
                 Get In Touch
-              </Link>
+              </button>
               
               <div className="flex items-center justify-center gap-4 text-xs text-muted">
                 <a href="tel:+911234567890" className="flex items-center gap-2 hover:text-crimson transition">
@@ -384,18 +417,157 @@ export function Navbar() {
           </>
         )}
       </AnimatePresence>
+
+      {/* Get In Touch Popup */}
+      <AnimatePresence>
+        {contactOpen && (
+          <>
+            <motion.div
+              className="fixed inset-0 z-[60] bg-black/55 backdrop-blur-sm"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setContactOpen(false)}
+            />
+
+            <motion.div
+              className="fixed inset-x-0 top-0 z-[70] mx-auto flex h-dvh max-w-2xl items-center px-3 py-4 sm:px-5"
+              initial={{ opacity: 0, y: 24, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 24, scale: 0.98 }}
+              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="contact-popup-title"
+            >
+              <form
+                onSubmit={handleContactSubmit}
+                className="relative w-full rounded-xl border border-white/20 bg-white p-4 text-ink shadow-2xl shadow-black/25 sm:p-5"
+              >
+                <button
+                  type="button"
+                  onClick={() => setContactOpen(false)}
+                  className="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full border border-crimson/10 text-muted transition hover:border-crimson/30 hover:bg-crimson/5 hover:text-crimson"
+                  aria-label="Close contact form"
+                >
+                  <X size={18} />
+                </button>
+
+                <p className="inline-flex items-center gap-2 rounded-full bg-crimson/10 px-3 py-1 text-[11px] font-black uppercase text-crimson">
+                  <Sparkles size={14} /> Quick Inquiry
+                </p>
+                <h2 id="contact-popup-title" className="mt-3 pr-10 font-display text-2xl font-black text-ink sm:text-3xl">
+                  Send your requirement
+                </h2>
+                <p className="mt-2 max-w-xl text-xs leading-5 text-muted sm:text-sm">
+                  Share your product interest, quantity and location so our team can respond with the right details.
+                </p>
+
+                <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                  <label className="text-xs font-bold sm:text-sm">
+                    Full Name
+                    <input ref={contactNameRef} className="input !mt-1 !py-2.5" name="name" type="text" required />
+                  </label>
+                  <label className="text-xs font-bold sm:text-sm">
+                    Company Name
+                    <input className="input !mt-1 !py-2.5" name="company" type="text" />
+                  </label>
+                  <label className="text-xs font-bold sm:text-sm">
+                    Email Address
+                    <input className="input !mt-1 !py-2.5" name="email" type="email" required />
+                  </label>
+                  <label className="text-xs font-bold sm:text-sm">
+                    Phone Number
+                    <input className="input !mt-1 !py-2.5" name="phone" type="tel" required />
+                  </label>
+                  <label className="text-xs font-bold sm:col-span-2 sm:text-sm">
+                    Product Interest
+                    <select className="input !mt-1 !py-2.5" name="product" defaultValue={productCategories[0]?.title} required>
+                      {productCategories.map((category) => (
+                        <option key={category.title} value={category.title}>
+                          {category.title}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                </div>
+
+                <label className="mt-3 block text-xs font-bold sm:text-sm">
+                  Message
+                  <textarea
+                    className="input !mt-1 min-h-20 resize-none !py-2.5"
+                    name="message"
+                    placeholder="Mention product, pack size, quantity and delivery location."
+                    required
+                  />
+                </label>
+
+                <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <button className="btn-primary justify-center px-5 py-3" disabled={contactSubmitting}>
+                    {contactSubmitting ? <Loader2 className="animate-spin" size={18} /> : <Send size={18} />}
+                    {contactSubmitting ? "Sending..." : "Submit Inquiry"}
+                  </button>
+                  <div className="flex flex-wrap gap-4 text-xs text-muted">
+                    <a href="tel:+911234567890" className="flex items-center gap-2 transition hover:text-crimson">
+                      <Phone size={14} className="text-crimson" />
+                      Call Us
+                    </a>
+                    <a href="mailto:info@sunelastomers.com" className="flex items-center gap-2 transition hover:text-crimson">
+                      <Mail size={14} className="text-crimson" />
+                      Email
+                    </a>
+                  </div>
+                </div>
+              </form>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </>
   );
 }
 
 function ProductDropdown({ scrolled }: { scrolled: boolean }) {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!dropdownOpen) return;
+
+    const onPointerDown = (event: PointerEvent) => {
+      if (!dropdownRef.current?.contains(event.target as Node)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setDropdownOpen(false);
+      }
+    };
+
+    window.addEventListener("pointerdown", onPointerDown);
+    window.addEventListener("keydown", onKey);
+
+    return () => {
+      window.removeEventListener("pointerdown", onPointerDown);
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [dropdownOpen]);
+
   return (
     <motion.div
-      className="group relative"
+      ref={dropdownRef}
+      className="relative"
+      onMouseEnter={() => setDropdownOpen(true)}
+      onMouseLeave={() => setDropdownOpen(false)}
       variants={{ hidden: { opacity: 0, y: -6 }, show: { opacity: 1, y: 0 } }}
     >
       <button
         type="button"
+        onClick={() => setDropdownOpen((value) => !value)}
+        aria-expanded={dropdownOpen}
         className={`flex items-center gap-1.5 text-sm font-medium transition-all duration-300 ${
           scrolled ? "text-ink/80 hover:text-crimson" : "text-white/90 hover:text-white"
         }`}
@@ -403,13 +575,18 @@ function ProductDropdown({ scrolled }: { scrolled: boolean }) {
         Products
         <ChevronDown
           size={15}
-          className="transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180"
+          className={`transition-transform duration-200 ${dropdownOpen ? "rotate-180" : ""}`}
         />
       </button>
-      <div className="invisible absolute left-1/2 top-full z-50 mt-5 w-[26rem] -translate-x-1/2 rounded-2xl border border-crimson/5 bg-white/95 p-4 opacity-0 shadow-2xl shadow-crimson/20 backdrop-blur-xl transition-all duration-200 group-hover:visible group-hover:mt-3 group-hover:opacity-100 group-focus-within:visible group-focus-within:mt-3 group-focus-within:opacity-100">
+      <div
+        className={`absolute left-1/2 top-full z-50 w-[26rem] -translate-x-1/2 rounded-2xl border border-crimson/5 bg-white/95 p-4 shadow-2xl shadow-crimson/20 backdrop-blur-xl transition-all duration-200 ${
+          dropdownOpen ? "visible mt-3 opacity-100" : "invisible mt-5 opacity-0"
+        }`}
+      >
         <div className="absolute -top-3 left-0 h-3 w-full" />
         <Link
-          href="/products"
+          href="/categories"
+          onClick={() => setDropdownOpen(false)}
           className="group mb-3 flex items-center justify-between rounded-xl bg-crimson/5 px-4 py-3 text-sm font-bold text-ink transition hover:bg-crimson/10 hover:text-crimson"
         >
           All Products
@@ -421,7 +598,8 @@ function ProductDropdown({ scrolled }: { scrolled: boolean }) {
             return (
               <Link
                 key={category.title}
-                href={`/products/${productCategorySlug(category.category)}`}
+                href={`/categories/${productCategorySlug(category.category)}`}
+                onClick={() => setDropdownOpen(false)}
                 className="group/item flex items-start gap-3 rounded-xl px-4 py-3 transition hover:bg-crimson/5"
               >
                 <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-crimson/10 text-crimson transition group-hover/item:bg-crimson group-hover/item:text-white">

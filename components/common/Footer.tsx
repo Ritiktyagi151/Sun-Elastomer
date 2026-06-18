@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { contactDetails, navLinks, productCategories } from "@/data/constants";
+import { contactDetails, navLinks, productCategories, productCategorySlug } from "@/data/constants";
 import { company } from "@/data/products";
 import { SocialBrandIcon } from "./SocialBrandIcon";
 
@@ -18,24 +18,24 @@ export function Footer() {
     <footer
       className="relative text-white"
       style={{
-        backgroundImage: "url('/banners/footer-bg1.png')",
+        backgroundImage: "url('/bg-theme/leather-texture.png')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        // backgroundAttachment: "fixed",
+        backgroundAttachment: "fixed",
       }}
     >
-      <div className="absolute inset-0 bg-black/65 z-0" />
-      <div className="relative z-10 h-px w-full bg-crimson" />
+      {/* <div className="absolute inset-0 bg-black/65 z-0" /> */}
+      {/* <div className="relative z-10 h-px w-full bg-crimson" /> */}
 
       <motion.div
-        className="relative z-10 mx-auto grid max-w-7xl gap-10 px-5 py-16 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:px-8"
+        className="relative z-10 mx-auto grid max-w-7xl grid-cols-2 gap-8 px-5 py-16 lg:grid-cols-4 lg:gap-10 lg:px-8"
         initial={{ opacity: 0, y: 28 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.6 }}
       >
-        <div className="flex flex-col items-start">
+        <div className="col-span-2 flex flex-col items-start lg:col-span-1">
           <Link href="/" className="inline-block">
             <Image
               src="/sunelastomer.png"
@@ -71,12 +71,12 @@ export function Footer() {
         <FooterColumn
           title="Products"
           items={productCategories.map((item) => ({
-            href: "/products",
+            href: `/categories/${productCategorySlug(item.category)}`,
             label: item.title,
           }))}
         />
 
-        <div>
+        <div className="col-span-2 lg:col-span-1">
           <h3 className="text-sm font-semibold uppercase tracking-widest text-white">
             Contact Details
           </h3>
