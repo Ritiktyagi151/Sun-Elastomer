@@ -143,6 +143,10 @@ export const pageDescriptions = {
     "View Sun Elastomers Pvt Ltd certifications, regulatory compliance, pharma manufacturing approvals and company profile download options.",
   contact:
     "Contact Sun Elastomers Pvt Ltd for pharmaceutical elastomer product inquiries, custom requirements, export support and B2B partnerships.",
+  terms:
+    "Read Sun Elastomers Pvt Ltd terms for website use, pharmaceutical product inquiries, order confirmation, dispatch and documentation.",
+  conditions:
+    "Review Sun Elastomers Pvt Ltd conditions for B2B product information, buyer verification, payment, dispatch and documentation responsibilities.",
 };
 
 

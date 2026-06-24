@@ -14,6 +14,27 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: link.href === "/" ? 1 : 0.8,
   }));
 
+  const legalPages = [
+    {
+      url: `${siteUrl}/terms`,
+      lastModified,
+      changeFrequency: "yearly" as const,
+      priority: 0.5,
+    },
+    {
+      url: `${siteUrl}/conditions`,
+      lastModified,
+      changeFrequency: "yearly" as const,
+      priority: 0.5,
+    },
+    {
+      url: `${siteUrl}/terms-and-conditions`,
+      lastModified,
+      changeFrequency: "yearly" as const,
+      priority: 0.5,
+    },
+  ];
+
   const categoryPages = productCategories.map((category) => ({
     url: `${siteUrl}/categories/${productCategorySlug(category.category)}`,
     lastModified,
@@ -28,5 +49,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...pages, ...categoryPages, ...productPages];
+  return [...pages, ...legalPages, ...categoryPages, ...productPages];
 }

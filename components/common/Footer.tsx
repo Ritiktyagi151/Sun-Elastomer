@@ -7,11 +7,19 @@ import { contactDetails, navLinks, productCategories, productCategorySlug } from
 import { company } from "@/data/products";
 import { SocialBrandIcon } from "./SocialBrandIcon";
 
+const footerHighlights = [
+  "WHO-GMP Certified Manufacturing Partners",
+  "B2B pharmaceutical product inquiries",
+  "Tablet, capsule, injectable and ointment range",
+  "Dispatch coordination from Ghaziabad, Uttar Pradesh",
+];
+
 export function Footer() {
+  const whatsappPhone = company.contactPhone.replace(/\D/g, "");
   const socialMedia = [
     { brand: "linkedin" as const, href: "https://www.linkedin.com/", label: "LinkedIn" },
     { brand: "twitter" as const, href: "https://twitter.com/", label: "Twitter" },
-    { brand: "whatsapp" as const, href: "https://wa.me/", label: "WhatsApp" },
+    { brand: "whatsapp" as const, href: `https://wa.me/${whatsappPhone}`, label: "WhatsApp" },
   ];
 
   return (
@@ -25,17 +33,16 @@ export function Footer() {
         backgroundAttachment: "fixed",
       }}
     >
-      {/* <div className="absolute inset-0 bg-black/65 z-0" /> */}
-      {/* <div className="relative z-10 h-px w-full bg-crimson" /> */}
+     
 
       <motion.div
-        className="relative z-10 mx-auto grid max-w-7xl grid-cols-2 gap-8 px-5 py-16 lg:grid-cols-4 lg:gap-10 lg:px-8"
+        className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-start gap-9 px-5 py-8 sm:grid-cols-2 lg:grid-cols-[1.15fr_0.62fr_0.9fr_1.28fr] lg:gap-10 lg:px-8 xl:gap-12"
         initial={{ opacity: 0, y: 28 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.6 }}
       >
-        <div className="col-span-2 flex flex-col items-start lg:col-span-1">
+        <div className="flex flex-col items-start sm:col-span-2 lg:col-span-1">
           <Link href="/" className="inline-block">
             <Image
               src="/sunelastomer.png"
@@ -46,10 +53,11 @@ export function Footer() {
               priority
             />
           </Link>
-          <p className="mt-5 text-sm leading-7 text-white/70">
-            GST registered pharmaceutical company supplying tablets, capsules,
-            injectables and oral antibiotic products.
+          <p className="mt-5 max-w-xs text-sm leading-7 text-white/70">
+            Trusted pharmaceutical product company offering quality tablets,
+            capsules, injectables and antibiotic formulations for B2B healthcare supply.
           </p>
+          
           <div className="mt-6 flex gap-3">
             {socialMedia.map(({ brand, href, label }, index) => (
               <a
@@ -66,7 +74,10 @@ export function Footer() {
           </div>
         </div>
 
-        <FooterColumn title="Quick Links" items={navLinks} />
+        <FooterColumn
+          title="Quick Links"
+          items={navLinks}
+        />
 
         <FooterColumn
           title="Products"
@@ -76,13 +87,13 @@ export function Footer() {
           }))}
         />
 
-        <div className="col-span-2 lg:col-span-1">
+        <div className="sm:col-span-2 lg:col-span-1">
           <h3 className="text-sm font-semibold uppercase tracking-widest text-white">
             Contact Details
           </h3>
-          <div className="mt-5 space-y-4">
+          <div className="mt-5 space-y-3.5">
             {contactDetails.map(({ icon: Icon, label, value }) => (
-              <p key={label} className="flex gap-3 text-sm text-white/70">
+              <p key={label} className="flex max-w-md gap-3 text-sm leading-6 text-white/70">
                 <Icon className="mt-0.5 shrink-0 text-golden" size={17} />
                 <span>
                   <strong className="text-white">{label}:</strong> {value}
@@ -94,11 +105,38 @@ export function Footer() {
       </motion.div>
 
       <div className="relative z-10 border-t border-white/10 px-5 py-5">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 text-center text-xs text-white/50 sm:flex-row sm:text-left lg:px-8">
-          <p>
-            Copyright &copy; 2026 {company?.name || "Company"}. All rights reserved. Made in India.
+        <div className="mx-auto grid max-w-7xl gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:px-8">
+          {footerHighlights.map((item) => (
+            <p
+              key={item}
+              className="rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm leading-6 text-white/72"
+            >
+              {item}
+            </p>
+          ))}
+        </div>
+      </div>
+
+      <div className="relative z-10 border-t border-white/10 px-5 py-5">
+        <div className="mx-auto grid max-w-7xl items-center gap-4 text-center text-xs text-white/50 sm:grid-cols-3 lg:px-8">
+          <p className="sm:text-left">
+            Copyright &copy; 2026 {company?.name || "Company"}. All rights reserved.
           </p>
-          <p>
+          <div className="mx-auto flex flex-wrap items-center justify-center gap-2">
+            <Link
+              href="/terms"
+              className="inline-flex min-h-10 items-center justify-center rounded-full border border-white/20  px-5 py-2 text-xs font-bold uppercase text-white shadow-sm transition hover:border-crimson hover:text-crimson"
+            >
+              Terms
+            </Link>
+            <Link
+              href="/conditions"
+              className="inline-flex min-h-10 items-center justify-center rounded-full border border-white/20  px-5 py-2 text-xs font-bold uppercase text-white shadow-sm transition hover:border-crimson hover:text-crimson"
+            >
+              Conditions
+            </Link>
+          </div>
+          <p className="sm:text-right">
             Designed and developed by{" "}
             <a
               href="https://jaikvik.com"

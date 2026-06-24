@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion, type Variants } from "framer-motion";
-import { SectionHeading, stagger } from "@/components/common/AnimatedPrimitives";
+import { SectionHeading, stagger, useStaticMobileMotion } from "@/components/common/AnimatedPrimitives";
 import { productCategories, productCategorySlug } from "@/data/constants";
 
 // Custom animation variant for sliding in
@@ -22,25 +22,37 @@ const slideInVariant: Variants = {
 };
 
 export function ProductRangeSection() {
+  const staticMotion = useStaticMobileMotion();
+  const Grid = staticMotion ? "div" : motion.div;
+  const Card = staticMotion ? "article" : motion.article;
+
   return (
     <section className="section bg-cream text-ink ">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
         <SectionHeading title="Our Product Range" light centered />
         
-        <motion.div 
+        <Grid
           className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3" 
-          variants={stagger} 
-          initial="hidden" 
-          whileInView="show" 
-          viewport={{ once: false, margin: "-50px" }}
+          {...(!staticMotion
+            ? {
+                variants: stagger,
+                initial: "hidden",
+                whileInView: "show",
+                viewport: { once: true, margin: "0px 0px -80px 0px" },
+              }
+            : {})}
         >
           {productCategories.map(({ image, icon: Icon, title, description, category }) => (
-            <motion.article 
+            <Card
               key={title} 
-              className="group relative flex flex-col overflow-hidden rounded-2xl shadow-xl border border-white/10 transition-all duration-300 hover:shadow-2xl hover:shadow-golden/20 bg-[url('/bg-theme/bg2.png')] bg-cover bg-center"
+              className="group relative flex flex-col overflow-hidden rounded-2xl shadow-xl border border-white/10 transition-shadow duration-300 hover:shadow-2xl hover:shadow-golden/20 bg-[url('/bg-theme/bg2.png')] bg-cover bg-center"
               // Applied the slide variant here
-              variants={slideInVariant} 
-              whileHover={{ y: -6 }}
+              {...(!staticMotion
+                ? {
+                    variants: slideInVariant,
+                    whileHover: { y: -6 },
+                  }
+                : {})}
             >
               <Link href={`/categories/${productCategorySlug(category)}`} className="flex h-full flex-col">
                 {/* Product Image Container */}
@@ -74,9 +86,9 @@ export function ProductRangeSection() {
                   </span>
                 </div>
               </Link>
-            </motion.article>
+            </Card>
           ))}
-        </motion.div>
+        </Grid>
       </div>
     </section>
   );

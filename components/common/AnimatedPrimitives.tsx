@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useInView, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useInView, useMotionValue, useReducedMotion, useSpring, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
 type ScrollSlideDirection = "up" | "down" | "left" | "right";
@@ -14,6 +14,23 @@ export const stagger = {
   hidden: {},
   show: { transition: { staggerChildren: 0.1 } },
 };
+
+export function useStaticMobileMotion() {
+  const prefersReducedMotion = useReducedMotion();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const updateMatch = () => setIsMobile(mediaQuery.matches);
+
+    updateMatch();
+    mediaQuery.addEventListener("change", updateMatch);
+
+    return () => mediaQuery.removeEventListener("change", updateMatch);
+  }, []);
+
+  return Boolean(prefersReducedMotion || isMobile);
+}
 
 export function PlaceholderImage({ label, className = "" }: { label: string; className?: string }) {
   return (
@@ -40,6 +57,7 @@ export function ScrollSlide({
   delay?: number;
   once?: boolean;
 }) {
+  const staticMotion = useStaticMobileMotion();
   const offset = {
     up: { x: 0, y: 52 },
     down: { x: 0, y: -52 },
@@ -49,14 +67,18 @@ export function ScrollSlide({
 
   return (
     <div className={`scroll-slide-shell ${className}`}>
-      <motion.div
-        initial={{ opacity: 0, ...offset }}
-        whileInView={{ opacity: 1, x: 0, y: 0 }}
-        viewport={{ once, amount: 0.18, margin: "-80px" }}
-        transition={{ duration: 0.72, delay, ease: [0.22, 1, 0.36, 1] }}
-      >
-        {children}
-      </motion.div>
+      {staticMotion ? (
+        children
+      ) : (
+        <motion.div
+          initial={{ opacity: 0, ...offset }}
+          whileInView={{ opacity: 1, x: 0, y: 0 }}
+          viewport={{ once, amount: 0.18, margin: "-80px" }}
+          transition={{ duration: 0.72, delay, ease: [0.22, 1, 0.36, 1] }}
+        >
+          {children}
+        </motion.div>
+      )}
     </div>
   );
 }

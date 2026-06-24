@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Mail } from "lucide-react";
+import { company } from "@/data/products";
 
 export function CtaSection() {
   return (
@@ -32,7 +33,7 @@ export function CtaSection() {
             className="group relative"
           >
             <a
-              href="mailto:contact@yourcompany.com?subject=Partnership%20Inquiry"
+              href={`mailto:${company.contactEmail}?subject=Partnership%20Inquiry`}
               className="relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-white/40 bg-white/90 px-7 py-4 font-bold text-crimson shadow-xl backdrop-blur-sm transition-colors hover:bg-white"
             >
               {/* glossy sweep on hover */}

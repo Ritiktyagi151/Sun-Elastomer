@@ -20,8 +20,8 @@ export const company = {
   registrationType: "Regular",
   constitution: "Private Limited Company",
   address: "Site-4, 62/2/2, Industrial Area Sahibabad, Ghaziabad, Uttar Pradesh - 201010",
-  contactEmail: "info@sunelastomers.com",
-  contactPhone: "+91 XXXXX XXXXX",
+  contactEmail: "info@sunelastomerspharma.com",
+  contactPhone: "+91 99677 77537",
 };
 
 export const stats = [

@@ -7,6 +7,7 @@ import { ChevronDown, Menu, X, Search, Sparkles, Phone, Mail, Send, Loader2 } fr
 import { type FormEvent, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { navLinks, productCategories, productCategorySlug } from "@/data/constants";
+import { company } from "@/data/products";
 
 
 export function BrandLogo({ scrolled = false }: { scrolled?: boolean }) {
@@ -41,6 +42,8 @@ export function Navbar() {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const contactNameRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const phoneHref = `tel:${company.contactPhone.replace(/\s+/g, "")}`;
+  const emailHref = `mailto:${company.contactEmail}`;
 
   useEffect(() => {
     const media = window.matchMedia("(min-width: 1024px)");
@@ -125,13 +128,13 @@ export function Navbar() {
       >
         <div className=" px-6 py-2">
           <div className="mx-auto flex max-w-8xl items-center justify-end gap-6 text-xs text-white/90">
-            <a href="tel:+911234567890" className="flex items-center gap-2 hover:text-white transition">
+            <a href={phoneHref} className="flex items-center gap-2 hover:text-white transition">
               <Phone size={14} className="text-golden" />
-              <span>+91 12345 67890</span>
+              <span>{company.contactPhone}</span>
             </a>
-            <a href="mailto:info@sunelastomers.com" className="flex items-center gap-2 hover:text-white transition">
+            <a href={emailHref} className="flex items-center gap-2 hover:text-white transition">
               <Mail size={14} className="text-golden" />
-              <span>info@sunelastomers.com</span>
+              <span>{company.contactEmail}</span>
             </a>
             <span className="flex items-center gap-2">
               <span className="h-2 w-2 rounded-full bg-green-400 animate-pulse" />
@@ -343,12 +346,12 @@ export function Navbar() {
               </button>
               
               <div className="flex items-center justify-center gap-4 text-xs text-muted">
-                <a href="tel:+911234567890" className="flex items-center gap-2 hover:text-crimson transition">
+                <a href={phoneHref} className="flex items-center gap-2 hover:text-crimson transition">
                   <Phone size={14} className="text-crimson" />
                   <span>Call Us</span>
                 </a>
                 <span className="h-4 w-px bg-crimson/10" />
-                <a href="mailto:info@sunelastomers.com" className="flex items-center gap-2 hover:text-crimson transition">
+                <a href={emailHref} className="flex items-center gap-2 hover:text-crimson transition">
                   <Mail size={14} className="text-crimson" />
                   <span>Email</span>
                 </a>
@@ -509,11 +512,11 @@ export function Navbar() {
                     {contactSubmitting ? "Sending..." : "Submit Inquiry"}
                   </button>
                   <div className="flex flex-wrap gap-4 text-xs text-muted">
-                    <a href="tel:+911234567890" className="flex items-center gap-2 transition hover:text-crimson">
+                    <a href={phoneHref} className="flex items-center gap-2 transition hover:text-crimson">
                       <Phone size={14} className="text-crimson" />
                       Call Us
                     </a>
-                    <a href="mailto:info@sunelastomers.com" className="flex items-center gap-2 transition hover:text-crimson">
+                    <a href={emailHref} className="flex items-center gap-2 transition hover:text-crimson">
                       <Mail size={14} className="text-crimson" />
                       Email
                     </a>
