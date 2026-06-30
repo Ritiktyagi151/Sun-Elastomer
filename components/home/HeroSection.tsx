@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { getBannerSrc } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { navLinks, productCategories, productCategorySlug } from "@/data/constants";
@@ -153,14 +154,30 @@ export function HeroSection() {
                 className="h-full w-full object-cover object-center opacity-100" 
               />
             ) : (
-              <Image 
-                src={currentSlide.src} 
-                alt={`Slide ${currentSlide.id + 1}`} 
-                fill 
-                priority 
-                sizes="100vw" 
-                className="object-cover object-center opacity-100"
-              />
+              <>
+                {/* Desktop View Slide Image */}
+                <div className="hidden md:block absolute inset-0">
+                  <Image 
+                    src={getBannerSrc(currentSlide.src, "desktop")} 
+                    alt={`Slide ${currentSlide.id + 1}`} 
+                    fill 
+                    priority 
+                    sizes="100vw" 
+                    className="object-cover object-center opacity-100"
+                  />
+                </div>
+                {/* Mobile View Slide Image */}
+                <div className="block md:hidden absolute inset-0">
+                  <Image 
+                    src={getBannerSrc(currentSlide.src, "mobile")} 
+                    alt={`Slide ${currentSlide.id + 1}`} 
+                    fill 
+                    priority 
+                    sizes="100vw" 
+                    className="object-cover object-center opacity-100"
+                  />
+                </div>
+              </>
             )}
           </motion.div>
         </AnimatePresence>

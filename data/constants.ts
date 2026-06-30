@@ -47,6 +47,7 @@ export const productCategories = [
     icon: BriefcaseMedical,
     image: "/category-img/antibiotics-oral.png",
     description: "SUNMOX-CV, SUNLOX-DS and SIPMOX oral antibiotic range.",
+    region: "Myanmar",
   },
   {
     title: "Neuropathic / CNS",

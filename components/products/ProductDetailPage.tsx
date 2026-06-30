@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { getBannerSrc } from "@/lib/utils";
 import { ArrowLeft, Send } from "lucide-react";
 import { ScrollSlide } from "@/components/common/AnimatedPrimitives";
 import { MobilePageBanner } from "@/components/common/MobilePageBanner";
@@ -85,7 +86,7 @@ function ProductHero({ image, product }: { image: string; product: Product }) {
   return (
     <section className="relative hidden h-[550px] overflow-hidden bg-ink px-5 pb-10 pt-24 text-white md:block">
       <Image
-        src={image}
+        src={getBannerSrc(image, "desktop")}
         alt={product.brand}
         fill
         priority

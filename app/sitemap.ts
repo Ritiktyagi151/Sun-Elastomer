@@ -16,19 +16,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const legalPages = [
     {
-      url: `${siteUrl}/terms`,
+      url: `${siteUrl}/terms-conditions`,
       lastModified,
       changeFrequency: "yearly" as const,
       priority: 0.5,
     },
     {
-      url: `${siteUrl}/conditions`,
-      lastModified,
-      changeFrequency: "yearly" as const,
-      priority: 0.5,
-    },
-    {
-      url: `${siteUrl}/terms-and-conditions`,
+      url: `${siteUrl}/privacy-policy`,
       lastModified,
       changeFrequency: "yearly" as const,
       priority: 0.5,

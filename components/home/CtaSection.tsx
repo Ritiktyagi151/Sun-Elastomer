@@ -6,7 +6,7 @@ import { company } from "@/data/products";
 
 export function CtaSection() {
   return (
-    <section className="relative overflow-hidden bg-crimson px-5 py-20 text-white">
+    <section className="relative overflow-hidden bg-crimson px-5 py-12 md:py-20 text-white">
       {/* soft ambient glow */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.18),transparent_55%)]" />
 
@@ -14,13 +14,13 @@ export function CtaSection() {
         className="relative mx-auto flex max-w-7xl flex-col items-start justify-between gap-10 lg:flex-row lg:items-center"
         initial={{ opacity: 0, y: 26 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false, margin: "-100px" }}
+        viewport={{ once: true, margin: "-100px" }}
       >
         <div>
-          <h2 className="font-display text-4xl font-bold tracking-tight">
+          <h2 className="font-display text-3xl sm:text-3xl lg:text-4xl font-bold tracking-tight leading-tight">
             Ready to Partner With Us?
           </h2>
-          <p className="mt-3 max-w-2xl text-white/80">
+          <p className="mt-3 max-w-xl text-sm sm:text-base text-white/80 leading-relaxed">
             Reach out to our team for product inquiries, custom requirements, and export collaborations.
           </p>
         </div>

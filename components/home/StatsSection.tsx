@@ -6,8 +6,12 @@ import { homeStats } from "@/components/home/homeData";
 export function StatsSection() {
   return (
     <section
-  className="px-5 py-10 text-ink bg-cover bg-center bg-fixed "
-  style={{ backgroundImage: "url('/bg-theme/bg1.png')" }}
+  className="px-5 py-10 text-ink bg-cover bg-center"
+  style={{
+    backgroundImage: "url('/bg-theme/bg1.png')",
+    willChange: "transform",
+    transform: "translateZ(0)",
+  }}
 >
       <div className="mx-auto grid max-w-7xl gap-5 rounded-lg border border-crimson/10 bg-white p-5 shadow-xl shadow-crimson/5 md:grid-cols-4">
         {homeStats.map(({ number, suffix, label }) => (

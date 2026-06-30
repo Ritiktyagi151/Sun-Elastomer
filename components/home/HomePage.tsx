@@ -19,31 +19,31 @@ export function HomePage() {
       {/* <ScrollSlide direction="up">
         <StatsSection />
       </ScrollSlide> */}
-      <ScrollSlide direction="up">
+      <ScrollSlide direction="up" once={true}>
         <HealthcareDashboard />
       </ScrollSlide>
       {/* <ScrollSlide direction="right">
         <AboutPreviewSection />
       </ScrollSlide> */}
-      <ScrollSlide direction="left">
+      <ScrollSlide direction="left" once={true}>
         <ProductRangeSection />
       </ScrollSlide>
-      <ScrollSlide direction="up">
+      <ScrollSlide direction="up" once={true}>
         <FeaturesSection />
       </ScrollSlide>
-      <ScrollSlide direction="right">
+      <ScrollSlide direction="right" once={true}>
         <Testimonial />
       </ScrollSlide>
-      <ScrollSlide direction="left">
+      <ScrollSlide direction="left" once={true}>
         <ManufacturingPreviewSection />
       </ScrollSlide>
-      <ScrollSlide direction="up">
+      <ScrollSlide direction="up" once={true}>
         <ClientsSection />
       </ScrollSlide>
-      <ScrollSlide direction="right">
+      <ScrollSlide direction="right" once={true}>
         <FAQSection />
       </ScrollSlide>
-      <ScrollSlide direction="up">
+      <ScrollSlide direction="up" once={true}>
         <CtaSection />
       </ScrollSlide>
     </main>

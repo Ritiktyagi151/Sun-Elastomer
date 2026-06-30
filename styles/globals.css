@@ -61,6 +61,7 @@ textarea {
 }
 
 @supports not (overflow-x: clip) {
+
   html,
   body,
   .scroll-slide-shell {
@@ -337,9 +338,11 @@ textarea {
     transform: translate3d(0, 0, 0) scale(0.8);
     opacity: 0;
   }
+
   15% {
     opacity: 0.55;
   }
+
   100% {
     transform: translate3d(calc((var(--i) % 3 - 1) * 30px), -110vh, 0) scale(1.35);
     opacity: 0;
@@ -353,40 +356,48 @@ textarea {
 }
 
 @keyframes loader-bounce {
+
   0%,
   100% {
     translate: 0 36px;
   }
+
   50% {
     translate: 0 46px;
   }
 }
 
 @keyframes loader-bounce-2 {
+
   0%,
   100% {
     translate: 0 46px;
   }
+
   50% {
     translate: 0 56px;
   }
 }
 
 @keyframes loader-umbral {
+
   0%,
   100% {
     stop-color: rgba(185, 28, 28, 0.16);
   }
+
   50% {
     stop-color: rgba(185, 28, 28, 0.36);
   }
 }
 
 @keyframes loader-particles {
+
   0%,
   100% {
     translate: 0 16px;
   }
+
   50% {
     translate: 0 6px;
   }
@@ -422,5 +433,19 @@ textarea {
 
   .contact-dock__link span {
     display: none;
+  }
+}
+
+/* ── Scroll performance: GPU layer promotion to eliminate section-boundary flicker ── */
+section {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Disable bg-fixed on mobile — causes severe CPU repaints on iOS/Android */
+@media (max-width: 768px) {
+  [style*="background-image"] {
+    background-attachment: scroll !important;
   }
 }

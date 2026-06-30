@@ -6,33 +6,48 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const testimonials = [
   {
-    text: "Sun Elastomer's medicines have been a lifesaver for our hospital. Their WHO-GMP certified products are consistently reliable, and delivery is always on time. Truly a partner we trust with our patients' lives.",
-    name: "Dr. Rajesh Sharma",
-    role: "Chief Medical Officer, Apollo Clinic Delhi",
+    text: "I visited Dr. Mehta for my mother’s chronic knee pain. Unlike many clinics where you feel rushed, Dr. Mehta took the time to explain the root cause of the issue using an X-ray model.",
+    name: "Dr. Amit Mehta",
+    role: "Chief Medical Officer, MKW Hospital",
     initials: "DR",
     color: "bg-ink",
   },
   {
-    text: "As a distributor, I've worked with many pharma companies. Sun Elastomer stands out for their transparency, product quality, and exceptional after-sales support. My go-to partner for over 8 years.",
-    name: "Priya Gupta",
-    role: "Regional Distributor, Maharashtra",
+    text: "Dr. Rahul at Gargi Hospital, Raj Nagar was very thorough with my father's checkup. The clinic setup is simple but clean, and the staff is genuinely caring. Didn't have to wait long either.",
+    name: "Ram Sharma",
+    role: "Regional Distributor, Gargi Hospital",
     initials: "PG",
     color: "bg-crimson",
   },
   {
-    text: "The injectables and tablets from Sun Elastomer meet international standards. Our patients have seen great outcomes. It's rare to find a manufacturer this committed to quality at scale.",
-    name: "Anita Mehta",
-    role: "Pharmacist, Fortis Healthcare",
-    initials: "AM",
+    text: "Had a minor surgery at Shivalik Hospital, Govindpuram. The facility is small but very hygienic, and the nursing staff gave excellent, personalized care throughout my overnight stay. .",
+    name: "Vivek Singh",
+    role: "Surgeon, Shivalik Hospital",
+    initials: "VS",
     color: "bg-neutral-700",
   },
   {
-    text: "We switched to Sun Elastomer two years ago and haven't looked back. Their compliance record is spotless, and the product consistency across batches is something I've rarely seen in the industry.",
+    text: "Rushed my son to Flores Hospital, Pratap Vihar with a deep cut. The doctor on duty attended to him immediately and handled the stitches with great care. Very thankful for their quick service.",
     name: "Vikram Kohli",
-    role: "Procurement Head, Max Healthcare",
+    role: "Business Owner, Flores Hospital",
     initials: "VK",
     color: "bg-neutral-900",
   },
+  {
+    text: "The doctors at Avantika Hospital, Indirapuram give you the time and attention you don't always get at bigger places. The rooms are well-maintained and comfortable.",
+    name: "Anjali Gupta",
+    role: "Homemaker, Avantika Hospital",
+    initials: "AG",
+    color: "bg-neutral-900",
+  },
+  {
+    text: "I visited Vardan Multispeciality Hospital, Raj Nagar Extension for a severe migraine. The physician was patient and didn't prescribe unnecessary tests.",
+    name: "Priya Sharma",
+    role: "Head Marketing, Vardan Multispeciality Hospital",
+    initials: "PS",
+    color: "bg-neutral-900",
+  },
+
 ];
 
 const TestimonialSection: React.FC = () => {
@@ -47,10 +62,10 @@ const TestimonialSection: React.FC = () => {
   }, []);
 
   return (
-    <section className="grid grid-cols-1 md:grid-cols-2 bg-white overflow-hidden">
+    <section className="grid grid-cols-1 md:grid-cols-2 bg-white overflow-hidden md:h-[580px]">
 
       {/* Left - Image */}
-      <div className="relative h-[50vh] md:h-auto min-h-[400px] w-full">
+      <div className="relative h-[300px] md:h-full w-full">
         <Image
           src="/homepage-img/testi1.png"
           alt="Sun Elastomer facility"
@@ -62,13 +77,13 @@ const TestimonialSection: React.FC = () => {
       </div>
 
       {/* Right - Testimonials */}
-      <div className="flex flex-col justify-center px-8 py-14 md:px-16 lg:px-20">
+      <div className="flex flex-col justify-center px-8 py-10 md:py-0 md:px-16 lg:px-20 md:h-full md:overflow-hidden">
         <div className="max-w-xl">
 
           {/* Overline */}
           <motion.div className="flex items-center mb-5"
             initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }} viewport={{ once: false }}
+            transition={{ duration: 0.5 }} viewport={{ once: true }}
           >
             <div className="w-6 h-[1px] bg-crimson mr-4" />
             <span className="text-crimson text-xs font-semibold tracking-[0.2em] uppercase font-sans">
@@ -80,7 +95,7 @@ const TestimonialSection: React.FC = () => {
           <motion.h2
             className="text-3xl md:text-4xl lg:text-5xl font-serif text-ink mb-2 leading-[1.1]"
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }} viewport={{ once: false }}
+            transition={{ duration: 0.5, delay: 0.1 }} viewport={{ once: true }}
           >
             What Our Clients Say
           </motion.h2>
@@ -92,8 +107,8 @@ const TestimonialSection: React.FC = () => {
           {/* Quote mark */}
           <div className="text-7xl text-crimson/10 font-serif leading-none mb-4 select-none">&quot;</div>
 
-          {/* Slide */}
-          <div className="overflow-hidden mb-8">
+          {/* Slide — fixed min-height so text changes don't resize the section */}
+          <div className="overflow-hidden mb-8 min-h-[160px]">
             <AnimatePresence mode="wait">
               <motion.div
                 key={current}
@@ -136,9 +151,8 @@ const TestimonialSection: React.FC = () => {
                 <button
                   key={i}
                   onClick={() => setCurrent(i)}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    i === current ? 'w-6 bg-crimson' : 'w-1.5 bg-neutral-200'
-                  }`}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${i === current ? 'w-6 bg-crimson' : 'w-1.5 bg-neutral-200'
+                    }`}
                 />
               ))}
             </div>

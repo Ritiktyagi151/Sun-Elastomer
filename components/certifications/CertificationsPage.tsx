@@ -56,7 +56,7 @@ function CertificationsHero() {
   return (
     <section className="relative hidden h-[550px] overflow-hidden bg-ink px-5 pb-10 pt-24 text-white md:block">
       <Image
-        src="/banners/certification-banner.png"
+        src="/banners/desktop/certification-banner.png"
         alt="Compliance documents and business paperwork"
         fill
         priority

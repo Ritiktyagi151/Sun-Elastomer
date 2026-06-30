@@ -90,7 +90,7 @@ function AboutHero() {
   return (
     <section className="relative hidden h-[550px] overflow-hidden bg-ink px-5 pb-10 pt-24 text-white md:block">
       <Image
-        src="/banners/about-banner.png"
+        src="/banners/desktop/about-banner.png"
         alt="Quality laboratory professional reviewing pharmaceutical samples"
         fill
         priority

@@ -103,7 +103,7 @@ function ManufacturingHero() {
   return (
     <section className="relative hidden h-[550px] overflow-hidden bg-ink px-5 pb-10 pt-24 text-white md:block">
       <Image
-        src="/banners/manufacturingbanner.png"
+        src="/banners/desktop/manufacturingbanner.png"
         alt="Pharmaceutical manufacturing line"
         fill
         priority

@@ -120,7 +120,7 @@ export function SectionHeading({
         className={`mt-5 block h-1 w-24 rounded-full bg-crimson ${centered ? "mx-auto" : ""}`}
         initial={{ scaleX: 0 }}
         whileInView={{ scaleX: 1 }}
-        viewport={{ once: false, margin: "-100px" }}
+        viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.6 }}
       />
     </div>

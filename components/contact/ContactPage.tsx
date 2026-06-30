@@ -51,7 +51,7 @@ function ContactHero() {
   return (
     <section className="relative hidden h-[550px] overflow-hidden bg-ink px-5 pb-10 pt-24 text-white md:block">
       <Image
-        src="/banners/contact-us1.png"
+        src="/banners/desktop/contact-us1.png"
         alt="Pharmaceutical products on a clean medical desk"
         fill
         priority

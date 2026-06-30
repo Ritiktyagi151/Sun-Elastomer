@@ -48,7 +48,7 @@ function AnimatedTitle({ text }: { text: string }) {
           initial={{ opacity: 0, y: 20, filter: "blur(6px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ delay: 0.1 + i * 0.07, duration: 0.5, ease: "easeOut" }}
-          viewport={{ once: false }}
+          viewport={{ once: true }}
         >
           {word}
         </motion.span>
@@ -82,8 +82,12 @@ export function FeaturesSection() {
     >
       {/* ── Background image + dark overlay ── */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-fixed"
-        style={{ backgroundImage: "url('https://www.theonpharma.com/wp-content/uploads/2025/02/medicine.jpg')" }}
+        className="absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage: "url('https://www.theonpharma.com/wp-content/uploads/2025/02/medicine.jpg')",
+          willChange: "transform",
+          transform: "translateZ(0)",
+        }}
       />
       <div className="absolute inset-0 bg-black/68" />
 
@@ -107,7 +111,7 @@ export function FeaturesSection() {
           initial={{ opacity: 0, scale: 0.8 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4, ease: "backOut" }}
-          viewport={{ once: false }}
+          viewport={{ once: true }}
         >
           <span className="inline-block rounded-full border border-white/30 bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-white backdrop-blur-sm">
             Why Choose Us
@@ -119,7 +123,7 @@ export function FeaturesSection() {
           className="text-center text-3xl font-bold text-white lg:text-4xl"
           initial="hidden"
           whileInView="show"
-          viewport={{ once: false }}
+          viewport={{ once: true }}
         >
           <AnimatedTitle text="Built for pharmaceutical buyers who value confidence." />
         </motion.h2>
@@ -130,7 +134,7 @@ export function FeaturesSection() {
           initial={{ scaleX: 0, originX: 0.5 }}
           whileInView={{ scaleX: 1 }}
           transition={{ delay: 0.6, duration: 0.5, ease: "easeOut" }}
-          viewport={{ once: false }}
+          viewport={{ once: true }}
         />
 
         {/* ── Cards grid ── */}
@@ -168,6 +172,7 @@ export function FeaturesSection() {
                   delay: index * 0.3,
                 }}
                 whileHover={{ scale: 1.1, rotate: -4 }}
+                style={{ willChange: "transform" }}
               >
                 <Icon className="text-crimson" size={22} />
               </motion.div>
@@ -178,7 +183,7 @@ export function FeaturesSection() {
                 initial={{ opacity: 0, x: -10 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.15 + index * 0.08, duration: 0.4 }}
-                viewport={{ once: false }}
+                viewport={{ once: true }}
               >
                 {title}
               </motion.h3>
@@ -189,7 +194,7 @@ export function FeaturesSection() {
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{ delay: 0.25 + index * 0.08, duration: 0.5 }}
-                viewport={{ once: false }}
+                viewport={{ once: true }}
               >
                 {text}
               </motion.p>
