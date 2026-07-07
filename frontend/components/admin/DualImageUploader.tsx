@@ -20,6 +20,7 @@ export default function DualImageUploader({
   
   const [desktopBase64, setDesktopBase64] = useState<string>("");
   const [mobileBase64, setMobileBase64] = useState<string>("");
+  const [selectedFileName, setSelectedFileName] = useState<string>("");
 
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -37,16 +38,24 @@ export default function DualImageUploader({
       setMobilePreview("");
       setDesktopBase64("");
       setMobileBase64("");
+      setSelectedFileName("");
     }
   }, [value]);
 
-  const handleUpload = async (
-    deskBase64: string,
-    mobBase64: string,
-    fileName: string
-  ) => {
-    if (!deskBase64 || !mobBase64) return;
-    
+  const startUpload = async () => {
+    const finalDesktop = desktopBase64 || desktopPreview;
+    const finalMobile = mobileBase64 || mobilePreview;
+
+    if (!finalDesktop && !finalMobile) {
+      setError("Please select at least one image to upload.");
+      return;
+    }
+
+    // Default missing image to the other one (so backend is happy)
+    const deskData = finalDesktop || finalMobile;
+    const mobData = finalMobile || finalDesktop;
+    const nameToUse = selectedFileName || "banner.png";
+
     setIsUploading(true);
     setError(null);
 
@@ -58,15 +67,26 @@ export default function DualImageUploader({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: fileName,
-          desktopData: deskBase64,
-          mobileData: mobBase64,
+          name: nameToUse,
+          desktopData: deskData,
+          mobileData: mobData,
         }),
       });
+
+      // Handle unexpected token error by checking response headers
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        const text = await response.text();
+        throw new Error(text.includes("Payload Too Large") ? "Payload Too Large: Please compress your images before uploading." : `Server error: ${response.status}`);
+      }
 
       const result = await response.json();
       if (response.ok && result.success) {
         onChange(result.url);
+        // Clear local base64 states
+        setDesktopBase64("");
+        setMobileBase64("");
+        setError(null);
       } else {
         setError(result.error || "Failed to upload banner images.");
       }
@@ -88,32 +108,17 @@ export default function DualImageUploader({
         return;
       }
 
-      const reader = new FileReader();
-      reader.onload = async (event) => {
-        const base64Str = event.target?.result as string;
+      setSelectedFileName(file.name);
 
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const base64Str = event.target?.result as string;
         if (type === "desktop") {
           setDesktopPreview(base64Str);
           setDesktopBase64(base64Str);
-          
-          // If mobile is empty, mirror desktop to mobile automatically
-          const targetMobile = mobileBase64 || mobilePreview.startsWith("data:") || mobilePreview ? (mobileBase64 || mobilePreview) : base64Str;
-          if (!mobilePreview) {
-            setMobilePreview(base64Str);
-            setMobileBase64(base64Str);
-          }
-          await handleUpload(base64Str, targetMobile, file.name);
         } else {
           setMobilePreview(base64Str);
           setMobileBase64(base64Str);
-
-          // If desktop is empty, mirror mobile to desktop automatically
-          const targetDesktop = desktopBase64 || desktopPreview.startsWith("data:") || desktopPreview ? (desktopBase64 || desktopPreview) : base64Str;
-          if (!desktopPreview) {
-            setDesktopPreview(base64Str);
-            setDesktopBase64(base64Str);
-          }
-          await handleUpload(targetDesktop, base64Str, file.name);
         }
       };
       reader.readAsDataURL(file);
@@ -125,6 +130,7 @@ export default function DualImageUploader({
     setMobilePreview("");
     setDesktopBase64("");
     setMobileBase64("");
+    setSelectedFileName("");
     onChange("");
     if (desktopInputRef.current) desktopInputRef.current.value = "";
     if (mobileInputRef.current) mobileInputRef.current.value = "";
@@ -233,11 +239,23 @@ export default function DualImageUploader({
         </div>
       </div>
 
-      {isUploading && (
-        <div className="flex items-center gap-1.5 text-[10px] text-neutral-600 font-bold uppercase select-none mt-1 animate-pulse">
-          <Loader2 className="animate-spin text-crimson" size={12} />
-          Uploading banner packages...
-        </div>
+      {(desktopBase64 || mobileBase64) && (
+        <button
+          type="button"
+          onClick={startUpload}
+          disabled={isUploading}
+          className="mt-2 w-full py-2.5 rounded-xl bg-crimson hover:bg-crimson-dark text-white text-[10px] font-black uppercase tracking-wider shadow-sm transition active:scale-[0.98] disabled:opacity-50 select-none flex items-center justify-center gap-1.5"
+        >
+          {isUploading ? (
+            <>
+              <Loader2 className="animate-spin text-white" size={12} /> Saving Images...
+            </>
+          ) : (
+            <>
+              <Upload size={12} /> Apply Banner Changes
+            </>
+          )}
+        </button>
       )}
 
       {error && (
