@@ -1,0 +1,184 @@
+[
+  {
+    "slug": "elsefpime-1000mg",
+    "brand": "ELSEFPIME-1000mg",
+    "generic": "Cefepime for Injection USP",
+    "form": "Dry Powder Injection",
+    "strength": "1000mg",
+    "pack": "Vial in Monocarton + SWFI + PIL",
+    "category": "Antibiotics - Injectable",
+    "composition": [
+      { "ingredient": "Sterile Cefepime Hydrochloride Eq. to Cefepime", "quantity": "1000mg", "standard": "USP" },
+      { "ingredient": "L-Arginine (as stabilizer)", "quantity": "q.s.", "standard": "USP" }
+    ],
+    "description": "ELSEFPIME-1000mg (Cefepime for Injection USP) is a broad-spectrum, fourth-generation cephalosporin antibiotic designed for intravenous or intramuscular administration. It is indicated for the treatment of moderate to severe infections caused by susceptible strains of microorganisms, including urinary tract infections, skin infections, pneumonia, and empiric therapy for febrile neutropenic patients. This formulation is produced in compliance with global WHO-GMP quality standards for maximum stability, safety, and efficacy."
+  },
+  {
+    "slug": "elsefopera-500mg",
+    "brand": "ELSEFOPERA-500mg",
+    "generic": "Cefoperazone & Sulbactam for Injection",
+    "form": "Dry Powder Injection",
+    "strength": "500mg",
+    "pack": "Vial in Monocarton + SWFI + PIL",
+    "category": "Antibiotics - Injectable",
+    "composition": [
+      { "ingredient": "Sterile Cefoperazone Sodium Eq. to Cefoperazone", "quantity": "[TO BE UPDATED]", "standard": "USP" },
+      { "ingredient": "Sterile Sulbactam Sodium Eq. to Sulbactam", "quantity": "[TO BE UPDATED]", "standard": "USP" }
+    ]
+  },
+  {
+    "slug": "eltazopix-4500mg",
+    "brand": "ELTAZOPIX-4500mg",
+    "generic": "Piperacillin & Tazobactam for Injection USP",
+    "form": "Dry Powder Injection",
+    "strength": "4500mg",
+    "pack": "Vial in Monocarton + SWFI + PIL",
+    "category": "Antibiotics - Injectable",
+    "composition": [
+      { "ingredient": "Sterile Piperacillin Sodium Eq. to Piperacillin", "quantity": "4000mg", "standard": "USP" },
+      { "ingredient": "Sterile Tazobactam Sodium Eq. to Tazobactam", "quantity": "500mg", "standard": "USP" }
+    ]
+  },
+  {
+    "slug": "elclavmic-1200mg",
+    "brand": "ELCLAVMIC-1200mg",
+    "generic": "Co-Amoxiclav for Injection BP",
+    "form": "Dry Powder Injection",
+    "strength": "1200mg",
+    "pack": "Vial in Monocarton + SWFI + PIL",
+    "category": "Antibiotics - Injectable",
+    "composition": [
+      { "ingredient": "Sterile Amoxicillin Sodium Eq. to Amoxicillin", "quantity": "1000mg", "standard": "BP" },
+      { "ingredient": "Sterile Potassium Clavulanate Eq. to Clavulanic Acid", "quantity": "200mg", "standard": "BP" }
+    ]
+  },
+  {
+    "slug": "sunmox-cv-625",
+    "brand": "SUNMOX-CV 625",
+    "generic": "Amoxicillin & Clavulanate Potassium Tablets USP",
+    "form": "Film Coated Tablet",
+    "strength": "625mg",
+    "category": "Antibiotics - Oral",
+    "composition": [
+      { "ingredient": "Amoxicillin Trihydrate Eq. to Amoxicillin", "quantity": "500mg", "standard": "USP" },
+      { "ingredient": "Diluted Potassium Clavulanate Eq. to Clavulanic Acid", "quantity": "125mg", "standard": "BP" }
+    ]
+  },
+  {
+    "slug": "sunmox-cv-1000",
+    "brand": "SUNMOX-CV 1000",
+    "generic": "Amoxicillin & Clavulanate Potassium Tablets USP",
+    "form": "Film Coated Tablet",
+    "strength": "1000mg",
+    "category": "Antibiotics - Oral",
+    "composition": [
+      { "ingredient": "Amoxicillin Trihydrate Eq. to Amoxicillin", "quantity": "875mg", "standard": "USP" },
+      { "ingredient": "Diluted Potassium Clavulanate Eq. to Clavulanic Acid", "quantity": "125mg", "standard": "BP" }
+    ]
+  },
+  {
+    "slug": "sunlox-ds-156-25mg-5ml",
+    "brand": "SUNLOX-DS 156.25mg/5ml",
+    "generic": "Amoxicillin & Potassium Clavulanate Oral Suspension BP",
+    "form": "Oral Suspension",
+    "strength": "156.25mg/5ml",
+    "category": "Antibiotics - Oral",
+    "compositionNote": "per 5ml",
+    "composition": [
+      { "ingredient": "Amoxicillin Trihydrate Eq. to Amoxicillin", "quantity": "125mg", "standard": "BP" },
+      { "ingredient": "Diluted Potassium Clavulanate Eq. to Clavulanic Acid", "quantity": "31.25mg", "standard": "BP" }
+    ]
+  },
+  {
+    "slug": "sunlox-ds-312-5mg-5ml",
+    "brand": "SUNLOX-DS 312.5mg/5ml",
+    "generic": "Amoxicillin & Potassium Clavulanate Oral Suspension BP",
+    "form": "Oral Suspension",
+    "strength": "312.5mg/5ml",
+    "category": "Antibiotics - Oral",
+    "compositionNote": "per 5ml",
+    "composition": [
+      { "ingredient": "Amoxicillin Trihydrate Eq. to Amoxicillin", "quantity": "250mg", "standard": "BP" },
+      { "ingredient": "Diluted Potassium Clavulanate Eq. to Clavulanic Acid", "quantity": "62.5mg", "standard": "BP" }
+    ]
+  },
+  {
+    "slug": "sipmox-1000-sachet",
+    "brand": "SIPMOX 1000 Sachet",
+    "generic": "Co-Amoxiclav Oral Suspension BP",
+    "form": "Sachet",
+    "strength": "1000mg per sachet",
+    "category": "Antibiotics - Oral",
+    "compositionNote": "per sachet",
+    "composition": [
+      { "ingredient": "Amoxicillin Trihydrate Eq. to Amoxicillin", "quantity": "875mg", "standard": "BP" },
+      { "ingredient": "Diluted Potassium Clavulanate Eq. to Clavulanic Acid", "quantity": "125mg", "standard": "BP" }
+    ]
+  },
+  {
+    "slug": "sunpreg-75",
+    "brand": "Sunpreg 75",
+    "generic": "Pregabalin Capsule",
+    "form": "Capsule",
+    "strength": "75mg",
+    "category": "Neuropathic / CNS",
+    "composition": [
+      { "ingredient": "Pregabalin", "quantity": "75mg", "standard": "BP" }
+    ]
+  },
+  {
+    "slug": "sunpreg-150",
+    "brand": "Sunpreg 150",
+    "generic": "Pregabalin Capsule",
+    "form": "Capsule",
+    "strength": "150mg",
+    "category": "Neuropathic / CNS",
+    "composition": [
+      { "ingredient": "Pregabalin", "quantity": "150mg", "standard": "BP" }
+    ]
+  },
+  {
+    "slug": "sunglip-50",
+    "brand": "Sunglip 50",
+    "generic": "Sitagliptin Film Coated Tablets",
+    "form": "Film Coated Tablet",
+    "strength": "50mg",
+    "category": "Antidiabetic",
+    "composition": [
+      { "ingredient": "Sitagliptin", "quantity": "50mg", "standard": "[TO BE UPDATED]" }
+    ]
+  },
+  {
+    "slug": "sunglip-100",
+    "brand": "Sunglip 100",
+    "generic": "Sitagliptin Film Coated Tablets",
+    "form": "Film Coated Tablet",
+    "strength": "100mg",
+    "category": "Antidiabetic",
+    "composition": [
+      { "ingredient": "Sitagliptin", "quantity": "100mg", "standard": "[TO BE UPDATED]" }
+    ]
+  },
+  {
+    "slug": "bactosun",
+    "brand": "Bactosun",
+    "generic": "Mupirocin Ointment",
+    "form": "Ointment",
+    "strength": "20mg/g (2% w/w)",
+    "category": "Dermatology",
+    "composition": [
+      { "ingredient": "Mupirocin", "quantity": "20mg/g (2% w/w)", "standard": "[TO BE UPDATED]" }
+    ]
+  },
+  {
+    "slug": "sunpant-40",
+    "brand": "Sunpant 40",
+    "generic": "Pantoprazole Enteric Coated Tablet",
+    "form": "Enteric Coated Tablet",
+    "strength": "40mg",
+    "category": "Gastroenterology",
+    "composition": [
+      { "ingredient": "Pantoprazole", "quantity": "40mg", "standard": "[TO BE UPDATED]" }
+    ]
+  }
+]

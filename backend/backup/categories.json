@@ -1,0 +1,39 @@
+[
+  {
+    "title": "Antibiotics - Injectable",
+    "category": "Antibiotics - Injectable",
+    "image": "/category-img/antibiotics-injectable.png",
+    "description": "ELSEFPIME, ELSEFOPERA, ELTAZOPIX and ELCLAVMIC injectable antibiotics."
+  },
+  {
+    "title": "Antibiotics - Oral",
+    "category": "Antibiotics - Oral",
+    "image": "/category-img/antibiotics-oral.png",
+    "description": "SUNMOX-CV, SUNLOX-DS and SIPMOX oral antibiotic range.",
+    "region": "Myanmar"
+  },
+  {
+    "title": "Neuropathic / CNS",
+    "category": "Neuropathic / CNS",
+    "image": "/category-img/neuropathic-cns.png",
+    "description": "Sunpreg pregabalin capsule range."
+  },
+  {
+    "title": "Antidiabetic",
+    "category": "Antidiabetic",
+    "image": "/category-img/antidiabetic.png",
+    "description": "Sunglip sitagliptin film coated tablets."
+  },
+  {
+    "title": "Dermatology",
+    "category": "Dermatology",
+    "image": "/category-img/dermatology.png",
+    "description": "Bactosun mupirocin ointment."
+  },
+  {
+    "title": "Gastroenterology",
+    "category": "Gastroenterology",
+    "image": "/category-img/gastroenterology.png",
+    "description": "Sunpant pantoprazole enteric coated tablet."
+  }
+]
