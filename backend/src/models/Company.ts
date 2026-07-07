@@ -10,6 +10,13 @@ export interface ICompany extends Document {
   address: string;
   contactEmail: string;
   contactPhone: string;
+  footerDescription?: string;
+  linkedinUrl?: string;
+  twitterUrl?: string;
+  whatsappUrl?: string;
+  floatingWhatsapp?: string;
+  floatingPhone?: string;
+  floatingEmail?: string;
 }
 
 const CompanySchema = new Schema<ICompany>(
@@ -23,6 +30,13 @@ const CompanySchema = new Schema<ICompany>(
     address: { type: String, required: true },
     contactEmail: { type: String, required: true },
     contactPhone: { type: String, required: true },
+    footerDescription: { type: String, default: "" },
+    linkedinUrl: { type: String, default: "" },
+    twitterUrl: { type: String, default: "" },
+    whatsappUrl: { type: String, default: "" },
+    floatingWhatsapp: { type: String, default: "" },
+    floatingPhone: { type: String, default: "" },
+    floatingEmail: { type: String, default: "" },
   },
   { timestamps: true }
 );

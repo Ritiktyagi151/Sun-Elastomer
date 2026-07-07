@@ -45,7 +45,8 @@ export default function DualImageUploader({
   const handleUpload = async (
     deskBase64: string,
     mobBase64: string,
-    fileName: string
+    fileName: string,
+    existingName?: string
   ) => {
     // Only upload if at least one base64 image is provided
     const isDeskBase64 = deskBase64 && deskBase64.startsWith("data:image/");
@@ -66,6 +67,7 @@ export default function DualImageUploader({
           name: fileName,
           desktopData: deskBase64 || "",
           mobileData: mobBase64 || "",
+          existingName: existingName || null,
         }),
       });
 
@@ -106,20 +108,23 @@ export default function DualImageUploader({
       const reader = new FileReader();
       reader.onload = async (event) => {
         const base64Str = event.target?.result as string;
+
+        // Extract existing filename from current value URL so we can update only one slot
+        // value is like "/banners/desktop/1234567890-filename.png"
+        const existingFileName = value
+          ? value.split("/").pop()
+          : undefined;
+
         if (type === "desktop") {
           setDesktopPreview(base64Str);
           setDesktopBase64(base64Str);
-
-          // Get mobile data if already set, otherwise pass fallback
-          const targetMobile = mobileBase64 || (mobilePreview && !mobilePreview.startsWith("http") ? mobilePreview : "");
-          await handleUpload(base64Str, targetMobile, file.name);
+          // Upload ONLY desktop data — pass empty string for mobile so backend skips it
+          await handleUpload(base64Str, "", file.name, existingFileName);
         } else {
           setMobilePreview(base64Str);
           setMobileBase64(base64Str);
-
-          // Get desktop data if already set, otherwise pass fallback
-          const targetDesktop = desktopBase64 || (desktopPreview && !desktopPreview.startsWith("http") ? desktopPreview : "");
-          await handleUpload(targetDesktop, base64Str, file.name);
+          // Upload ONLY mobile data — pass empty string for desktop so backend skips it
+          await handleUpload("", base64Str, file.name, existingFileName);
         }
       };
       reader.readAsDataURL(file);

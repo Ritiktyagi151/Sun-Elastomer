@@ -69,6 +69,13 @@ export function AdminDashboard() {
     contactEmail: "",
     contactPhone: "",
     shortName: "",
+    footerDescription: "",
+    linkedinUrl: "",
+    twitterUrl: "",
+    whatsappUrl: "",
+    floatingWhatsapp: "",
+    floatingPhone: "",
+    floatingEmail: "",
   });
 
   // Authentication states
@@ -217,6 +224,13 @@ export function AdminDashboard() {
           contactEmail: parsed.contactEmail || "",
           contactPhone: parsed.contactPhone || "",
           shortName: parsed.shortName || "",
+          footerDescription: parsed.footerDescription || "",
+          linkedinUrl: parsed.linkedinUrl || "",
+          twitterUrl: parsed.twitterUrl || "",
+          whatsappUrl: parsed.whatsappUrl || "",
+          floatingWhatsapp: parsed.floatingWhatsapp || "",
+          floatingPhone: parsed.floatingPhone || "",
+          floatingEmail: parsed.floatingEmail || "",
         });
       }
     } catch (err) {
@@ -782,17 +796,17 @@ export function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-50/50 text-neutral-800 flex flex-col md:flex-row pt-0">
+    <div className="min-h-screen md:h-screen md:max-h-screen md:overflow-hidden bg-neutral-50/50 text-neutral-800 flex flex-col md:flex-row pt-0">
 
       {/* Sidebar navigation */}
-      <aside className="w-full md:w-64 bg-white border-r border-neutral-200/80 flex flex-col p-6 gap-8 shrink-0 shadow-[4px_0_24px_-4px_rgba(0,0,0,0.02)] z-10 select-none">
+      <aside className="w-full md:w-64 bg-white border-r border-neutral-200/80 flex flex-col p-6 gap-8 shrink-0 shadow-[4px_0_24px_-4px_rgba(0,0,0,0.02)] z-10 select-none md:h-full md:overflow-y-auto">
         <div className="flex items-center gap-3 border-b border-neutral-100 pb-5">
           <div className="h-8 w-8 rounded-lg bg-crimson flex items-center justify-center text-white font-extrabold text-sm shadow-md shadow-crimson/20">
             S
           </div>
           <div>
             <h2 className="text-xs font-black uppercase text-neutral-900 tracking-wider">Sun Elastomers</h2>
-            <p className="text-[9px] text-neutral-400 font-black uppercase tracking-widest mt-0.5">Control Center</p>
+            <p className="text-[9px] text-neutral-450 font-black uppercase tracking-widest mt-0.5">Control Center</p>
           </div>
         </div>
 
@@ -835,7 +849,7 @@ export function AdminDashboard() {
       </aside>
 
       {/* Main panel container */}
-      <main className="flex-1 p-6 md:p-10 flex flex-col gap-8 overflow-y-auto max-w-7xl">
+      <main className="flex-1 p-6 md:p-10 flex flex-col gap-8 overflow-y-auto md:h-full max-w-none">
 
         {/* Top Header Bar */}
         <header className="flex items-center justify-between border-b border-neutral-150 pb-5 shrink-0 select-none">
@@ -975,6 +989,95 @@ export function AdminDashboard() {
                     value={companyForm.address}
                     onChange={(e) => setCompanyForm({ ...companyForm, address: e.target.value })}
                     className="w-full h-10 px-3 bg-neutral-50/65 hover:bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:border-crimson/50 focus:ring-1 focus:ring-crimson/20 transition-all font-semibold"
+                  />
+                </div>
+
+                {/* Footer & Layout Settings */}
+                <div className="sm:col-span-2 border-t border-neutral-100 pt-6 mt-2">
+                  <h4 className="text-xs font-black uppercase tracking-wider text-neutral-800">Footer Customization</h4>
+                  <p className="text-[10px] text-neutral-450 font-semibold mt-0.5">Customize the branding description and social link icons displayed in the site footer.</p>
+                </div>
+
+                <div className="flex flex-col gap-1.5 sm:col-span-2">
+                  <label className="text-[10px] font-black uppercase text-neutral-400">Footer Description</label>
+                  <textarea
+                    rows={3}
+                    value={companyForm.footerDescription}
+                    onChange={(e) => setCompanyForm({ ...companyForm, footerDescription: e.target.value })}
+                    className="w-full p-3 bg-neutral-50/65 hover:bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:border-crimson/50 focus:ring-1 focus:ring-crimson/20 transition-all font-semibold resize-y"
+                    placeholder="Enter description to display in footer..."
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-[10px] font-black uppercase text-neutral-400">LinkedIn URL</label>
+                  <input
+                    type="url"
+                    value={companyForm.linkedinUrl}
+                    onChange={(e) => setCompanyForm({ ...companyForm, linkedinUrl: e.target.value })}
+                    className="w-full h-10 px-3 bg-neutral-50/65 hover:bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:border-crimson/50 focus:ring-1 focus:ring-crimson/20 transition-all font-semibold"
+                    placeholder="https://linkedin.com/company/your-profile"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-[10px] font-black uppercase text-neutral-400">Twitter URL</label>
+                  <input
+                    type="url"
+                    value={companyForm.twitterUrl}
+                    onChange={(e) => setCompanyForm({ ...companyForm, twitterUrl: e.target.value })}
+                    className="w-full h-10 px-3 bg-neutral-50/65 hover:bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:border-crimson/50 focus:ring-1 focus:ring-crimson/20 transition-all font-semibold"
+                    placeholder="https://twitter.com/your-profile"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1.5 sm:col-span-2">
+                  <label className="text-[10px] font-black uppercase text-neutral-400">WhatsApp Social Link Override</label>
+                  <input
+                    type="text"
+                    value={companyForm.whatsappUrl}
+                    onChange={(e) => setCompanyForm({ ...companyForm, whatsappUrl: e.target.value })}
+                    className="w-full h-10 px-3 bg-neutral-50/65 hover:bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:border-crimson/50 focus:ring-1 focus:ring-crimson/20 transition-all font-semibold"
+                    placeholder="Leave empty for auto-generated wa.me link"
+                  />
+                </div>
+
+                {/* Floating Contact Overrides */}
+                <div className="sm:col-span-2 border-t border-neutral-100 pt-6 mt-2">
+                  <h4 className="text-xs font-black uppercase tracking-wider text-neutral-800">Floating Contact Dock Link Overrides</h4>
+                  <p className="text-[10px] text-neutral-450 font-semibold mt-0.5">Override contact URLs (WhatsApp, Phone call, and Email) configured in the floating contact dock on the bottom right corner of the website.</p>
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-[10px] font-black uppercase text-neutral-400">Floating WhatsApp Link Override</label>
+                  <input
+                    type="text"
+                    value={companyForm.floatingWhatsapp}
+                    onChange={(e) => setCompanyForm({ ...companyForm, floatingWhatsapp: e.target.value })}
+                    className="w-full h-10 px-3 bg-neutral-50/65 hover:bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:border-crimson/50 focus:ring-1 focus:ring-crimson/20 transition-all font-semibold"
+                    placeholder="Leave empty to use main contact phone number link"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-[10px] font-black uppercase text-neutral-400">Floating Phone Link Override</label>
+                  <input
+                    type="text"
+                    value={companyForm.floatingPhone}
+                    onChange={(e) => setCompanyForm({ ...companyForm, floatingPhone: e.target.value })}
+                    className="w-full h-10 px-3 bg-neutral-50/65 hover:bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:border-crimson/50 focus:ring-1 focus:ring-crimson/20 transition-all font-semibold"
+                    placeholder="Leave empty to use main contact phone number"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1.5 sm:col-span-2">
+                  <label className="text-[10px] font-black uppercase text-neutral-400">Floating Email Link Override</label>
+                  <input
+                    type="text"
+                    value={companyForm.floatingEmail}
+                    onChange={(e) => setCompanyForm({ ...companyForm, floatingEmail: e.target.value })}
+                    className="w-full h-10 px-3 bg-neutral-50/65 hover:bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:border-crimson/50 focus:ring-1 focus:ring-crimson/20 transition-all font-semibold"
+                    placeholder="Leave empty to use main contact email"
                   />
                 </div>
 

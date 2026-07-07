@@ -7,5 +7,12 @@
   "constitution": "Private Limited Company",
   "address": "Site-4, 62/2/2, Industrial Area Sahibabad, Ghaziabad, Uttar Pradesh - 201010",
   "contactEmail": "info@sunelastomerspharma.com",
-  "contactPhone": "+91 99677 77537"
+  "contactPhone": "+91 99677 77537",
+  "footerDescription": "Trusted pharmaceutical product company offering quality tablets, capsules, injectables and antibiotic formulations for B2B healthcare supply.",
+  "linkedinUrl": "https://www.linkedin.com/",
+  "twitterUrl": "https://twitter.com/",
+  "whatsappUrl": "https://wa.me/919967777537",
+  "floatingWhatsapp": "https://wa.me/919967777537",
+  "floatingPhone": "tel:+919967777537",
+  "floatingEmail": "mailto:info@sunelastomerspharma.com"
 }

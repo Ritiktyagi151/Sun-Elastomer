@@ -76,6 +76,55 @@ export const company = {
     }
     return "+91 99677 77537";
   },
+  get footerDescription() {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("sun_company_info");
+      if (stored) return JSON.parse(stored).footerDescription || "";
+    }
+    return "";
+  },
+  get linkedinUrl() {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("sun_company_info");
+      if (stored) return JSON.parse(stored).linkedinUrl || "";
+    }
+    return "";
+  },
+  get twitterUrl() {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("sun_company_info");
+      if (stored) return JSON.parse(stored).twitterUrl || "";
+    }
+    return "";
+  },
+  get whatsappUrl() {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("sun_company_info");
+      if (stored) return JSON.parse(stored).whatsappUrl || "";
+    }
+    return "";
+  },
+  get floatingWhatsapp() {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("sun_company_info");
+      if (stored) return JSON.parse(stored).floatingWhatsapp || "";
+    }
+    return "";
+  },
+  get floatingPhone() {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("sun_company_info");
+      if (stored) return JSON.parse(stored).floatingPhone || "";
+    }
+    return "";
+  },
+  get floatingEmail() {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("sun_company_info");
+      if (stored) return JSON.parse(stored).floatingEmail || "";
+    }
+    return "";
+  },
 };
 
 export const stats = [
@@ -143,6 +192,7 @@ export type Product = {
   composition: { ingredient: string; quantity: string; standard: string }[];
   compositionNote?: string;
   description?: string;
+  image?: string;
 };
 
 export const products: Product[] = [

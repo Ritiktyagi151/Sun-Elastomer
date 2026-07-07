@@ -4,7 +4,23 @@ import React, { useState, useEffect } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import ImageExtension from "@tiptap/extension-image";
+import { Table } from "@tiptap/extension-table";
+import { TableRow } from "@tiptap/extension-table-row";
+import { TableCell } from "@tiptap/extension-table-cell";
+import { TableHeader } from "@tiptap/extension-table-header";
 import TurndownService from "turndown";
+import { marked } from "marked";
+
+// Configure marked for GFM-compatible output (enables table parsing)
+marked.setOptions({ gfm: true, breaks: true });
+
+// Helper: convert Markdown string to HTML for Tiptap
+const markdownToHtml = (md: string): string => {
+  if (!md) return "";
+  // If already looks like HTML, pass through
+  if (md.trim().startsWith("<")) return md;
+  return marked.parse(md) as string;
+};
 import {
   Save,
   Bold,
@@ -23,15 +39,42 @@ import {
   PlusCircle,
   Trash2,
   ArrowLeft,
-  Image as ImageIcon
+  Image as ImageIcon,
+  Table as TableIcon,
+  Columns2
 } from "lucide-react";
 import DualImageUploader from "@/components/admin/DualImageUploader";
 
-// Setup Turndown for HTML -> Markdown conversion
+// Setup Turndown for HTML -> Markdown conversion with TABLE support
 const turndownService = new TurndownService({
   headingStyle: "atx",
   codeBlockStyle: "fenced"
 });
+
+// Turndown rule: convert <table> elements to GitHub-Flavored Markdown tables
+turndownService.addRule("table", {
+  filter: "table",
+  replacement: (_content: string, node: any) => {
+    const rows: string[][] = [];
+    const tableEl = node as HTMLTableElement;
+    tableEl.querySelectorAll("tr").forEach((tr: HTMLTableRowElement) => {
+      const cells: string[] = [];
+      tr.querySelectorAll("th, td").forEach((cell: Element) => {
+        cells.push((cell.textContent || "").replace(/\|/g, "\\|").replace(/\n/g, " ").trim());
+      });
+      rows.push(cells);
+    });
+    if (rows.length === 0) return "";
+    const header = `| ${rows[0].join(" | ")} |`;
+    const separator = `| ${rows[0].map(() => "---").join(" | ")} |`;
+    const body = rows.slice(1).map(r => `| ${r.join(" | ")} |`).join("\n");
+    return `\n\n${header}\n${separator}${body ? "\n" + body : ""}\n\n`;
+  }
+});
+
+// Prevent default turndown behavior from mangling table cell/row content
+turndownService.addRule("tableCell", { filter: ["th", "td"], replacement: (content: string) => content });
+turndownService.addRule("tableRow", { filter: "tr", replacement: (content: string) => content });
 
 interface AdminInlineEditorProps {
   type: "product" | "category" | "blog";
@@ -49,6 +92,8 @@ export default function AdminInlineEditor({
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState<any[]>([]);
   const [notif, setNotif] = useState<{ text: string; type: "success" | "error" } | null>(null);
+  // Stores HTML content to be loaded into editor once it is ready
+  const pendingContent = React.useRef<string | null>(null);
 
   // Form States
   const [blogForm, setBlogForm] = useState({
@@ -68,6 +113,7 @@ export default function AdminInlineEditor({
     strength: string;
     pack: string;
     category: string;
+    image: string;
     composition: { ingredient: string; quantity: string; standard: string }[];
   }>({
     brand: "",
@@ -76,6 +122,7 @@ export default function AdminInlineEditor({
     strength: "",
     pack: "",
     category: "",
+    image: "",
     composition: [{ ingredient: "", quantity: "", standard: "" }]
   });
 
@@ -88,11 +135,18 @@ export default function AdminInlineEditor({
 
   // Tiptap Rich Editor Instance
   const editor = useEditor({
-    extensions: [StarterKit, ImageExtension],
+    extensions: [
+      StarterKit,
+      ImageExtension,
+      Table.configure({ resizable: false }),
+      TableRow,
+      TableHeader,
+      TableCell,
+    ],
     content: "",
     editorProps: {
       attributes: {
-        class: "focus:outline-none min-h-[300px] max-h-[500px] overflow-y-auto p-4 prose prose-sm sm:prose max-w-none text-neutral-800",
+        class: "tiptap-editor-content focus:outline-none min-h-[300px] max-h-[500px] overflow-y-auto p-4 w-full",
       },
     },
   });
@@ -175,9 +229,12 @@ export default function AdminInlineEditor({
                 strength: data.strength || "",
                 pack: data.pack || "",
                 category: data.category || "",
+                image: data.image || "",
                 composition: data.composition?.length ? data.composition : [{ ingredient: "", quantity: "", standard: "" }]
               });
-              editor?.commands.setContent(data.description || "");
+              const htmlContent = markdownToHtml(data.description || "");
+              pendingContent.current = htmlContent;
+              if (editor) editor.commands.setContent(htmlContent);
             } else if (type === "category") {
               setCategoryForm({
                 title: data.title || "",
@@ -185,7 +242,9 @@ export default function AdminInlineEditor({
                 region: data.region || "",
                 image: data.image || ""
               });
-              editor?.commands.setContent(data.description || "");
+              const htmlDescCat = markdownToHtml(data.description || "");
+              pendingContent.current = htmlDescCat;
+              if (editor) editor.commands.setContent(htmlDescCat);
             } else if (type === "blog") {
               setBlogForm({
                 title: data.title || "",
@@ -196,7 +255,9 @@ export default function AdminInlineEditor({
                 image: data.image || "",
                 featured: !!data.featured
               });
-              editor?.commands.setContent(data.content || "");
+              const htmlContent = markdownToHtml(data.content || "");
+              pendingContent.current = htmlContent;
+              if (editor) editor.commands.setContent(htmlContent);
             }
           } else {
             showNotification("Failed to retrieve record details.", "error");
@@ -210,6 +271,7 @@ export default function AdminInlineEditor({
             strength: "",
             pack: "",
             category: categories[0]?.category || "",
+            image: "",
             composition: [{ ingredient: "", quantity: "", standard: "" }]
           });
           setCategoryForm({
@@ -242,6 +304,14 @@ export default function AdminInlineEditor({
     }
   }, [slug, type, editor]);
 
+  // 1b. When editor becomes ready, apply any content that was fetched before it was initialized
+  useEffect(() => {
+    if (editor && !editor.isDestroyed && pendingContent.current !== null) {
+      editor.commands.setContent(pendingContent.current);
+      pendingContent.current = null;
+    }
+  }, [editor]);
+
   // 2. Form submission handler
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -261,8 +331,21 @@ export default function AdminInlineEditor({
           showNotification("Brand and Generic fields are required.", "error");
           return;
         }
+        if (!productForm.category) {
+          showNotification("Please select a Product Category.", "error");
+          return;
+        }
+        // Filter out blank composition rows (keep only rows with at least an ingredient)
+        const cleanComposition = productForm.composition
+          .filter(c => c.ingredient.trim() !== "")
+          .map(c => ({
+            ingredient: c.ingredient.trim(),
+            quantity: c.quantity.trim() || "—",
+            standard: c.standard.trim() || "—"
+          }));
         bodyData = {
           ...productForm,
+          composition: cleanComposition,
           slug: slug || productForm.brand.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""),
           description: markdownContent
         };
@@ -515,6 +598,12 @@ export default function AdminInlineEditor({
                   ))}
                 </div>
               </div>
+
+              <DualImageUploader
+                value={productForm.image}
+                onChange={(url) => setProductForm({ ...productForm, image: url })}
+                label="Product Image / Pack Shot"
+              />
             </div>
           )}
 
@@ -766,6 +855,62 @@ export default function AdminInlineEditor({
                 >
                   <ImageIcon size={14} />
                 </button>
+
+                <div className="w-px h-5 bg-neutral-200 mx-1.5" />
+
+                {/* Table Controls */}
+                <button
+                  type="button"
+                  onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()}
+                  className="p-2 rounded-lg hover:bg-neutral-200/60 text-neutral-500 transition"
+                  title="Insert Table"
+                >
+                  <TableIcon size={14} />
+                </button>
+                {editor.isActive("table") && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => editor.chain().focus().addColumnAfter().run()}
+                      className="px-2 py-1 rounded text-[9px] font-bold uppercase hover:bg-neutral-200/60 text-neutral-500 transition"
+                      title="Add Column"
+                    >
+                      +Col
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => editor.chain().focus().addRowAfter().run()}
+                      className="px-2 py-1 rounded text-[9px] font-bold uppercase hover:bg-neutral-200/60 text-neutral-500 transition"
+                      title="Add Row"
+                    >
+                      +Row
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => editor.chain().focus().deleteColumn().run()}
+                      className="px-2 py-1 rounded text-[9px] font-bold uppercase hover:bg-red-50 text-red-400 transition"
+                      title="Delete Column"
+                    >
+                      -Col
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => editor.chain().focus().deleteRow().run()}
+                      className="px-2 py-1 rounded text-[9px] font-bold uppercase hover:bg-red-50 text-red-400 transition"
+                      title="Delete Row"
+                    >
+                      -Row
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => editor.chain().focus().deleteTable().run()}
+                      className="px-2 py-1 rounded text-[9px] font-bold uppercase hover:bg-red-50 text-red-500 transition"
+                      title="Delete Table"
+                    >
+                      Del Table
+                    </button>
+                  </>
+                )}
               </div>
             )}
 

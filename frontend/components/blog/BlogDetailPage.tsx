@@ -122,6 +122,20 @@ export function BlogDetailPage({ post: initialPost, slug }: { post?: BlogPost; s
   const tocHeadings = useMemo(() => {
     if (!post || !post.content) return [{ id: "intro", label: "1. Introduction" }];
 
+    // Helper: strip Markdown formatting like links, bold, and italics to get clean text
+    const cleanMarkdown = (text: string): string => {
+      return text
+        // Strip links: [label](url) -> label
+        .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+        // Strip bold: **text** or __text__ -> text
+        .replace(/(\*\*|__)(.*?)\1/g, "$2")
+        // Strip italic: *text* or _text_ -> text
+        .replace(/(\*|_)(.*?)\1/g, "$2")
+        // Strip inline code: `code` -> code
+        .replace(/`(.*?)`/g, "$1")
+        .trim();
+    };
+
     const headingRegex = /^(##|###)\s+(.+)$/gm;
     const headings: { id: string; label: string; subLinks?: { id: string; label: string }[] }[] = [];
     let match;
@@ -129,12 +143,13 @@ export function BlogDetailPage({ post: initialPost, slug }: { post?: BlogPost; s
     while ((match = headingRegex.exec(post.content)) !== null) {
       const level = match[1];
       const titleText = match[2].trim();
-      const id = titleText.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+      const cleanText = cleanMarkdown(titleText);
+      const id = cleanText.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 
       if (level === "##") {
-        headings.push({ id, label: titleText, subLinks: [] });
+        headings.push({ id, label: cleanText, subLinks: [] });
       } else if (level === "###" && headings.length > 0) {
-        headings[headings.length - 1].subLinks?.push({ id, label: titleText });
+        headings[headings.length - 1].subLinks?.push({ id, label: cleanText });
       }
     }
 
@@ -306,7 +321,7 @@ export function BlogDetailPage({ post: initialPost, slug }: { post?: BlogPost; s
                     const id = text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
                     return <h3 id={id} className="font-display text-lg md:text-[21px] font-bold text-ink mt-6 mb-2">{children}</h3>;
                   },
-                  p: ({ children }) => <p className="text-neutral-600 leading-8 text-[16px] mb-4">{children}</p>,
+                  p: ({ children }) => <p className="text-neutral-600 leading-8 text-[16px] mb-4 whitespace-pre-line">{children}</p>,
                   ul: ({ children }) => <ul className="list-disc pl-5 space-y-2.5 ml-2 mb-4">{children}</ul>,
                   ol: ({ children }) => <ol className="list-decimal pl-5 space-y-2.5 ml-2 mb-4">{children}</ol>,
                   li: ({ children }) => <li className="text-neutral-600 leading-7">{children}</li>,

@@ -4,15 +4,15 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, type Variants } from "framer-motion";
-import { 
-  MapPin, 
-  Syringe, 
-  BriefcaseMedical, 
-  Tablets, 
-  FlaskConical, 
-  PackageCheck, 
-  Beaker, 
-  type LucideIcon 
+import {
+  MapPin,
+  Syringe,
+  BriefcaseMedical,
+  Tablets,
+  FlaskConical,
+  PackageCheck,
+  Beaker,
+  type LucideIcon
 } from "lucide-react";
 import { SectionHeading, stagger } from "@/components/common/AnimatedPrimitives";
 import { getBannerSrc } from "@/lib/utils";

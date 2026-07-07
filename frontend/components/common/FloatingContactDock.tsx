@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Mail, Phone } from "lucide-react";
 import { motion } from "framer-motion";
 import { company } from "@/data/products";
@@ -9,31 +10,61 @@ const normalizePhone = (phone: string) => phone.replace(/[^\d+]/g, "");
 const hasRealPhone = (phone: string) => !/[xX]/.test(phone) && normalizePhone(phone).replace(/\D/g, "").length >= 10;
 
 export function FloatingContactDock() {
-  const realPhone = hasRealPhone(company.contactPhone);
-  const dialPhone = normalizePhone(company.contactPhone);
+  const [comp, setComp] = useState<any>({
+    contactPhone: "",
+    contactEmail: "",
+    floatingWhatsapp: "",
+    floatingPhone: "",
+    floatingEmail: "",
+  });
+
+  useEffect(() => {
+    setComp({
+      contactPhone: company.contactPhone,
+      contactEmail: company.contactEmail,
+      floatingWhatsapp: company.floatingWhatsapp,
+      floatingPhone: company.floatingPhone,
+      floatingEmail: company.floatingEmail,
+    });
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5050"}/api/company`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((data) => {
+        if (data) {
+          setComp(data);
+          localStorage.setItem("sun_company_info", JSON.stringify(data));
+        }
+      })
+      .catch((err) => console.error("FloatingContactDock failed to load company info:", err));
+  }, []);
+
+  const realPhone = hasRealPhone(comp.contactPhone || "");
+  const dialPhone = normalizePhone(comp.contactPhone || "");
   const whatsappPhone = dialPhone.replace(/\D/g, "");
 
   const actions = [
     {
       label: "WhatsApp",
-      href: realPhone ? `https://wa.me/${whatsappPhone}` : "/contact",
+      href: comp.floatingWhatsapp || (realPhone ? `https://wa.me/${whatsappPhone}` : "/contact"),
       icon: <SocialBrandIcon brand="whatsapp" size={21} aria-hidden="true" />,
       className: "contact-dock__link--whatsapp",
-      external: realPhone,
+      external: (comp.floatingWhatsapp || "").startsWith("http") || realPhone,
     },
     {
       label: "Call",
-      href: realPhone ? `tel:${dialPhone}` : "/contact",
+      href: comp.floatingPhone || (realPhone ? `tel:${dialPhone}` : "/contact"),
       icon: <Phone size={20} strokeWidth={2.4} />,
       className: "contact-dock__link--phone",
-      external: false,
+      external: (comp.floatingPhone || "").startsWith("http"),
     },
     {
       label: "Email",
-      href: `mailto:${company.contactEmail}`,
+      href: comp.floatingEmail || `mailto:${comp.contactEmail || ""}`,
       icon: <Mail size={20} strokeWidth={2.4} />,
       className: "contact-dock__link--mail",
-      external: false,
+      external: (comp.floatingEmail || "").startsWith("http"),
     },
   ];
 

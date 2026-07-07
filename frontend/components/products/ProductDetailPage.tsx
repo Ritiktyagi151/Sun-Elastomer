@@ -79,7 +79,7 @@ export function ProductDetailPage({ product: initialProduct, slug }: { product?:
   const categoryImage = bannerForSlug(product.slug);
   const categoryObj = categories.find((c) => c.category === product.category);
   const region = categoryObj?.region;
-  const productImage = categoryObj?.image || "/category-img/antibiotics-oral.png";
+  const productImage = product.image || categoryObj?.image || "/category-img/antibiotics-oral.png";
 
   return (
     <main>
@@ -125,10 +125,10 @@ export function ProductDetailPage({ product: initialProduct, slug }: { product?:
         <section className="section bg-white py-12">
           <div className="mx-auto max-w-7xl px-5">
             <article className="rounded-lg border border-neutral-200 bg-white p-6 md:p-8 shadow-sm">
-              
+
               {/* Columns: Left (Image), Right (Details & Table) */}
               <div className="grid grid-cols-1 md:grid-cols-[1.5fr_1.5fr] gap-8 items-start">
-                
+
                 {/* Left Column: Image */}
                 <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg border border-neutral-100 bg-neutral-50 shadow-sm">
                   <Image
@@ -145,7 +145,7 @@ export function ProductDetailPage({ product: initialProduct, slug }: { product?:
                   <span className={`inline-flex rounded-full px-3 py-1 text-sm font-bold ring-1 w-fit ${formBadgeClass(product.form)}`}>
                     {product.form}
                   </span>
-                  
+
                   <h2 className="mt-4 font-display text-3xl font-black text-ink">{product.brand}</h2>
                   <p className="text-sm font-bold text-muted mt-1">{product.generic}</p>
 
