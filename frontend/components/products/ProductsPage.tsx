@@ -18,6 +18,7 @@ import { SectionHeading, stagger } from "@/components/common/AnimatedPrimitives"
 import { getBannerSrc } from "@/lib/utils";
 import { productCategories, productCategorySlug } from "@/data/constants";
 import { products, type Product } from "@/data/products";
+import ReactMarkdown from "react-markdown";
 
 const slideInVariant: Variants = {
   hidden: { opacity: 0, y: 80 },
@@ -189,7 +190,9 @@ function CategoryLanding() {
                   </div>
                   <div className="flex flex-1 flex-col p-6 sm:p-8">
                     <h2 className="text-xl font-bold tracking-wide text-white">{title}</h2>
-                    <p className="mt-3 flex-1 text-sm leading-relaxed text-zinc-300">{description}</p>
+                    <div className="mt-3 flex-1 text-sm leading-relaxed text-zinc-300 prose prose-invert prose-neutral max-w-none">
+                      <ReactMarkdown>{description || ""}</ReactMarkdown>
+                    </div>
                     <span className="mt-8 flex items-center text-sm font-bold text-golden transition-colors group-hover:text-white">
                       <span className="mr-2 text-xs uppercase tracking-wider">Explore Range</span>
                       <span className="transition-transform duration-300 group-hover:translate-x-1.5">&rarr;</span>

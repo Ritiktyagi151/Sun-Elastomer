@@ -6,6 +6,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { getBannerSrc } from "@/lib/utils";
 import { ArrowLeft, Send } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 import { ScrollSlide } from "@/components/common/AnimatedPrimitives";
 import { ProductInquiryModal } from "@/components/products/ProductInquiryModal";
 import { formBadgeClass, type Product } from "@/data/products";
@@ -184,11 +185,13 @@ export function ProductDetailPage({ product: initialProduct, slug }: { product?:
                 {(product.description || product.slug === "elsefpime-1000mg" || product.compositionNote) && (
                   <div>
                     <h4 className="text-sm font-bold text-ink mb-1">Product Description / Note</h4>
-                    <p className="text-sm leading-6 text-muted">
-                      {product.description || (product.slug === "elsefpime-1000mg"
-                        ? "ELSEFPIME-1000mg (Cefepime for Injection USP) is a broad-spectrum, fourth-generation cephalosporin antibiotic designed for intravenous or intramuscular administration. It is indicated for the treatment of moderate to severe infections caused by susceptible strains of microorganisms, including urinary tract infections, skin infections, pneumonia, and empiric therapy for febrile neutropenic patients. This formulation is produced in compliance with global WHO-GMP quality standards for maximum stability, safety, and efficacy."
-                        : product.compositionNote)}
-                    </p>
+                    <div className="text-sm leading-6 text-muted prose prose-neutral max-w-none">
+                      <ReactMarkdown>
+                        {product.description || (product.slug === "elsefpime-1000mg"
+                          ? "ELSEFPIME-1000mg (Cefepime for Injection USP) is a broad-spectrum, fourth-generation cephalosporin antibiotic designed for intravenous or intramuscular administration. It is indicated for the treatment of moderate to severe infections caused by susceptible strains of microorganisms, including urinary tract infections, skin infections, pneumonia, and empiric therapy for febrile neutropenic patients. This formulation is produced in compliance with global WHO-GMP quality standards for maximum stability, safety, and efficacy."
+                          : product.compositionNote || "")}
+                      </ReactMarkdown>
+                    </div>
                   </div>
                 )}
                 <div className="flex justify-end mt-4">

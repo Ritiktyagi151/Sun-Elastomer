@@ -11,6 +11,9 @@
   "dependencies": {
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.6.1",
+    "@tiptap/extension-image": "^3.27.2",
+    "@tiptap/react": "^3.27.2",
+    "@tiptap/starter-kit": "^3.27.2",
     "clsx": "^2.1.1",
     "framer-motion": "^12.40.0",
     "lucide-react": "^0.468.0",
@@ -23,7 +26,8 @@
     "react-markdown": "^10.1.0",
     "remark-gfm": "^4.0.1",
     "tailwind-merge": "^3.6.0",
-    "three": "^0.184.0"
+    "three": "^0.184.0",
+    "turndown": "^7.2.4"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -32,6 +36,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/three": "^0.184.1",
+    "@types/turndown": "^5.0.6",
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
     "tailwindcss": "^4",

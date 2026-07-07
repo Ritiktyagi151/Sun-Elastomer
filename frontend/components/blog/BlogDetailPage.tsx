@@ -327,6 +327,12 @@ export function BlogDetailPage({ post: initialPost, slug }: { post?: BlogPost; s
                   td: ({ children }) => <td className="p-3">{children}</td>,
                   tr: ({ children }) => <tr className="border-b border-neutral-200">{children}</tr>,
                   strong: ({ children }) => <strong className="text-ink font-bold">{children}</strong>,
+                  img: ({ src, alt }) => (
+                    <span className="block my-6 overflow-hidden rounded-2xl border border-neutral-200/60 shadow-[0_8px_30px_rgb(0,0,0,0.02)]">
+                      <img src={src} alt={alt} className="w-full h-auto object-cover max-h-[500px]" />
+                      {alt && <span className="block text-center text-xs font-semibold text-neutral-400 mt-2">{alt}</span>}
+                    </span>
+                  ),
                 }}
               >
                 {post.content}

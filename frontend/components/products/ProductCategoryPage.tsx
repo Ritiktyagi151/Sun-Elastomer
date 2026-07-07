@@ -24,6 +24,7 @@ import { MobilePageBanner } from "@/components/common/MobilePageBanner";
 import { ProductInquiryModal } from "@/components/products/ProductInquiryModal";
 import { productCategories } from "@/data/constants";
 import { products, type Product } from "@/data/products";
+import ReactMarkdown from "react-markdown";
 
 const categoryBanners = [
   "/banners/banner.jpeg",
@@ -165,7 +166,9 @@ export function ProductCategoryPage({ categorySlug }: ProductCategoryPageProps) 
             </Link>
             <IconComponent className="mt-8 text-crimson" size={36} />
             <h2 className="mt-4 font-display text-4xl font-black text-ink">{category.title}</h2>
-            <p className="mt-4 leading-7 text-muted">{category.description}</p>
+            <div className="mt-4 leading-7 text-muted prose prose-neutral max-w-none">
+              <ReactMarkdown>{category.description || ""}</ReactMarkdown>
+            </div>
           </article>
 
           <div className="grid gap-4 sm:grid-cols-3">
