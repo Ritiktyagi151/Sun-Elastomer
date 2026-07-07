@@ -42,19 +42,15 @@ export default function DualImageUploader({
     }
   }, [value]);
 
-  const startUpload = async () => {
-    const finalDesktop = desktopBase64 || desktopPreview;
-    const finalMobile = mobileBase64 || mobilePreview;
-
-    if (!finalDesktop && !finalMobile) {
-      setError("Please select at least one image to upload.");
-      return;
-    }
-
-    // Default missing image to the other one (so backend is happy)
-    const deskData = finalDesktop || finalMobile;
-    const mobData = finalMobile || finalDesktop;
-    const nameToUse = selectedFileName || "banner.png";
+  const handleUpload = async (
+    deskBase64: string,
+    mobBase64: string,
+    fileName: string
+  ) => {
+    // Only upload if at least one base64 image is provided
+    const isDeskBase64 = deskBase64 && deskBase64.startsWith("data:image/");
+    const isMobBase64 = mobBase64 && mobBase64.startsWith("data:image/");
+    if (!isDeskBase64 && !isMobBase64) return;
 
     setIsUploading(true);
     setError(null);
@@ -67,9 +63,9 @@ export default function DualImageUploader({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: nameToUse,
-          desktopData: deskData,
-          mobileData: mobData,
+          name: fileName,
+          desktopData: deskBase64 || "",
+          mobileData: mobBase64 || "",
         }),
       });
 
@@ -83,9 +79,6 @@ export default function DualImageUploader({
       const result = await response.json();
       if (response.ok && result.success) {
         onChange(result.url);
-        // Clear local base64 states
-        setDesktopBase64("");
-        setMobileBase64("");
         setError(null);
       } else {
         setError(result.error || "Failed to upload banner images.");
@@ -111,14 +104,22 @@ export default function DualImageUploader({
       setSelectedFileName(file.name);
 
       const reader = new FileReader();
-      reader.onload = (event) => {
+      reader.onload = async (event) => {
         const base64Str = event.target?.result as string;
         if (type === "desktop") {
           setDesktopPreview(base64Str);
           setDesktopBase64(base64Str);
+
+          // Get mobile data if already set, otherwise pass fallback
+          const targetMobile = mobileBase64 || (mobilePreview && !mobilePreview.startsWith("http") ? mobilePreview : "");
+          await handleUpload(base64Str, targetMobile, file.name);
         } else {
           setMobilePreview(base64Str);
           setMobileBase64(base64Str);
+
+          // Get desktop data if already set, otherwise pass fallback
+          const targetDesktop = desktopBase64 || (desktopPreview && !desktopPreview.startsWith("http") ? desktopPreview : "");
+          await handleUpload(targetDesktop, base64Str, file.name);
         }
       };
       reader.readAsDataURL(file);
@@ -239,23 +240,11 @@ export default function DualImageUploader({
         </div>
       </div>
 
-      {(desktopBase64 || mobileBase64) && (
-        <button
-          type="button"
-          onClick={startUpload}
-          disabled={isUploading}
-          className="mt-2 w-full py-2.5 rounded-xl bg-crimson hover:bg-crimson-dark text-white text-[10px] font-black uppercase tracking-wider shadow-sm transition active:scale-[0.98] disabled:opacity-50 select-none flex items-center justify-center gap-1.5"
-        >
-          {isUploading ? (
-            <>
-              <Loader2 className="animate-spin text-white" size={12} /> Saving Images...
-            </>
-          ) : (
-            <>
-              <Upload size={12} /> Apply Banner Changes
-            </>
-          )}
-        </button>
+      {isUploading && (
+        <div className="flex items-center gap-1.5 text-[10px] text-neutral-600 font-bold uppercase select-none mt-1 animate-pulse">
+          <Loader2 className="animate-spin text-crimson" size={12} />
+          Uploading banner packages...
+        </div>
       )}
 
       {error && (

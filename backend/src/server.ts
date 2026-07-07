@@ -446,15 +446,34 @@ app.post("/api/upload", async (req: Request, res: Response) => {
 app.post("/api/upload-banner", async (req: Request, res: Response) => {
   try {
     const { name, desktopData, mobileData } = req.body;
-    if (!name || !desktopData || !mobileData) {
-      return res.status(400).json({ error: "Missing name, desktopData, or mobileData" });
+    if (!name) {
+      return res.status(400).json({ error: "Missing name" });
     }
 
-    const cleanDesktop = desktopData.replace(/^data:image\/\w+;base64,/, "");
-    const cleanMobile = mobileData.replace(/^data:image\/\w+;base64,/, "");
+    const isDesktopBase64 = desktopData && desktopData.startsWith("data:image/");
+    const isMobileBase64 = mobileData && mobileData.startsWith("data:image/");
 
-    const desktopBuffer = Buffer.from(cleanDesktop, "base64");
-    const mobileBuffer = Buffer.from(cleanMobile, "base64");
+    if (!isDesktopBase64 && !isMobileBase64) {
+      return res.status(400).json({ error: "At least one base64 image (desktopData or mobileData) is required" });
+    }
+
+    let desktopBuffer: Buffer;
+    let mobileBuffer: Buffer;
+
+    if (isDesktopBase64 && isMobileBase64) {
+      const cleanDesktop = desktopData.replace(/^data:image\/\w+;base64,/, "");
+      const cleanMobile = mobileData.replace(/^data:image\/\w+;base64,/, "");
+      desktopBuffer = Buffer.from(cleanDesktop, "base64");
+      mobileBuffer = Buffer.from(cleanMobile, "base64");
+    } else if (isDesktopBase64) {
+      const cleanDesktop = desktopData.replace(/^data:image\/\w+;base64,/, "");
+      desktopBuffer = Buffer.from(cleanDesktop, "base64");
+      mobileBuffer = desktopBuffer; // Duplicate desktop to mobile if mobile is not uploaded
+    } else {
+      const cleanMobile = mobileData.replace(/^data:image\/\w+;base64,/, "");
+      mobileBuffer = Buffer.from(cleanMobile, "base64");
+      desktopBuffer = mobileBuffer; // Duplicate mobile to desktop if desktop is not uploaded
+    }
 
     const safeName = `${Date.now()}-${name.replace(/[^a-zA-Z0-9.\-_]/g, "")}`;
     

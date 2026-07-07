@@ -17,6 +17,7 @@ coverage/
 .next/
 out/
 uploads/
+banners/
 
 # production
 build/
