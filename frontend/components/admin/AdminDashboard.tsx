@@ -30,6 +30,7 @@ import { products as defaultProducts, type Product, company } from "@/data/produ
 import { productCategories as defaultCategories } from "@/data/constants";
 import BlogEditor from "./BlogEditor";
 import DualImageUploader from "./DualImageUploader";
+import AdminInlineEditor from "./AdminInlineEditor";
 
 // Shadow fetch to automatically prefix NEXT_PUBLIC_API_URL for API calls
 const fetch = (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
@@ -68,6 +69,13 @@ export function AdminDashboard() {
     contactEmail: "",
     contactPhone: "",
     shortName: "",
+    footerDescription: "",
+    linkedinUrl: "",
+    twitterUrl: "",
+    whatsappUrl: "",
+    floatingWhatsapp: "",
+    floatingPhone: "",
+    floatingEmail: "",
   });
 
   // Authentication states
@@ -75,6 +83,11 @@ export function AdminDashboard() {
   const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const [loginError, setLoginError] = useState("");
+
+  // Editor inline states
+  const [viewMode, setViewMode] = useState<"list" | "edit">("list");
+  const [editorType, setEditorType] = useState<"product" | "category" | "blog">("product");
+  const [editorSlug, setEditorSlug] = useState<string | null>(null);
 
   // Feedback states
   const [notif, setNotif] = useState<{ text: string; type: "success" | "error" } | null>(null);
@@ -211,6 +224,13 @@ export function AdminDashboard() {
           contactEmail: parsed.contactEmail || "",
           contactPhone: parsed.contactPhone || "",
           shortName: parsed.shortName || "",
+          footerDescription: parsed.footerDescription || "",
+          linkedinUrl: parsed.linkedinUrl || "",
+          twitterUrl: parsed.twitterUrl || "",
+          whatsappUrl: parsed.whatsappUrl || "",
+          floatingWhatsapp: parsed.floatingWhatsapp || "",
+          floatingPhone: parsed.floatingPhone || "",
+          floatingEmail: parsed.floatingEmail || "",
         });
       }
     } catch (err) {
@@ -222,6 +242,14 @@ export function AdminDashboard() {
 
   useEffect(() => {
     loadAllData();
+
+    const handleFocus = () => {
+      loadAllData();
+    };
+    window.addEventListener("focus", handleFocus);
+    return () => {
+      window.removeEventListener("focus", handleFocus);
+    };
   }, []);
 
   const handleCompanySubmit = async (e: React.FormEvent) => {
@@ -425,18 +453,9 @@ export function AdminDashboard() {
   };
 
   const openEditProduct = (prod: Product) => {
-    setEditingProduct(prod);
-    setProductForm({
-      brand: prod.brand,
-      generic: prod.generic,
-      form: prod.form,
-      strength: prod.strength || "",
-      pack: prod.pack || "",
-      category: prod.category,
-      composition: prod.composition.length > 0 ? prod.composition : [{ ingredient: "", quantity: "", standard: "" }],
-      description: prod.description || "",
-    });
-    setProductModalOpen(true);
+    setEditorType("product");
+    setEditorSlug(prod.slug);
+    setViewMode("edit");
   };
 
   const resetProductForm = () => {
@@ -528,15 +547,9 @@ export function AdminDashboard() {
   };
 
   const openEditCategory = (cat: any) => {
-    setEditingCategory(cat);
-    setCategoryForm({
-      title: cat.title,
-      category: cat.category,
-      description: cat.description,
-      region: cat.region || "",
-      image: cat.image || "",
-    });
-    setCategoryModalOpen(true);
+    setEditorType("category");
+    setEditorSlug(cat.category);
+    setViewMode("edit");
   };
 
   const resetCategoryForm = () => {
@@ -631,18 +644,9 @@ export function AdminDashboard() {
   };
 
   const openEditBlog = (blog: any) => {
-    setEditingBlog(blog);
-    setBlogForm({
-      title: blog.title,
-      excerpt: blog.excerpt,
-      content: blog.content,
-      author: blog.author,
-      readTime: blog.readTime,
-      image: blog.image,
-      category: blog.category,
-      featured: blog.featured,
-    });
-    setBlogModalOpen(true);
+    setEditorType("blog");
+    setEditorSlug(blog.slug);
+    setViewMode("edit");
   };
 
   const resetBlogForm = () => {
@@ -792,17 +796,17 @@ export function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-50/50 text-neutral-800 flex flex-col md:flex-row pt-0">
+    <div className="min-h-screen md:h-screen md:max-h-screen md:overflow-hidden bg-neutral-50/50 text-neutral-800 flex flex-col md:flex-row pt-0">
 
       {/* Sidebar navigation */}
-      <aside className="w-full md:w-64 bg-white border-r border-neutral-200/80 flex flex-col p-6 gap-8 shrink-0 shadow-[4px_0_24px_-4px_rgba(0,0,0,0.02)] z-10 select-none">
+      <aside className="w-full md:w-64 bg-white border-r border-neutral-200/80 flex flex-col p-6 gap-8 shrink-0 shadow-[4px_0_24px_-4px_rgba(0,0,0,0.02)] z-10 select-none md:h-full md:overflow-y-auto">
         <div className="flex items-center gap-3 border-b border-neutral-100 pb-5">
           <div className="h-8 w-8 rounded-lg bg-crimson flex items-center justify-center text-white font-extrabold text-sm shadow-md shadow-crimson/20">
             S
           </div>
           <div>
             <h2 className="text-xs font-black uppercase text-neutral-900 tracking-wider">Sun Elastomers</h2>
-            <p className="text-[9px] text-neutral-400 font-black uppercase tracking-widest mt-0.5">Control Center</p>
+            <p className="text-[9px] text-neutral-450 font-black uppercase tracking-widest mt-0.5">Control Center</p>
           </div>
         </div>
 
@@ -845,7 +849,7 @@ export function AdminDashboard() {
       </aside>
 
       {/* Main panel container */}
-      <main className="flex-1 p-6 md:p-10 flex flex-col gap-8 overflow-y-auto max-w-7xl">
+      <main className="flex-1 p-6 md:p-10 flex flex-col gap-8 overflow-y-auto md:h-full max-w-none">
 
         {/* Top Header Bar */}
         <header className="flex items-center justify-between border-b border-neutral-150 pb-5 shrink-0 select-none">
@@ -877,9 +881,21 @@ export function AdminDashboard() {
           </div>
         )}
 
-        {/* ================= OVERVIEW TAB ================= */}
-        {activeTab === "overview" && (
-          <div className="flex flex-col gap-8 animate-fadeIn">
+        {viewMode === "edit" ? (
+          <AdminInlineEditor
+            type={editorType}
+            slug={editorSlug}
+            onClose={() => setViewMode("list")}
+            onSave={() => {
+              setViewMode("list");
+              loadAllData();
+            }}
+          />
+        ) : (
+          <>
+            {/* ================= OVERVIEW TAB ================= */}
+            {activeTab === "overview" && (
+              <div className="flex flex-col gap-8 animate-fadeIn">
             {/* Quick stats grid */}
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 select-none">
               <div className="bg-white border border-neutral-200/80 shadow-[0_8px_30px_rgb(0,0,0,0.02)] rounded-2xl p-6 flex items-center justify-between border-t-4 border-t-crimson transition-transform hover:scale-[1.01]">
@@ -976,6 +992,95 @@ export function AdminDashboard() {
                   />
                 </div>
 
+                {/* Footer & Layout Settings */}
+                <div className="sm:col-span-2 border-t border-neutral-100 pt-6 mt-2">
+                  <h4 className="text-xs font-black uppercase tracking-wider text-neutral-800">Footer Customization</h4>
+                  <p className="text-[10px] text-neutral-450 font-semibold mt-0.5">Customize the branding description and social link icons displayed in the site footer.</p>
+                </div>
+
+                <div className="flex flex-col gap-1.5 sm:col-span-2">
+                  <label className="text-[10px] font-black uppercase text-neutral-400">Footer Description</label>
+                  <textarea
+                    rows={3}
+                    value={companyForm.footerDescription}
+                    onChange={(e) => setCompanyForm({ ...companyForm, footerDescription: e.target.value })}
+                    className="w-full p-3 bg-neutral-50/65 hover:bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:border-crimson/50 focus:ring-1 focus:ring-crimson/20 transition-all font-semibold resize-y"
+                    placeholder="Enter description to display in footer..."
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-[10px] font-black uppercase text-neutral-400">LinkedIn URL</label>
+                  <input
+                    type="url"
+                    value={companyForm.linkedinUrl}
+                    onChange={(e) => setCompanyForm({ ...companyForm, linkedinUrl: e.target.value })}
+                    className="w-full h-10 px-3 bg-neutral-50/65 hover:bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:border-crimson/50 focus:ring-1 focus:ring-crimson/20 transition-all font-semibold"
+                    placeholder="https://linkedin.com/company/your-profile"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-[10px] font-black uppercase text-neutral-400">Twitter URL</label>
+                  <input
+                    type="url"
+                    value={companyForm.twitterUrl}
+                    onChange={(e) => setCompanyForm({ ...companyForm, twitterUrl: e.target.value })}
+                    className="w-full h-10 px-3 bg-neutral-50/65 hover:bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:border-crimson/50 focus:ring-1 focus:ring-crimson/20 transition-all font-semibold"
+                    placeholder="https://twitter.com/your-profile"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1.5 sm:col-span-2">
+                  <label className="text-[10px] font-black uppercase text-neutral-400">WhatsApp Social Link Override</label>
+                  <input
+                    type="text"
+                    value={companyForm.whatsappUrl}
+                    onChange={(e) => setCompanyForm({ ...companyForm, whatsappUrl: e.target.value })}
+                    className="w-full h-10 px-3 bg-neutral-50/65 hover:bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:border-crimson/50 focus:ring-1 focus:ring-crimson/20 transition-all font-semibold"
+                    placeholder="Leave empty for auto-generated wa.me link"
+                  />
+                </div>
+
+                {/* Floating Contact Overrides */}
+                <div className="sm:col-span-2 border-t border-neutral-100 pt-6 mt-2">
+                  <h4 className="text-xs font-black uppercase tracking-wider text-neutral-800">Floating Contact Dock Link Overrides</h4>
+                  <p className="text-[10px] text-neutral-450 font-semibold mt-0.5">Override contact URLs (WhatsApp, Phone call, and Email) configured in the floating contact dock on the bottom right corner of the website.</p>
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-[10px] font-black uppercase text-neutral-400">Floating WhatsApp Link Override</label>
+                  <input
+                    type="text"
+                    value={companyForm.floatingWhatsapp}
+                    onChange={(e) => setCompanyForm({ ...companyForm, floatingWhatsapp: e.target.value })}
+                    className="w-full h-10 px-3 bg-neutral-50/65 hover:bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:border-crimson/50 focus:ring-1 focus:ring-crimson/20 transition-all font-semibold"
+                    placeholder="Leave empty to use main contact phone number link"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-[10px] font-black uppercase text-neutral-400">Floating Phone Link Override</label>
+                  <input
+                    type="text"
+                    value={companyForm.floatingPhone}
+                    onChange={(e) => setCompanyForm({ ...companyForm, floatingPhone: e.target.value })}
+                    className="w-full h-10 px-3 bg-neutral-50/65 hover:bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:border-crimson/50 focus:ring-1 focus:ring-crimson/20 transition-all font-semibold"
+                    placeholder="Leave empty to use main contact phone number"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1.5 sm:col-span-2">
+                  <label className="text-[10px] font-black uppercase text-neutral-400">Floating Email Link Override</label>
+                  <input
+                    type="text"
+                    value={companyForm.floatingEmail}
+                    onChange={(e) => setCompanyForm({ ...companyForm, floatingEmail: e.target.value })}
+                    className="w-full h-10 px-3 bg-neutral-50/65 hover:bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:border-crimson/50 focus:ring-1 focus:ring-crimson/20 transition-all font-semibold"
+                    placeholder="Leave empty to use main contact email"
+                  />
+                </div>
+
                 <div className="sm:col-span-2 flex justify-end">
                   <button
                     type="submit"
@@ -998,7 +1103,7 @@ export function AdminDashboard() {
                 <p className="text-[10px] text-neutral-450 font-semibold mt-1">Manage standard pharma catalog ranges and detailed compositions.</p>
               </div>
               <button
-                onClick={() => { resetProductForm(); setProductModalOpen(true); }}
+                onClick={() => { setEditorType("product"); setEditorSlug(null); setViewMode("edit"); }}
                 className="px-4 py-2.5 rounded-xl bg-crimson hover:bg-crimson-dark text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 transition-all duration-200 active:scale-[0.97] text-white shadow-sm shadow-crimson/10"
               >
                 <Plus size={14} /> Add Product
@@ -1069,7 +1174,7 @@ export function AdminDashboard() {
                 <p className="text-[10px] text-neutral-450 font-semibold mt-1">Manage the top category grids displayed on live routing ranges.</p>
               </div>
               <button
-                onClick={() => { resetCategoryForm(); setCategoryModalOpen(true); }}
+                onClick={() => { setEditorType("category"); setEditorSlug(null); setViewMode("edit"); }}
                 className="px-4 py-2.5 rounded-xl bg-crimson hover:bg-crimson-dark text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 transition-all duration-200 active:scale-[0.97] text-white shadow-sm shadow-crimson/10"
               >
                 <Plus size={14} /> Add Category
@@ -1121,7 +1226,7 @@ export function AdminDashboard() {
                 <p className="text-[10px] text-neutral-450 font-semibold mt-1">Manage, format, and edit details of published news dossiers.</p>
               </div>
               <button
-                onClick={() => { resetBlogForm(); setBlogModalOpen(true); }}
+                onClick={() => { setEditorType("blog"); setEditorSlug(null); setViewMode("edit"); }}
                 className="px-4 py-2.5 rounded-xl bg-crimson hover:bg-crimson-dark text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 transition-all duration-200 active:scale-[0.97] text-white shadow-sm shadow-crimson/10"
               >
                 <Plus size={14} /> New Article
@@ -1501,6 +1606,8 @@ export function AdminDashboard() {
             </div>
           </div>
         )}
+          </>
+        )}
 
         {/* Footer */}
         <footer className="mt-12 border-t border-neutral-200 pt-6 text-center text-xs text-neutral-400 font-bold w-full">
@@ -1508,300 +1615,6 @@ export function AdminDashboard() {
         </footer>
 
       </main>
-
-      {/* ================= PRODUCT FORM MODAL ================= */}
-      {productModalOpen && (
-        <div className="fixed inset-0 z-50 bg-neutral-900/60 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-white border border-neutral-100 rounded-2xl w-full max-w-xl p-6 flex flex-col gap-5 overflow-y-auto max-h-[88vh] text-neutral-800 shadow-2xl transition-all duration-300">
-            <div className="flex items-center justify-between border-b border-neutral-100 pb-3.5 select-none">
-              <h3 className="text-sm font-extrabold uppercase tracking-wider text-neutral-900">
-                {editingProduct ? "Edit Product Specifications" : "Add New Product Record"}
-              </h3>
-              <button 
-                onClick={() => setProductModalOpen(false)} 
-                className="text-neutral-500 hover:text-neutral-800 p-1 hover:bg-neutral-100 rounded-lg transition-colors"
-              >
-                <X size={18} />
-              </button>
-            </div>
-
-            <form onSubmit={handleProductSubmit} className="flex flex-col gap-4 text-xs font-semibold">
-              <div className="flex flex-col gap-1.5">
-                <label className="text-[10px] font-black uppercase text-neutral-400">Brand Name</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. ELSEFPIME-1000mg"
-                  value={productForm.brand}
-                  onChange={(e) => setProductForm({ ...productForm, brand: e.target.value })}
-                  className="w-full h-10 px-3 bg-neutral-50/60 hover:bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:border-crimson/50 focus:ring-1 focus:ring-crimson/20 transition-all font-semibold"
-                />
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <label className="text-[10px] font-black uppercase text-neutral-400">Generic Formulation</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Cefepime for Injection USP"
-                  value={productForm.generic}
-                  onChange={(e) => setProductForm({ ...productForm, generic: e.target.value })}
-                  className="w-full h-10 px-3 bg-neutral-50/60 hover:bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:border-crimson/50 focus:ring-1 focus:ring-crimson/20 transition-all font-semibold"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[10px] font-black uppercase text-neutral-400">Dosage Form</label>
-                  <select
-                    value={productForm.form}
-                    onChange={(e) => setProductForm({ ...productForm, form: e.target.value })}
-                    className="w-full h-10 px-3 bg-neutral-50/60 hover:bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:border-crimson/50 focus:ring-1 focus:ring-crimson/20 transition-all font-semibold"
-                  >
-                    <option value="Dry Powder Injection">Dry Powder Injection</option>
-                    <option value="Oral Strip">Oral Strip</option>
-                    <option value="Film Coated Tablet">Film Coated Tablet</option>
-                    <option value="Capsule">Capsule</option>
-                    <option value="Ointment">Ointment</option>
-                    <option value="Oral Suspension">Oral Suspension</option>
-                  </select>
-                </div>
-
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[10px] font-black uppercase text-neutral-400">Product Category</label>
-                  <select
-                    value={productForm.category}
-                    onChange={(e) => setProductForm({ ...productForm, category: e.target.value })}
-                    className="w-full h-10 px-3 bg-neutral-50/60 hover:bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:border-crimson/50 focus:ring-1 focus:ring-crimson/20 transition-all font-semibold"
-                  >
-                    {categories.map((c) => (
-                      <option key={c.category} value={c.category}>{c.title}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[10px] font-black uppercase text-neutral-400">Strength (Optional)</label>
-                  <input
-                    type="text"
-                    placeholder="e.g. 1000mg"
-                    value={productForm.strength}
-                    onChange={(e) => setProductForm({ ...productForm, strength: e.target.value })}
-                    className="w-full h-10 px-3 bg-neutral-50/60 hover:bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:border-crimson/50 focus:ring-1 focus:ring-crimson/20 transition-all font-semibold"
-                  />
-                </div>
-
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[10px] font-black uppercase text-neutral-400">Package Format (Optional)</label>
-                  <input
-                    type="text"
-                    placeholder="e.g. Vial + SWFI"
-                    value={productForm.pack}
-                    onChange={(e) => setProductForm({ ...productForm, pack: e.target.value })}
-                    className="w-full h-10 px-3 bg-neutral-50/60 hover:bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:border-crimson/50 focus:ring-1 focus:ring-crimson/20 transition-all font-semibold"
-                  />
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <label className="text-[10px] font-black uppercase text-neutral-400">Product Description (Optional)</label>
-                <textarea
-                  placeholder="Describe key indications, product uses, packaging, or pharmacological properties..."
-                  value={productForm.description}
-                  onChange={(e) => setProductForm({ ...productForm, description: e.target.value })}
-                  className="w-full h-20 p-3 bg-neutral-50/60 hover:bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:border-crimson/50 focus:ring-1 focus:ring-crimson/20 resize-none transition-all font-semibold"
-                />
-              </div>
-
-              {/* Composition list dynamic form */}
-              <div className="border-t border-neutral-100 pt-4 flex flex-col gap-2">
-                <div className="flex items-center justify-between select-none">
-                  <label className="text-[10px] font-black uppercase text-neutral-400">Chemical Composition Matrix</label>
-                  <button
-                    type="button"
-                    onClick={() => setProductForm({
-                      ...productForm,
-                      composition: [...productForm.composition, { ingredient: "", quantity: "", standard: "" }]
-                    })}
-                    className="text-[9px] font-black uppercase text-crimson hover:text-crimson-dark flex items-center gap-1.5 transition"
-                  >
-                    <PlusCircle size={12} /> Add Ingredient
-                  </button>
-                </div>
-
-                <div className="flex flex-col gap-2.5 max-h-40 overflow-y-auto pr-1">
-                  {productForm.composition.map((comp, idx) => (
-                    <div key={idx} className="flex gap-2 items-center">
-                      <input
-                        type="text"
-                        placeholder="Ingredient"
-                        value={comp.ingredient}
-                        onChange={(e) => {
-                          const updated = [...productForm.composition];
-                          updated[idx].ingredient = e.target.value;
-                          setProductForm({ ...productForm, composition: updated });
-                        }}
-                        className="flex-1 h-9 px-2.5 bg-neutral-50/60 hover:bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none font-semibold text-xs"
-                      />
-                      <input
-                        type="text"
-                        placeholder="Qty"
-                        value={comp.quantity}
-                        onChange={(e) => {
-                          const updated = [...productForm.composition];
-                          updated[idx].quantity = e.target.value;
-                          setProductForm({ ...productForm, composition: updated });
-                        }}
-                        className="w-24 h-9 px-2.5 bg-neutral-50/60 hover:bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none font-semibold text-xs"
-                      />
-                      <input
-                        type="text"
-                        placeholder="Std"
-                        value={comp.standard}
-                        onChange={(e) => {
-                          const updated = [...productForm.composition];
-                          updated[idx].standard = e.target.value;
-                          setProductForm({ ...productForm, composition: updated });
-                        }}
-                        className="w-24 h-9 px-2.5 bg-neutral-50/60 hover:bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none font-semibold text-xs"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const updated = productForm.composition.filter((_, i) => i !== idx);
-                          setProductForm({ ...productForm, composition: updated.length ? updated : [{ ingredient: "", quantity: "", standard: "" }] });
-                        }}
-                        className="p-1.5 text-neutral-400 hover:text-red-500 transition-colors"
-                      >
-                        <Trash2 size={13} />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="border-t border-neutral-100 pt-4 flex gap-3 justify-end select-none">
-                <button
-                  type="button"
-                  onClick={() => setProductModalOpen(false)}
-                  className="px-4 py-2.5 rounded-lg bg-neutral-100 hover:bg-neutral-200 text-neutral-800 text-[10px] font-bold uppercase transition"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-5 py-2.5 rounded-lg bg-crimson hover:bg-crimson-dark text-white text-[10px] font-bold uppercase shadow-sm transition"
-                >
-                  Save Product Record
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* ================= CATEGORY FORM MODAL ================= */}
-      {categoryModalOpen && (
-        <div className="fixed inset-0 z-50 bg-neutral-900/60 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-white border border-neutral-150 rounded-2xl w-full max-w-md p-6 flex flex-col gap-5 text-neutral-800 shadow-2xl transition-all duration-300">
-            <div className="flex items-center justify-between border-b border-neutral-100 pb-3.5 select-none">
-              <h3 className="text-sm font-extrabold uppercase tracking-wider text-neutral-900">
-                {editingCategory ? "Edit Category Details" : "Create New Product Category"}
-              </h3>
-              <button 
-                onClick={() => setCategoryModalOpen(false)} 
-                className="text-neutral-500 hover:text-neutral-800 p-1 hover:bg-neutral-100 rounded-lg transition-colors"
-              >
-                <X size={18} />
-              </button>
-            </div>
-
-            <form onSubmit={handleCategorySubmit} className="flex flex-col gap-4 text-xs font-semibold">
-              <div className="flex flex-col gap-1.5">
-                <label className="text-[10px] font-black uppercase text-neutral-400">Category Title</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Gastrointestinal Care"
-                  value={categoryForm.title}
-                  onChange={(e) => setCategoryForm({ ...categoryForm, title: e.target.value })}
-                  className="w-full h-10 px-3 bg-neutral-50/60 hover:bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:border-crimson/50 focus:ring-1 focus:ring-crimson/20 transition-all font-semibold"
-                />
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <label className="text-[10px] font-black uppercase text-neutral-400">System Category Key</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Gastroenterology"
-                  value={categoryForm.category}
-                  disabled={!!editingCategory}
-                  onChange={(e) => setCategoryForm({ ...categoryForm, category: e.target.value })}
-                  className="w-full h-10 px-3 bg-neutral-50/60 hover:bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:border-crimson/50 focus:ring-1 focus:ring-crimson/20 transition-all font-semibold disabled:opacity-50"
-                />
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <label className="text-[10px] font-black uppercase text-neutral-400">Description</label>
-                <textarea
-                  placeholder="Brief description of product categories..."
-                  value={categoryForm.description}
-                  onChange={(e) => setCategoryForm({ ...categoryForm, description: e.target.value })}
-                  className="w-full h-24 p-3 bg-neutral-50/60 hover:bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:border-crimson/50 focus:ring-1 focus:ring-crimson/20 resize-none transition-all font-semibold"
-                />
-              </div>
-
-              <div className="flex flex-col gap-4">
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[10px] font-black uppercase text-neutral-400">Region Locked (Optional)</label>
-                  <input
-                    type="text"
-                    placeholder="e.g. Myanmar"
-                    value={categoryForm.region}
-                    onChange={(e) => setCategoryForm({ ...categoryForm, region: e.target.value })}
-                    className="w-full h-10 px-3 bg-neutral-50/60 hover:bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:border-crimson/50 focus:ring-1 focus:ring-crimson/20 transition-all font-semibold"
-                  />
-                </div>
-
-                <DualImageUploader
-                  value={categoryForm.image}
-                  onChange={(url) => setCategoryForm({ ...categoryForm, image: url })}
-                  label="Thumbnail Image"
-                />
-              </div>
-
-              <div className="border-t border-neutral-100 pt-4 flex gap-3 justify-end select-none">
-                <button
-                  type="button"
-                  onClick={() => setCategoryModalOpen(false)}
-                  className="px-4 py-2.5 rounded-lg bg-neutral-100 hover:bg-neutral-200 text-neutral-800 text-[10px] font-bold uppercase transition"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-5 py-2.5 rounded-lg bg-crimson hover:bg-crimson-dark text-white text-[10px] font-bold uppercase shadow-sm transition"
-                >
-                  Save Category
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* ================= BLOG FORM MODAL ================= */}
-      <BlogEditor
-        open={blogModalOpen}
-        onClose={() => setBlogModalOpen(false)}
-        blogForm={blogForm}
-        setBlogForm={setBlogForm}
-        editingBlog={editingBlog}
-        handleBlogSubmit={handleBlogSubmit}
-      />
 
       {/* ================= ADD ADMIN MODAL ================= */}
       {addAdminModalOpen && (

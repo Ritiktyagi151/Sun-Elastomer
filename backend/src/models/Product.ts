@@ -11,6 +11,7 @@ export interface IProduct extends Document {
   composition: { ingredient: string; quantity: string; standard: string }[];
   compositionNote?: string;
   description?: string;
+  image?: string;
 }
 
 const ProductSchema = new Schema<IProduct>(
@@ -25,12 +26,13 @@ const ProductSchema = new Schema<IProduct>(
     composition: [
       {
         ingredient: { type: String, required: true },
-        quantity: { type: String, required: true },
-        standard: { type: String, required: true },
+        quantity: { type: String, default: "" },
+        standard: { type: String, default: "" },
       },
     ],
     compositionNote: { type: String },
     description: { type: String },
+    image: { type: String },
   },
   { timestamps: true }
 );

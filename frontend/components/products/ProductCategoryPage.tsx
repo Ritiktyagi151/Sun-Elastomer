@@ -5,25 +5,26 @@ import Link from "next/link";
 import { getBannerSrc } from "@/lib/utils";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { 
-  ArrowLeft, 
-  ArrowRight, 
-  Beaker, 
-  FileText, 
-  MapPin, 
-  PackageCheck, 
-  ShieldCheck, 
-  Tag, 
+import {
+  ArrowLeft,
+  ArrowRight,
+  Beaker,
+  FileText,
+  MapPin,
+  PackageCheck,
+  ShieldCheck,
+  Tag,
   Syringe,
   BriefcaseMedical,
   Tablets,
   FlaskConical,
-  type LucideIcon 
+  type LucideIcon
 } from "lucide-react";
 import { MobilePageBanner } from "@/components/common/MobilePageBanner";
 import { ProductInquiryModal } from "@/components/products/ProductInquiryModal";
 import { productCategories } from "@/data/constants";
 import { products, type Product } from "@/data/products";
+import ReactMarkdown from "react-markdown";
 
 const categoryBanners = [
   "/banners/banner.jpeg",
@@ -165,7 +166,9 @@ export function ProductCategoryPage({ categorySlug }: ProductCategoryPageProps) 
             </Link>
             <IconComponent className="mt-8 text-crimson" size={36} />
             <h2 className="mt-4 font-display text-4xl font-black text-ink">{category.title}</h2>
-            <p className="mt-4 leading-7 text-muted">{category.description}</p>
+            <div className="mt-4 leading-7 text-muted prose prose-neutral max-w-none">
+              <ReactMarkdown>{category.description || ""}</ReactMarkdown>
+            </div>
           </article>
 
           <div className="grid gap-4 sm:grid-cols-3">
@@ -214,11 +217,12 @@ function CategoryStat({ icon: Icon, label, value }: { icon: LucideIcon; label: s
 }
 
 function CategoryProductCard({ product, image, region, onInquiry }: { product: Product; image: string; region?: string; onInquiry: (product: Product) => void }) {
+  const cardImage = product.image || image;
   return (
     <article className="overflow-hidden rounded-lg border border-neutral-200 bg-white shadow-sm flex flex-col">
       {/* Image — top */}
       <Link href={`/products/${product.slug}`} className="relative block h-52 w-full overflow-hidden bg-white">
-        <Image src={image} alt={product.brand} fill sizes="(min-width: 1024px) 33vw, 100vw" className="object-fill transition duration-500 hover:scale-105" />
+        <Image src={cardImage} alt={product.brand} fill sizes="(min-width: 1024px) 33vw, 100vw" className="object-fill transition duration-500 hover:scale-105" />
         {/* Myanmar region badge */}
         {region && (
           <span className="absolute top-2 right-2 z-10 flex items-center gap-1 rounded-full bg-white/40 border border-crimson/60 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-crimson backdrop-blur-md shadow-sm">

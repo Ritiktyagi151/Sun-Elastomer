@@ -17,8 +17,8 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors());
-app.use(express.json({ limit: "10mb" }));
-app.use(express.urlencoded({ limit: "10mb", extended: true }));
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 // Serve static uploads folder
 const uploadsDir = path.join(process.cwd(), "uploads");
@@ -311,9 +311,28 @@ app.get("/api/company", async (req: Request, res: Response) => {
         address: "Site-4, 62/2/2, Industrial Area Sahibabad, Ghaziabad, Uttar Pradesh - 201010",
         contactEmail: "info@sunelastomerspharma.com",
         contactPhone: "+91 99677 77537",
+        footerDescription: "Trusted pharmaceutical product company offering quality tablets, capsules, injectables and antibiotic formulations for B2B healthcare supply.",
+        linkedinUrl: "https://www.linkedin.com/",
+        twitterUrl: "https://twitter.com/",
+        whatsappUrl: "",
+        floatingWhatsapp: "",
+        floatingPhone: "",
+        floatingEmail: "",
       });
     }
-    res.json(info);
+    
+    // Ensure all optional fields have a default string returned if missing from DB
+    const infoObj = info.toObject();
+    res.json({
+      ...infoObj,
+      footerDescription: infoObj.footerDescription || "",
+      linkedinUrl: infoObj.linkedinUrl || "",
+      twitterUrl: infoObj.twitterUrl || "",
+      whatsappUrl: infoObj.whatsappUrl || "",
+      floatingWhatsapp: infoObj.floatingWhatsapp || "",
+      floatingPhone: infoObj.floatingPhone || "",
+      floatingEmail: infoObj.floatingEmail || "",
+    });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
@@ -445,20 +464,18 @@ app.post("/api/upload", async (req: Request, res: Response) => {
 // ================= DUAL BANNER UPLOAD ROUTE =================
 app.post("/api/upload-banner", async (req: Request, res: Response) => {
   try {
-    const { name, desktopData, mobileData } = req.body;
-    if (!name || !desktopData || !mobileData) {
-      return res.status(400).json({ error: "Missing name, desktopData, or mobileData" });
+    const { name, desktopData, mobileData, existingName } = req.body;
+    if (!name) {
+      return res.status(400).json({ error: "Missing name" });
     }
 
-    const cleanDesktop = desktopData.replace(/^data:image\/\w+;base64,/, "");
-    const cleanMobile = mobileData.replace(/^data:image\/\w+;base64,/, "");
+    const isDesktopBase64 = desktopData && desktopData.startsWith("data:image/");
+    const isMobileBase64 = mobileData && mobileData.startsWith("data:image/");
 
-    const desktopBuffer = Buffer.from(cleanDesktop, "base64");
-    const mobileBuffer = Buffer.from(cleanMobile, "base64");
+    if (!isDesktopBase64 && !isMobileBase64) {
+      return res.status(400).json({ error: "At least one base64 image (desktopData or mobileData) is required" });
+    }
 
-    const safeName = `${Date.now()}-${name.replace(/[^a-zA-Z0-9.\-_]/g, "")}`;
-    
-    // Server Paths
     const rootBannersDir = path.join(process.cwd(), "banners");
     const desktopDir = path.join(rootBannersDir, "desktop");
     const mobileDir = path.join(rootBannersDir, "mobile");
@@ -466,23 +483,34 @@ app.post("/api/upload-banner", async (req: Request, res: Response) => {
     await fs.mkdir(desktopDir, { recursive: true });
     await fs.mkdir(mobileDir, { recursive: true });
 
-    await fs.writeFile(path.join(desktopDir, safeName), desktopBuffer);
-    await fs.writeFile(path.join(mobileDir, safeName), mobileBuffer);
+    // Use the existingName when only one side is being updated, otherwise generate new
+    const safeName = existingName || `${Date.now()}-${name.replace(/[^a-zA-Z0-9.\-_]/g, "")}`;
 
-    // Sync to frontend public directory if it exists
-    try {
-      const frontendDesktop = path.join(process.cwd(), "../frontend/public/banners/desktop");
-      const frontendMobile = path.join(process.cwd(), "../frontend/public/banners/mobile");
-      await fs.mkdir(frontendDesktop, { recursive: true });
-      await fs.mkdir(frontendMobile, { recursive: true });
-      await fs.writeFile(path.join(frontendDesktop, safeName), desktopBuffer);
-      await fs.writeFile(path.join(frontendMobile, safeName), mobileBuffer);
-    } catch (err) {
-      console.log("Local Next.js public banners sync skipped (non-local environment or write error)");
+    // Only write the slots that have new base64 data
+    if (isDesktopBase64) {
+      const cleanDesktop = desktopData.replace(/^data:image\/\w+;base64,/, "");
+      const desktopBuffer = Buffer.from(cleanDesktop, "base64");
+      await fs.writeFile(path.join(desktopDir, safeName), desktopBuffer);
+      try {
+        const frontendDesktop = path.join(process.cwd(), "../frontend/public/banners/desktop");
+        await fs.mkdir(frontendDesktop, { recursive: true });
+        await fs.writeFile(path.join(frontendDesktop, safeName), desktopBuffer);
+      } catch {}
+    }
+
+    if (isMobileBase64) {
+      const cleanMobile = mobileData.replace(/^data:image\/\w+;base64,/, "");
+      const mobileBuffer = Buffer.from(cleanMobile, "base64");
+      await fs.writeFile(path.join(mobileDir, safeName), mobileBuffer);
+      try {
+        const frontendMobile = path.join(process.cwd(), "../frontend/public/banners/mobile");
+        await fs.mkdir(frontendMobile, { recursive: true });
+        await fs.writeFile(path.join(frontendMobile, safeName), mobileBuffer);
+      } catch {}
     }
 
     res.status(201).json({
-      url: `/banners/desktop/${safeName}`, // Return relative path aligned with desktop directory
+      url: `/banners/desktop/${safeName}`,
       success: true
     });
   } catch (error: any) {

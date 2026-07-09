@@ -6,6 +6,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { getBannerSrc } from "@/lib/utils";
 import { ArrowLeft, Send } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 import { ScrollSlide } from "@/components/common/AnimatedPrimitives";
 import { ProductInquiryModal } from "@/components/products/ProductInquiryModal";
 import { formBadgeClass, type Product } from "@/data/products";
@@ -78,7 +79,7 @@ export function ProductDetailPage({ product: initialProduct, slug }: { product?:
   const categoryImage = bannerForSlug(product.slug);
   const categoryObj = categories.find((c) => c.category === product.category);
   const region = categoryObj?.region;
-  const productImage = categoryObj?.image || "/category-img/antibiotics-oral.png";
+  const productImage = product.image || categoryObj?.image || "/category-img/antibiotics-oral.png";
 
   return (
     <main>
@@ -124,10 +125,10 @@ export function ProductDetailPage({ product: initialProduct, slug }: { product?:
         <section className="section bg-white py-12">
           <div className="mx-auto max-w-7xl px-5">
             <article className="rounded-lg border border-neutral-200 bg-white p-6 md:p-8 shadow-sm">
-              
+
               {/* Columns: Left (Image), Right (Details & Table) */}
               <div className="grid grid-cols-1 md:grid-cols-[1.5fr_1.5fr] gap-8 items-start">
-                
+
                 {/* Left Column: Image */}
                 <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg border border-neutral-100 bg-neutral-50 shadow-sm">
                   <Image
@@ -144,7 +145,7 @@ export function ProductDetailPage({ product: initialProduct, slug }: { product?:
                   <span className={`inline-flex rounded-full px-3 py-1 text-sm font-bold ring-1 w-fit ${formBadgeClass(product.form)}`}>
                     {product.form}
                   </span>
-                  
+
                   <h2 className="mt-4 font-display text-3xl font-black text-ink">{product.brand}</h2>
                   <p className="text-sm font-bold text-muted mt-1">{product.generic}</p>
 
@@ -184,11 +185,13 @@ export function ProductDetailPage({ product: initialProduct, slug }: { product?:
                 {(product.description || product.slug === "elsefpime-1000mg" || product.compositionNote) && (
                   <div>
                     <h4 className="text-sm font-bold text-ink mb-1">Product Description / Note</h4>
-                    <p className="text-sm leading-6 text-muted">
-                      {product.description || (product.slug === "elsefpime-1000mg"
-                        ? "ELSEFPIME-1000mg (Cefepime for Injection USP) is a broad-spectrum, fourth-generation cephalosporin antibiotic designed for intravenous or intramuscular administration. It is indicated for the treatment of moderate to severe infections caused by susceptible strains of microorganisms, including urinary tract infections, skin infections, pneumonia, and empiric therapy for febrile neutropenic patients. This formulation is produced in compliance with global WHO-GMP quality standards for maximum stability, safety, and efficacy."
-                        : product.compositionNote)}
-                    </p>
+                    <div className="text-sm leading-6 text-muted prose prose-neutral max-w-none">
+                      <ReactMarkdown>
+                        {product.description || (product.slug === "elsefpime-1000mg"
+                          ? "ELSEFPIME-1000mg (Cefepime for Injection USP) is a broad-spectrum, fourth-generation cephalosporin antibiotic designed for intravenous or intramuscular administration. It is indicated for the treatment of moderate to severe infections caused by susceptible strains of microorganisms, including urinary tract infections, skin infections, pneumonia, and empiric therapy for febrile neutropenic patients. This formulation is produced in compliance with global WHO-GMP quality standards for maximum stability, safety, and efficacy."
+                          : product.compositionNote || "")}
+                      </ReactMarkdown>
+                    </div>
                   </div>
                 )}
                 <div className="flex justify-end mt-4">

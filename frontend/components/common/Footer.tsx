@@ -16,16 +16,28 @@ const footerHighlights = [
 ];
 
 export function Footer() {
-  const whatsappPhone = company.contactPhone.replace(/\D/g, "");
-  const socialMedia = [
-    { brand: "linkedin" as const, href: "https://www.linkedin.com/", label: "LinkedIn" },
-    { brand: "twitter" as const, href: "https://twitter.com/", label: "Twitter" },
-    { brand: "whatsapp" as const, href: `https://wa.me/${whatsappPhone}`, label: "WhatsApp" },
-  ];
-
   const [categories, setCategories] = useState<any[]>([]);
+  const [comp, setComp] = useState<any>({
+    name: "",
+    contactPhone: "",
+    contactEmail: "",
+    footerDescription: "",
+    linkedinUrl: "",
+    twitterUrl: "",
+    whatsappUrl: "",
+  });
 
   useEffect(() => {
+    setComp({
+      name: company.name,
+      contactPhone: company.contactPhone,
+      contactEmail: company.contactEmail,
+      footerDescription: company.footerDescription,
+      linkedinUrl: company.linkedinUrl,
+      twitterUrl: company.twitterUrl,
+      whatsappUrl: company.whatsappUrl,
+    });
+
     fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5050"}/api/categories`)
       .then((res) => {
         if (res.ok) return res.json();
@@ -41,7 +53,26 @@ export function Footer() {
         console.error("Footer failed to load categories:", err);
         setCategories(productCategories);
       });
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5050"}/api/company`)
+      .then((res) => {
+        if (res.ok) return res.json();
+      })
+      .then((data) => {
+        if (data) {
+          setComp(data);
+          localStorage.setItem("sun_company_info", JSON.stringify(data));
+        }
+      })
+      .catch((err) => console.error("Footer failed to load company info:", err));
   }, []);
+
+  const whatsappPhone = (comp.contactPhone || "").replace(/\D/g, "");
+  const socialMedia = [
+    { brand: "linkedin" as const, href: comp.linkedinUrl || "", label: "LinkedIn" },
+    { brand: "twitter" as const, href: comp.twitterUrl || "", label: "Twitter" },
+    { brand: "whatsapp" as const, href: comp.whatsappUrl || `https://wa.me/${whatsappPhone}`, label: "WhatsApp" },
+  ];
 
   return (
     <footer
@@ -67,7 +98,7 @@ export function Footer() {
           <Link href="/" className="inline-block">
             <Image
               src="/sunelastomer.png"
-              alt={`${company?.name || "Company"} Logo`}
+              alt={`${comp?.name || "Company"} Logo`}
               width={160}
               height={60}
               className="h-20 w-auto object-contain"
@@ -75,8 +106,7 @@ export function Footer() {
             />
           </Link>
           <p className="mt-5 max-w-xs text-sm leading-7 text-white/70">
-            Trusted pharmaceutical product company offering quality tablets,
-            capsules, injectables and antibiotic formulations for B2B healthcare supply.
+            {comp.footerDescription || "Trusted pharmaceutical product company offering quality tablets, capsules, injectables and antibiotic formulations for B2B healthcare supply."}
           </p>
 
           <div className="mt-6 flex gap-3">
@@ -144,7 +174,7 @@ export function Footer() {
       <div className="relative z-10 border-t border-white/10 px-5 py-5">
         <div className="mx-auto grid max-w-7xl items-center gap-4 text-center text-xs text-white/50 sm:grid-cols-3 lg:px-8">
           <p className="sm:text-left">
-            Copyright &copy; 2026 {company?.name || "Company"}. All rights reserved.
+            Copyright &copy; 2026 {comp?.name || "Company"}. All rights reserved.
           </p>
           <div className="mx-auto flex flex-wrap items-center justify-center gap-2">
             <Link
