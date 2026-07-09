@@ -130,7 +130,8 @@ export default function AdminInlineEditor({
     title: "",
     category: "",
     region: "",
-    image: ""
+    image: "",
+    iconName: "PackageCheck"
   });
 
   // Tiptap Rich Editor Instance
@@ -240,7 +241,8 @@ export default function AdminInlineEditor({
                 title: data.title || "",
                 category: data.category || "",
                 region: data.region || "",
-                image: data.image || ""
+                image: data.image || "",
+                iconName: data.iconName || "PackageCheck"
               });
               const htmlDescCat = markdownToHtml(data.description || "");
               pendingContent.current = htmlDescCat;
@@ -278,7 +280,8 @@ export default function AdminInlineEditor({
             title: "",
             category: "",
             region: "",
-            image: ""
+            image: "",
+            iconName: "PackageCheck"
           });
           setBlogForm({
             title: "",
@@ -645,6 +648,22 @@ export default function AdminInlineEditor({
                     className="w-full h-10 px-3 bg-neutral-50/60 hover:bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:border-crimson/50 focus:ring-1 focus:ring-crimson/20 transition font-semibold"
                     placeholder="e.g. Myanmar"
                   />
+                </div>
+
+                <div className="flex flex-col gap-1.5 sm:col-span-2">
+                  <label className="text-[10px] font-black uppercase text-neutral-400">Category Icon</label>
+                  <select
+                    value={categoryForm.iconName}
+                    onChange={(e) => setCategoryForm({ ...categoryForm, iconName: e.target.value })}
+                    className="w-full h-10 px-3 bg-neutral-50/60 hover:bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:border-crimson/50 focus:ring-1 focus:ring-crimson/20 transition font-semibold"
+                  >
+                    <option value="Syringe">Syringe (Injectables)</option>
+                    <option value="BriefcaseMedical">Briefcase Medical (Orals / General)</option>
+                    <option value="Tablets">Tablets (Pills / Capsules)</option>
+                    <option value="FlaskConical">Flask Conical (Chemical / R&D)</option>
+                    <option value="PackageCheck">Package Check (Finished Goods)</option>
+                    <option value="Beaker">Beaker (Default Chemistry)</option>
+                  </select>
                 </div>
               </div>
 

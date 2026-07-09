@@ -178,6 +178,7 @@ export function AdminDashboard() {
     description: "",
     region: "",
     image: "",
+    iconName: "PackageCheck",
   });
 
   const [blogModalOpen, setBlogModalOpen] = useState(false);
@@ -486,7 +487,7 @@ export function AdminDashboard() {
       description: categoryForm.description,
       region: categoryForm.region || undefined,
       image: categoryForm.image || "/category-img/antibiotics-oral.png",
-      iconName: "PackageCheck",
+      iconName: categoryForm.iconName || "PackageCheck",
     };
 
     try {
@@ -560,6 +561,7 @@ export function AdminDashboard() {
       description: "",
       region: "",
       image: "",
+      iconName: "PackageCheck",
     });
   };
 

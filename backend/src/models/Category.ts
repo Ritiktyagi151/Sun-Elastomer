@@ -6,6 +6,7 @@ export interface ICategory extends Document {
   image: string;
   description: string;
   region?: string;
+  iconName?: string;
 }
 
 const CategorySchema = new Schema<ICategory>(
@@ -15,6 +16,7 @@ const CategorySchema = new Schema<ICategory>(
     image: { type: String, required: true },
     description: { type: String, required: true },
     region: { type: String },
+    iconName: { type: String },
   },
   { timestamps: true }
 );

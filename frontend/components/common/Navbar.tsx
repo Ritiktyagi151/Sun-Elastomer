@@ -346,8 +346,8 @@ export function Navbar() {
                   </button>
                   <div className="ml-3 space-y-1 border-l border-crimson/10 pl-3">
                     {categories.map((category) => {
-                      const Icon = category.icon;
-                      const IconComponent = typeof Icon === "string" ? iconMap[Icon] || Tablets : Icon || Tablets;
+                      const iconKey = category.iconName || category.icon;
+                      const IconComponent = typeof iconKey === "string" ? iconMap[iconKey] || Tablets : iconKey || Tablets;
                       return (
                         <Link
                           key={category.title}
@@ -634,8 +634,8 @@ function ProductDropdown({ scrolled, categories }: { scrolled: boolean; categori
         </Link>
         <div className="grid grid-cols-1 gap-1">
           {categories.map((category) => {
-            const Icon = category.icon;
-            const IconComponent = typeof Icon === "string" ? iconMap[Icon] || Tablets : Icon || Tablets;
+            const iconKey = category.iconName || category.icon;
+            const IconComponent = typeof iconKey === "string" ? iconMap[iconKey] || Tablets : iconKey || Tablets;
             return (
               <Link
                 key={category.title}
